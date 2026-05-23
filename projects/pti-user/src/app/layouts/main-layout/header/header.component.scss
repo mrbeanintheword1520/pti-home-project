@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap');
+
+.pti-header {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  width: 100%;
+  height: 65px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #F3F4F6;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.pti-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1216px; /* Sẽ tự co dãn trên màn hình nhỏ, và tối đa 1216px trên màn hình lớn */
+  margin: 0 auto; /* Tự động căn giữa màn hình */
+  height: 65px; 
+  padding: 0 32px; 
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  
+  img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+  }
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Center items vertically */
+  height: 100%;
+
+  .nav-link {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4B5563;
+    text-decoration: none;
+    position: relative;
+    
+    /* Margin between links */
+    margin-left: 32px;
+    
+    /* Khoảng cách từ chữ xuống đường gạch đỏ */
+    padding-bottom: 4px; 
+    
+    transition: color 0.3s ease;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:hover, &.active {
+      color: #972125;
+      font-weight: 600;
+      
+      /* Active border bottom */
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #972125;
+      }
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .login-link {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4B5563;
+    text-decoration: none;
+    
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #972125;
+    }
+  }
+
+  .cta-button {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    text-decoration: none;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 20px;
+    margin-left: 16px;
+    background: #972125;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #7a1b1e; 
+    }
+  }
+}
