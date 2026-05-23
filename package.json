@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "start:user": "ng serve pti-user --port 4200",
+    "start:admin": "ng serve pti-admin --port 4201",
+    "build:user": "ng build pti-user",
+    "build:admin": "ng build pti-admin",
     "test": "ng test"
   },
   "private": true,
