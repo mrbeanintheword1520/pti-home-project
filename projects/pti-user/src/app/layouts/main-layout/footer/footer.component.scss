@@ -1,0 +1,198 @@
+// Footer Styles - PTI Home Design Specifications
+
+.footer {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0 0;
+  background: #232B2B;
+  border-top: 4px solid #972125;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+
+  &__container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 32px;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 280px 280px 280px 276px;
+    gap: 24px;
+    width: 100%;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    &--logo {
+      gap: 16px;
+    }
+
+    &--contact {
+      .footer__contact-list {
+        gap: 8px;
+      }
+    }
+  }
+
+  &__logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__logo-img {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  &__description {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #9CA3AF;
+    margin: 0;
+    max-width: 280px;
+  }
+
+  &__social {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    color: #9CA3AF;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #972125;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__heading {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    li {
+      a {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #D1D5DB;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #972125;
+        }
+      }
+    }
+  }
+
+  &__contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__contact-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #D1D5DB;
+
+    &--address {
+      align-items: flex-start;
+      
+      span:last-child {
+        max-width: 230px;
+      }
+    }
+  }
+
+  &__contact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: #972125;
+
+    svg {
+      width: 14px;
+      height: auto;
+    }
+  }
+
+  &__copyright {
+    width: 100%;
+    margin-top: 24px;
+    padding: 16px 0;
+    border-top: 1px solid #374151;
+    text-align: center;
+
+    p {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #6B7280;
+      margin: 0;
+    }
+  }
+}
