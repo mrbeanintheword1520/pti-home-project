@@ -383,7 +383,7 @@
 
       <div class="tools__grid">
         @for (tool of tools; track tool.title) {
-          <a routerLink="/cong-cu" class="tool-item">
+          <a [routerLink]="tool.link" class="tool-item">
             <span class="tool-item__icon" [attr.data-icon]="tool.icon" aria-hidden="true">
               @switch (tool.icon) {
                 @case ('robot') {

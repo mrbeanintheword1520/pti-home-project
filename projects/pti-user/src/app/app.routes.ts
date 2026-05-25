@@ -12,6 +12,8 @@ export const routes: Routes = [
       { path: '', component: Home, pathMatch: 'full' },
       { path: 'phan-tich-thi-truong', loadComponent: () => import('./pages/market-analysis/market-analysis.component').then(m => m.MarketAnalysisComponent) },
       { path: 'du-an', component: ProjectsComponent },
+      { path: 'cong-cu', loadComponent: () => import('./pages/investment-tool/investment-tool.component').then(m => m.InvestmentToolComponent) },
+      { path: 'tinh-khoan-vay', loadComponent: () => import('./pages/loan-calculator/loan-calculator.component').then(m => m.LoanCalculator) },
       { path: 've-chung-toi', component: AboutComponent },
     ],
   },

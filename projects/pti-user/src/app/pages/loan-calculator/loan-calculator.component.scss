@@ -1,0 +1,896 @@
+$primary: #cc0000;
+$green: #10b981;
+$blue: #3b82f6;
+$orange: #f59e0b;
+$dark: #1f2937;
+$gray: #6b7280;
+$border: #e5e7eb;
+$bg: #f9fafb;
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+  background: #f4f6f8;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.text-red {
+  color: $primary;
+}
+
+.text-green {
+  color: $green;
+}
+
+.text-blue {
+  color: $blue;
+}
+
+.text-orange {
+  color: $orange;
+}
+
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+
+  h1 {
+    font-size: 26px;
+    color: $dark;
+    margin: 0 0 5px;
+  }
+
+  p {
+    font-size: 14px;
+    color: $gray;
+    margin: 0;
+  }
+
+  .btn-guide {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid $border;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+
+    &:hover {
+      background: $bg;
+    }
+  }
+}
+
+.projects-carousel-wrapper {
+  margin-bottom: 30px;
+
+  .carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    h4 {
+      margin: 0;
+      font-size: 16px;
+      color: $dark;
+    }
+
+    .view-all {
+      font-size: 13px;
+      color: $gray;
+      text-decoration: none;
+    }
+  }
+
+  .projects-scroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .project-card {
+    flex: 0 0 280px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid $border;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    scroll-snap-align: start;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      border-color: rgba($primary, 0.3);
+    }
+
+    &.active {
+      border-color: $primary;
+      box-shadow: 0 0 0 2px rgba($primary, 0.2);
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: $primary;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      z-index: 10;
+    }
+
+    img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+
+    .p-info {
+      padding: 15px;
+
+      h5 {
+        margin: 0 0 5px;
+        font-size: 15px;
+        color: $dark;
+      }
+
+      .loc {
+        font-size: 12px;
+        color: $gray;
+        margin: 0 0 15px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .p-stats {
+        display: flex;
+        justify-content: space-between;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        small {
+          font-size: 11px;
+          color: $gray;
+        }
+
+        strong {
+          font-size: 13px;
+          color: $dark;
+        }
+      }
+    }
+  }
+}
+
+.main-split {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+
+  .sidebar-form {
+    flex: 0 0 320px;
+
+    h4 {
+      margin: 0 0 20px;
+      font-size: 14px;
+      color: $dark;
+      text-transform: uppercase;
+    }
+
+    .form-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid $border;
+
+      .sec-title {
+        margin: 0 0 15px;
+        font-size: 14px;
+        font-weight: 700;
+        color: $dark;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+
+        label {
+          display: block;
+          font-size: 12px;
+          color: $gray;
+          margin-bottom: 8px;
+          font-weight: 500;
+        }
+
+        .input-wrap,
+        .form-control {
+          width: 100%;
+          border: 1px solid $border;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          background: #fff;
+          overflow: hidden;
+          box-sizing: border-box;
+
+          input,
+          select {
+            flex: 1;
+            border: none;
+            padding: 10px 12px;
+            font-size: 13px;
+            outline: none;
+            background: transparent;
+          }
+
+          span {
+            padding: 10px 12px;
+            font-size: 12px;
+            color: $gray;
+            border-left: 1px solid $border;
+            background: $bg;
+          }
+        }
+
+        .input-wrap.disabled {
+          background: $bg;
+        }
+
+        &.slider-group {
+          .lbl-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+
+            span {
+              font-weight: 700;
+              color: $dark;
+            }
+          }
+
+          input[type=range] {
+            width: 100%;
+            accent-color: $primary;
+          }
+
+          .range-lbls {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: $gray;
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .btn-calc {
+        background: $primary;
+        color: #fff;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover {
+          background: darken($primary, 5%);
+        }
+      }
+
+      .btn-reset {
+        background: transparent;
+        color: $gray;
+        padding: 12px;
+        border: 1px solid $border;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:hover {
+          background: #fff;
+        }
+      }
+    }
+  }
+
+  .right-results {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .result-block {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      border: 1px solid $border;
+
+      .block-title {
+        margin: 0 0 20px;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: $dark;
+      }
+
+      .quick-metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+
+        .metric-box {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 20px 10px;
+          border-radius: 8px;
+          border: 1px solid transparent;
+
+          &.box-red {
+            background: rgba($primary, 0.05);
+          }
+
+          &.box-green {
+            background: rgba($green, 0.05);
+          }
+
+          &.box-blue {
+            background: rgba($blue, 0.05);
+          }
+
+          &.box-orange {
+            background: rgba($orange, 0.05);
+          }
+
+          small {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          strong.val {
+            font-size: 22px;
+            line-height: 1.2;
+          }
+
+          .currency {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+            margin-bottom: 12px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .sub {
+            font-size: 11px;
+            color: $dark;
+            font-weight: 500;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .badge-sub {
+            font-size: 11px;
+            font-weight: 600;
+            background: rgba($green, 0.1);
+            color: $green;
+            padding: 4px 8px;
+            border-radius: 4px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+
+      .recommendation-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba($green, 0.1);
+        border: 1px solid rgba($green, 0.3);
+        padding: 15px 20px;
+        border-radius: 8px;
+
+        .rec-left {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+
+          .icon-shield {
+            width: 36px;
+            height: 36px;
+            background: $green;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+          }
+
+          small {
+            display: block;
+            font-size: 10px;
+            color: $green;
+            font-weight: 700;
+          }
+
+          strong {
+            font-size: 16px;
+            color: $green;
+          }
+        }
+
+        .rec-mid {
+          flex: 1;
+          margin: 0 20px;
+          font-size: 13px;
+          color: $dark;
+        }
+
+        .rec-link {
+          font-size: 13px;
+          color: $dark;
+          font-weight: 600;
+          text-decoration: none;
+        }
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 12px;
+          text-align: right;
+
+          th {
+            padding: 12px;
+            color: $gray;
+            border-bottom: 1px solid $border;
+            font-weight: 600;
+          }
+
+          th:first-child {
+            text-align: left;
+          }
+
+          td {
+            padding: 12px;
+            border-bottom: 1px solid $bg;
+            color: $dark;
+          }
+
+          td:first-child {
+            text-align: left;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .tag {
+            background: $primary;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+          }
+
+          .active-row {
+            background: #fffcfc;
+
+            td {
+              border-bottom-color: rgba($primary, 0.1);
+            }
+          }
+        }
+      }
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      .chart-wrapper {
+        height: 250px;
+        position: relative;
+      }
+    }
+  }
+}
+
+.loan-section-bottom {
+  display: flex;
+  gap: 20px;
+
+  .loan-col {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid $border;
+  }
+
+  .block-title {
+    margin: 0 0 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: $dark;
+  }
+
+  .text-col {
+    flex: 0 0 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+
+    .loan-sum-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: $gray;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+      &:last-child {
+        border: none;
+        padding-bottom: 0;
+      }
+
+      span {
+        flex: 1;
+        line-height: 1.4;
+      }
+
+      strong {
+        color: $dark;
+        white-space: nowrap;
+        text-align: right;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .table-col {
+    flex: 1;
+
+    .small-table table {
+      width: 100%;
+      font-size: 11px;
+      text-align: right;
+      border-collapse: collapse;
+
+      th,
+      td {
+        padding: 8px;
+        border-bottom: 1px solid $bg;
+      }
+
+      th {
+        font-weight: 600;
+        color: $gray;
+      }
+
+      th:first-child,
+      td:first-child {
+        text-align: left;
+      }
+    }
+  }
+
+  .chart-col {
+    flex: 0 0 300px;
+
+    .donut-wrap {
+      height: 180px;
+      position: relative;
+    }
+  }
+}
+
+// Modal Styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  .modal-content {
+    background: #fff;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid $border;
+
+      h3 {
+        margin: 0;
+        font-size: 18px;
+        color: $dark;
+      }
+
+      .close-btn {
+        background: transparent;
+        border: none;
+        font-size: 24px;
+        color: $gray;
+        cursor: pointer;
+
+        &:hover {
+          color: $primary;
+        }
+      }
+    }
+
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+      }
+    }
+
+    .projects-grid-modal {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      align-items: start;
+
+      .project-card {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid $border;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+        &:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+          border-color: rgba($primary, 0.3);
+        }
+
+        &.active {
+          border-color: $primary;
+          box-shadow: 0 0 0 2px rgba($primary, 0.2);
+        }
+
+        .badge {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          background: $primary;
+          color: #fff;
+          padding: 4px 10px;
+          border-radius: 6px;
+          font-size: 11px;
+          font-weight: 700;
+          z-index: 10;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+          width: 100%;
+          height: 160px !important;
+          object-fit: cover;
+          flex-shrink: 0;
+        }
+
+        .p-info {
+          display: block !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          padding: 15px;
+          background: #fff;
+
+          h5 {
+            margin: 0 0 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: $dark;
+            line-height: 1.3;
+          }
+
+          .loc {
+            font-size: 12px;
+            color: $gray;
+            margin: 0 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .p-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px dashed $border;
+
+            div {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+            }
+
+            small {
+              font-size: 11px;
+              color: $gray;
+              font-weight: 500;
+            }
+
+            strong {
+              font-size: 13px;
+              color: $primary;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================
+// MODAL DỰ ÁN - CSS độc lập, không xung đột
+// =============================================
+.modal-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  .modal-card {
+    position: relative;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      border-color: rgba(204, 0, 0, 0.3);
+    }
+
+    &.is-active {
+      border-color: #cc0000;
+      box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.2);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 155px;
+      object-fit: cover;
+    }
+
+    .mc-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #cc0000;
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      z-index: 5;
+    }
+
+    .mc-info {
+      padding: 12px 14px 14px;
+
+      h5 {
+        margin: 0 0 4px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #1f2937;
+        line-height: 1.3;
+      }
+
+      .mc-loc {
+        margin: 0 0 10px;
+        font-size: 12px;
+        color: #6b7280;
+      }
+
+      .mc-stats {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 10px;
+        border-top: 1px dashed #e5e7eb;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        small {
+          font-size: 11px;
+          color: #6b7280;
+        }
+
+        strong {
+          font-size: 13px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

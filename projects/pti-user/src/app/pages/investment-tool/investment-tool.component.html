@@ -1,0 +1,519 @@
+<div class="full-page-loader" *ngIf="isAnalyzing">
+  <div class="loader-content">
+    <div class="spinner"></div>
+    <h3>Đang phân tích dữ liệu...</h3>
+    <p>AI đang xử lý thông tin để đưa ra kết quả tốt nhất</p>
+  </div>
+</div>
+
+<div class="ai-assistant-container">
+  <div class="content-grid-full">
+
+    <!-- FLOATING CHAT PANEL (fixed right side) -->
+    <div class="floating-chat-panel" *ngIf="!isAnalyzed" [class.open]="isChatOpen">
+
+
+
+      <!-- Chat Panel Body -->
+      <div class="chat-panel">
+        <!-- Header -->
+        <div class="chat-panel-header">
+          <div class="header-left">
+            <div class="ai-profile">
+              <img src="assets/images/ai_avatar.png" alt="AI Avatar">
+              <span class="online-dot"></span>
+            </div>
+            <div class="ai-info">
+              <h3>PTI AI Assistant</h3>
+              <span class="status">● Trực tuyến</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Chat Body -->
+        <div class="chat-body" #chatBody>
+          <ng-container *ngFor="let msg of messages; let i = index">
+
+            <!-- AI Message -->
+            <div *ngIf="msg.sender === 'ai'" class="chat-msg ai-msg">
+              <div class="ai-avatar">
+                <img src="assets/images/ai_avatar.png" alt="AI">
+              </div>
+              <div class="chat-bubble" [class.loading-bubble]="msg.isTyping">
+                <ng-container *ngIf="!msg.isTyping">
+                  <p [innerHTML]="msg.text"></p>
+                  <span class="time">{{ msg.time }}</span>
+                </ng-container>
+                <ng-container *ngIf="msg.isTyping">
+                  <div class="typing-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- User Message -->
+            <div *ngIf="msg.sender === 'user'" class="chat-msg user-msg">
+              <div class="chat-bubble">
+                <p>{{ msg.text }}</p>
+                <span class="time">{{ msg.time }}</span>
+              </div>
+            </div>
+
+            <!-- Quick Options Pills -->
+            <div *ngIf="msg.sender === 'ai' && !msg.isTyping && i === messages.length - 1 && currentOptions.length > 0"
+              class="chat-options-pill">
+              <button class="opt-pill" *ngFor="let opt of currentOptions" (click)="selectOption(opt)">
+                {{ opt.label }}
+              </button>
+            </div>
+
+            <!-- Analyze button when all questions answered -->
+            <div
+              *ngIf="msg.sender === 'ai' && !msg.isTyping && i === messages.length - 1 && currentOptions.length === 0 && !isAnalyzed">
+              <button class="btn-analyze-chat" *ngIf="!isAnalyzing" (click)="analyze()">
+                ✨ Phân tích đầu tư ngay
+              </button>
+              <div class="analyzing-text" *ngIf="isAnalyzing">
+                <span class="typing-dots"><span></span><span></span><span></span></span>
+                Đang phân tích...
+              </div>
+            </div>
+
+          </ng-container>
+        </div>
+
+        <!-- Input Box -->
+        <div class="chat-input-area">
+          <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Nhập câu hỏi của bạn..."
+            class="chat-input">
+          <button class="send-btn" (click)="sendMessage()" [disabled]="!userInput.trim() || isAiTyping">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN FULL-WIDTH CONTENT -->
+    <div class="main-content-full">
+
+      <!-- STATE 1: Not Analyzed (Default Overview) -->
+      <div *ngIf="!isAnalyzed">
+        <!-- Banner with FAQ overlay -->
+        <div class="hero-banner-img">
+          <img src="assets/images/ai_assitants.png" alt="AI Investment Assistant Banner">
+          <!-- FAQ box overlaid on the blank right area of the banner -->
+          <div class="banner-faq-overlay">
+            <h3>Các câu hỏi gợi ý</h3>
+            <ul>
+              <li>Tôi có 3 tỷ, nên đầu tư gì để sinh lời? →</li>
+              <li>Khu vực nào đang tăng giá mạnh nhất? →</li>
+              <li>Đầu tư căn hộ hay shophouse tốt hơn? →</li>
+              <li>Dự án nào phù hợp để cho thuê? →</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h3>TỔNG QUAN THỊ TRƯỜNG <span class="update-date">(Dữ liệu cập nhật ngày 20/05/2024)</span></h3>
+          <a href="#" class="link-more">Xem chi tiết thị trường →</a>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="lbl">ĐỘ NÓNG THỊ TRƯỜNG</div>
+            <div class="val text-red">78 <small>/100</small></div>
+            <div class="growth">Tăng <strong>8</strong> điểm so với tuần trước</div>
+            <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#dc2626" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,35 L10,36 L20,30 L30,32 L40,25 L50,30 L60,20 L70,25 L80,18 L90,20 L100,10 L100,40 L0,40 Z" fill="url(#redGrad)"/>
+              <path d="M0,35 L10,36 L20,30 L30,32 L40,25 L50,30 L60,20 L70,25 L80,18 L90,20 L100,10" fill="none" stroke="#dc2626" stroke-width="1.5" />
+              <circle cx="0" cy="35" r="1.5" fill="#dc2626"/>
+              <circle cx="10" cy="36" r="1.5" fill="#dc2626"/>
+              <circle cx="20" cy="30" r="1.5" fill="#dc2626"/>
+              <circle cx="30" cy="32" r="1.5" fill="#dc2626"/>
+              <circle cx="40" cy="25" r="1.5" fill="#dc2626"/>
+              <circle cx="50" cy="30" r="1.5" fill="#dc2626"/>
+              <circle cx="60" cy="20" r="1.5" fill="#dc2626"/>
+              <circle cx="70" cy="25" r="1.5" fill="#dc2626"/>
+              <circle cx="80" cy="18" r="1.5" fill="#dc2626"/>
+              <circle cx="90" cy="20" r="1.5" fill="#dc2626"/>
+              <circle cx="100" cy="10" r="1.5" fill="#dc2626"/>
+            </svg>
+          </div>
+          <div class="stat-card">
+            <div class="lbl">KHU VỰC HOT NHẤT</div>
+            <div class="val text-dark">TP. Thủ Đức</div>
+            <div class="growth">Lượt quan tâm tăng <strong>15.2%</strong></div>
+            <img src="assets/images/heatmap.png" style="width: 100%; height: 85px; object-fit: cover; object-position: center; margin-top: 15px; border-radius: 6px; opacity: 0.9;" alt="Heatmap">
+          </div>
+          <div class="stat-card">
+            <div class="lbl">TỶ SUẤT LỢI NHUẬN TB</div>
+            <div class="val text-dark">12.4% <small>/năm</small></div>
+            <div class="growth">Tăng <strong class="text-green">1.6%</strong> so với tháng trước</div>
+            <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#10b981" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,35 L12,28 L25,28 L37,22 L50,25 L62,18 L75,15 L87,12 L100,8 L100,40 L0,40 Z" fill="url(#greenGrad)"/>
+              <path d="M0,35 L12,28 L25,28 L37,22 L50,25 L62,18 L75,15 L87,12 L100,8" fill="none" stroke="#10b981" stroke-width="1.5" />
+              <circle cx="0" cy="35" r="1.5" fill="#10b981"/>
+              <circle cx="12" cy="28" r="1.5" fill="#10b981"/>
+              <circle cx="25" cy="28" r="1.5" fill="#10b981"/>
+              <circle cx="37" cy="22" r="1.5" fill="#10b981"/>
+              <circle cx="50" cy="25" r="1.5" fill="#10b981"/>
+              <circle cx="62" cy="18" r="1.5" fill="#10b981"/>
+              <circle cx="75" cy="15" r="1.5" fill="#10b981"/>
+              <circle cx="87" cy="12" r="1.5" fill="#10b981"/>
+              <circle cx="100" cy="8" r="1.5" fill="#10b981"/>
+            </svg>
+          </div>
+          <div class="stat-card">
+            <div class="lbl">LƯỢNG QUAN TÂM</div>
+            <div class="val text-dark">32,658</div>
+            <div class="growth">Tăng <strong class="text-green">24.5%</strong> so với tháng trước</div>
+            <svg class="bar-chart" viewBox="0 0 100 40" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7B61FF"/>
+                  <stop offset="100%" stop-color="#9d8afc" stop-opacity="0.3"/>
+                </linearGradient>
+              </defs>
+              <rect x="5" y="32" width="6" height="8" rx="2" fill="url(#blueGrad)"/>
+              <rect x="16" y="24" width="6" height="16" rx="2" fill="url(#blueGrad)"/>
+              <rect x="27" y="28" width="6" height="12" rx="2" fill="url(#blueGrad)"/>
+              <rect x="38" y="26" width="6" height="14" rx="2" fill="url(#blueGrad)"/>
+              <rect x="49" y="20" width="6" height="20" rx="2" fill="url(#blueGrad)"/>
+              <rect x="60" y="16" width="6" height="24" rx="2" fill="url(#blueGrad)"/>
+              <rect x="71" y="5" width="6" height="35" rx="2" fill="url(#blueGrad)"/>
+              <rect x="82" y="25" width="6" height="15" rx="2" fill="url(#blueGrad)"/>
+              <rect x="93" y="10" width="6" height="30" rx="2" fill="url(#blueGrad)"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 30px;">
+          <h3>DỰ ÁN ĐANG ĐƯỢC QUAN TÂM</h3>
+          <a href="#" class="link-more">Xem tất cả dự án →</a>
+        </div>
+
+        <div class="projects-grid">
+          <div class="proj-card" *ngFor="let p of projects">
+            <div class="badge" *ngIf="p.hot">Nổi bật</div>
+            <div class="proj-img" [style.background-image]="'url(' + p.img + ')'"></div>
+            <div class="proj-info">
+              <h4>{{p.name}}</h4>
+              <p class="loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg> {{p.loc}}</p>
+              <div class="price">Giá từ <strong>{{p.price}}</strong></div>
+              <div class="growth text-green">{{p.growth}} <span>Tiềm năng tăng giá</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section">
+          <h3>TẠI SAO NÊN SỬ DỤNG AI TRỢ LÝ ĐẦU TƯ CỦA PTI HOME?</h3>
+          <div class="features-grid">
+            <div class="feat-item">
+              <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333"
+                  stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 2v20" />
+                  <path d="M2 12h20" />
+                  <circle cx="12" cy="12" r="4" />
+                </svg></div>
+              <div class="feat-text">
+                <h4>Phân tích chính xác</h4>
+                <p>AI phân tích hàng triệu dữ liệu thị trường theo thời gian thực.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333"
+                  stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg></div>
+              <div class="feat-text">
+                <h4>Đề xuất cá nhân hóa</h4>
+                <p>Đưa ra gợi ý phù hợp với mục tiêu và khả năng tài chính của bạn.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333"
+                  stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg></div>
+              <div class="feat-text">
+                <h4>Tiết kiệm thời gian</h4>
+                <p>Tự động tổng hợp thông tin, giúp bạn đưa ra quyết định nhanh chóng.</p>
+              </div>
+            </div>
+            <div class="feat-item">
+              <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333"
+                  stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg></div>
+              <div class="feat-text">
+                <h4>Minh bạch & uy tín</h4>
+                <p>Dữ liệu từ nguồn chính thống, dự án pháp lý rõ ràng.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STATE 2: Analyzed (AI Results) -->
+      <div *ngIf="isAnalyzed" class="analysis-results">
+        
+        <div class="user-summary-box">
+          <div class="summary-header">
+            <h4>Thông tin nhu cầu đầu tư của bạn</h4>
+            <button class="btn-outline-small" (click)="reset()">Bắt đầu lại</button>
+          </div>
+          <div class="summary-grid">
+            <div class="sum-item">
+              <span class="lbl">Mục tiêu:</span>
+              <span class="val">{{ goal || 'Đầu tư sinh lời' }}</span>
+            </div>
+            <div class="sum-item">
+              <span class="lbl">Ngân sách:</span>
+              <span class="val">{{ budget || '2 - 5 tỷ' }}</span>
+            </div>
+            <div class="sum-item">
+              <span class="lbl">Thời gian:</span>
+              <span class="val">{{ timeframe || '3 - 5 năm' }}</span>
+            </div>
+            <div class="sum-item">
+              <span class="lbl">Khu vực:</span>
+              <span class="val">{{ location || 'TP. Thủ Đức' }}</span>
+            </div>
+            <div class="sum-item">
+              <span class="lbl">Loại hình:</span>
+              <span class="val">{{ propertyType || 'Căn hộ' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header" style="align-items: flex-start;">
+          <div class="header-title-group">
+            <h3 style="margin: 0 0 5px 0;">KẾT QUẢ PHÂN TÍCH DÀNH CHO BẠN</h3>
+            <p class="sub-desc" style="margin: 0; color: #6b7280; font-size: 14px;">Dựa trên thông tin bạn cung cấp, AI đã tìm ra những cơ hội đầu tư phù hợp nhất</p>
+          </div>
+          <div class="actions" style="display: flex; gap: 10px;">
+            <button class="btn-outline" style="border: 1px solid #cc0000; color: #cc0000; display: flex; align-items: center; gap: 6px; background: transparent; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              Lưu kết quả
+            </button>
+            <button class="btn-outline" style="border: 1px solid #cc0000; color: #cc0000; display: flex; align-items: center; gap: 6px; background: transparent; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              Chia sẻ
+            </button>
+          </div>
+        </div>
+
+        <div class="combined-result-card">
+          <!-- Col 1: Project Info -->
+          <div class="project-col">
+            <span class="badge">ĐỀ XUẤT PHÙ HỢP NHẤT</span>
+            <div class="project-info-row">
+              <div class="p-img" [style.background-image]="'url(' + topProject.img + ')'"></div>
+              <div class="p-details">
+                <h2>{{ topProject.name }}</h2>
+                <p class="loc">📍 {{ topProject.loc }}</p>
+                <p class="desc">Dự án phù hợp nhất với mục tiêu đầu tư sinh lời của bạn với tiềm năng tăng trưởng mạnh mẽ trong 3 - 5 năm tới.</p>
+                <div class="score-row">
+                  <div class="score-box">
+                    <small>MỨC ĐỘ PHÙ HỢP</small>
+                    <span>{{ topProject.match_score || 92 }}%</span>
+                  </div>
+                  <ul class="reasons-list">
+                    <li><span class="icon">📈</span> Tiềm năng tăng giá cao</li>
+                    <li><span class="icon">🔄</span> Thanh khoản tốt</li>
+                    <li><span class="icon">🏗️</span> Hạ tầng phát triển</li>
+                    <li><span class="icon">⚖️</span> Pháp lý minh bạch</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="p-actions">
+              <button class="btn-primary">Xem chi tiết dự án</button>
+              <button class="btn-outline">So sánh với dự án khác</button>
+            </div>
+          </div>
+
+          <!-- Col 2: Predictions Text -->
+          <div class="pred-text-col">
+            <h4>DỰ BÁO HIỆU QUẢ ĐẦU TƯ</h4>
+            <div class="pred-item">
+              <span class="lbl">Tiềm năng tăng giá<br>(3 - 5 năm)</span>
+              <span class="val text-green">+18.7%</span>
+            </div>
+            <div class="pred-item">
+              <span class="lbl">Tỷ suất lợi nhuận kỳ<br>vọng/năm</span>
+              <span class="val text-green">12.4%</span>
+            </div>
+            <div class="pred-item">
+              <span class="lbl">Thanh khoản</span>
+              <span class="val text-green">Cao</span>
+            </div>
+          </div>
+
+          <!-- Col 3: Prediction Chart -->
+          <div class="pred-chart-col">
+            <h4>DỰ BÁO TĂNG TRƯỞNG GIÁ</h4>
+            <div class="chart-wrapper">
+              <canvas id="analysisChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 30px;">
+          <h3>CÁC LOẠI HÌNH ĐƯỢC ĐỀ XUẤT</h3>
+          <a href="#" class="link-more">Xem tất cả loại hình →</a>
+        </div>
+
+        <div class="types-grid">
+          <div class="type-card active">
+            <div class="t-img" style="background-image: url('assets/images/canho.png')"></div>
+            <h4>Căn hộ</h4>
+            <div class="t-val">8 - 12%/năm</div>
+            <p>Dòng sản phẩm phù hợp nhất với ngân sách và mục tiêu đầu tư của bạn.</p>
+          </div>
+          <div class="type-card">
+            <div class="t-img" style="background-image: url('assets/images/shophouse.png')"></div>
+            <h4>Shophouse</h4>
+            <div class="t-val text-green">12 - 15%/năm</div>
+            <p>Tiềm năng khai thác kinh doanh và cho thuê cao.</p>
+          </div>
+          <div class="type-card">
+            <div class="t-img" style="background-image: url('assets/images/nhapho.png')"></div>
+            <h4>Nhà phố</h4>
+            <div class="t-val text-green">10 - 14%/năm</div>
+            <p>Phù hợp đầu tư trung và dài hạn, tiềm năng tăng giá tốt.</p>
+          </div>
+          <div class="type-card">
+            <div class="t-img" style="background-image: url('assets/images/bietthu.png')"></div>
+            <h4>Biệt thự</h4>
+            <div class="t-val text-green">9 - 13%/năm</div>
+            <p>Sản phẩm cao cấp, khan hiếm, tăng giá bền vững.</p>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 30px;">
+          <h3>SO SÁNH VỚI CÁC KHU VỰC KHÁC</h3>
+        </div>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Khu vực</th>
+              <th>Mức độ tăng giá (3 - 5 năm)</th>
+              <th>Tỷ suất lợi nhuận kỳ vọng/năm</th>
+              <th>Thanh khoản</th>
+              <th>Mức độ rủi ro</th>
+              <th>Đánh giá tổng thể</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>TP. Thủ Đức</strong></td>
+              <td class="text-green">+18.7%</td>
+              <td>12.4%</td>
+              <td class="text-green">Cao</td>
+              <td class="text-green">Thấp</td>
+              <td class="stars text-red">★★★★★</td>
+            </tr>
+            <tr>
+              <td><strong>Quận 7</strong></td>
+              <td class="text-green">+15.3%</td>
+              <td>9.8%</td>
+              <td>Trung bình</td>
+              <td>Trung bình</td>
+              <td class="stars text-red">★★★★☆</td>
+            </tr>
+            <tr>
+              <td><strong>Bình Chánh</strong></td>
+              <td class="text-green">+12.1%</td>
+              <td>8.2%</td>
+              <td>Trung bình</td>
+              <td>Trung bình</td>
+              <td class="stars text-red">★★★☆☆</td>
+            </tr>
+            <tr>
+              <td><strong>Nhà Bè</strong></td>
+              <td class="text-green">+10.2%</td>
+              <td>7.5%</td>
+              <td>Thấp</td>
+              <td>Trung bình</td>
+              <td class="stars text-red">★★★☆☆</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Bottom CTA -->
+        <div class="bottom-cta">
+          <div class="cta-text">
+            <h3>Bạn muốn được tư vấn chi tiết hơn?</h3>
+            <p>Đội ngũ chuyên viên của PTI Home luôn sẵn sàng hỗ trợ bạn</p>
+          </div>
+          <div class="cta-features">
+            <div class="f-item">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              <div>
+                <strong>Tư vấn 1:1</strong>
+                <span>Miễn phí cùng chuyên viên</span>
+              </div>
+            </div>
+            <div class="f-item">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              <div>
+                <strong>Phân tích chuyên sâu</strong>
+                <span>Báo cáo chi tiết theo nhu cầu</span>
+              </div>
+            </div>
+            <div class="f-item">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <div>
+                <strong>Khảo sát thực tế</strong>
+                <span>Tham quan dự án trực tiếp</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary">Đặt lịch tư vấn ngay</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

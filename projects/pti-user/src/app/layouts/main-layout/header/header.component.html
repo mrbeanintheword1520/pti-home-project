@@ -8,9 +8,33 @@
     <!-- Navigation -->
     <nav class="navigation">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Trang chủ</a>
-      <a routerLink="/du-an" routerLinkActive="active" class="nav-link">Dự án</a>
+      
+      <div class="nav-item-dropdown">
+        <a routerLink="/du-an" routerLinkActive="active" class="nav-link">
+          Dự án 
+          <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+        <div class="dropdown-menu">
+          <a routerLink="/du-an/can-ho">Căn hộ</a>
+          <a routerLink="/du-an/dat-nen">Đất nền</a>
+          <a routerLink="/du-an/nha-pho">Nhà phố</a>
+          <a routerLink="/du-an/nghi-duong">Nghỉ dưỡng</a>
+        </div>
+      </div>
+
       <a routerLink="/phan-tich-thi-truong" routerLinkActive="active" class="nav-link">Phân tích thị trường</a>
-      <a routerLink="/cong-cu" routerLinkActive="active" class="nav-link">Công cụ đầu tư</a>
+      
+      <div class="nav-item-dropdown">
+        <a href="javascript:void(0)" class="nav-link" style="cursor: pointer;">
+          AI đầu tư 
+          <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </a>
+        <div class="dropdown-menu">
+          <a routerLink="/cong-cu">Phân tích đầu tư</a>
+          <a routerLink="/tinh-khoan-vay">Tính khoản vay</a>
+        </div>
+      </div>
+
       <a routerLink="/tin-tuc" routerLinkActive="active" class="nav-link">Tin tức</a>
       <a routerLink="/ve-chung-toi" routerLinkActive="active" class="nav-link">Về chúng tôi</a>
     </nav>

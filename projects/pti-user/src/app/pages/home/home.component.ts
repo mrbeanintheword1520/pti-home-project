@@ -31,6 +31,7 @@ interface ToolItem {
   title: string;
   description: string;
   icon: string;
+  link: string;
 }
 
 @Component({
@@ -186,31 +187,37 @@ export class Home {
       title: 'Tư vấn đầu tư AI',
       description: 'Gợi ý dự án phù hợp với mục tiêu tài chính',
       icon: 'robot',
+      link: '/cong-cu',
     },
     {
       title: 'Mô phỏng lợi nhuận',
       description: 'Dự báo lợi nhuận theo thời gian đầu tư',
       icon: 'chart',
+      link: '/tinh-khoan-vay',
     },
     {
       title: 'Tính khoản vay',
       description: 'Ước tính trả góp và khả năng vay',
       icon: 'calculator',
+      link: '/tinh-khoan-vay',
     },
     {
       title: 'So sánh dự án',
       description: 'Đối chiếu tiềm năng giữa các dự án',
       icon: 'compare',
+      link: '/du-an',
     },
     {
       title: 'Bản đồ dự án',
       description: 'Xem vị trí và hạ tầng xung quanh',
       icon: 'map',
+      link: '/du-an',
     },
     {
       title: 'Đặt lịch khảo sát',
       description: 'Hẹn tham quan thực tế nhanh chóng',
       icon: 'calendar',
+      link: '/du-an',
     },
   ];
 

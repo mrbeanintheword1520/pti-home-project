@@ -1,0 +1,339 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dash-header">
+    <div class="header-text">
+      <h1>Công cụ đầu tư thông minh</h1>
+      <p>So sánh dự án, mô phỏng khoản vay và ước tính lợi nhuận cuối kỳ để đưa ra quyết định nhanh chóng.</p>
+    </div>
+  </div>
+
+  <!-- Projects Carousel -->
+  <div class="projects-carousel-wrapper">
+    <div class="carousel-header">
+      <h4>Chọn dự án để bắt đầu</h4>
+      <a href="#" class="view-all" (click)="openProjectModal($event)">Xem tất cả dự án</a>
+    </div>
+    <div class="projects-scroll">
+      <div class="project-card" *ngFor="let p of projects" [class.active]="selectedProjectName === p.name"
+        (click)="selectProjectCard(p)">
+        <div class="badge" *ngIf="selectedProjectName === p.name">Đang chọn</div>
+        <img [src]="p.img" alt="{{ p.name }}">
+        <div class="p-info">
+          <h5>{{ p.name }}</h5>
+          <p class="loc"><span class="icon">📍</span> {{ p.loc }}</p>
+          <div class="p-stats">
+            <div>
+              <small>Giá trị hiện tại</small>
+              <strong style="color: #cc0000;">{{ p.price }}</strong>
+            </div>
+            <div class="growth" style="text-align: right;">
+              <small>Tăng trưởng kỳ vọng</small>
+              <strong style="color: #10b981;">&#8593; {{ p.growth }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-dots" style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;">
+      <span class="dot" *ngFor="let dot of [0,1,2]"
+        [style.background]="currentCarouselPage === dot ? '#cc0000' : '#cbd5e1'"
+        [style.width]="currentCarouselPage === dot ? '24px' : '8px'"
+        style="height: 8px; border-radius: 4px; cursor: pointer; transition: all 0.3s;"
+        (click)="scrollToPage(dot)"></span>
+    </div>
+  </div>
+
+  <!-- Main Split Layout -->
+  <div class="main-split">
+    <!-- Left Sidebar: Forms -->
+    <div class="sidebar-form">
+      <h4>THÔNG TIN ĐẦU TƯ</h4>
+
+      <!-- A. Thông tin tài sản -->
+      <div class="form-section">
+        <h5 class="sec-title">A. Thông tin tài sản</h5>
+        <div class="form-group">
+          <label>Dự án đầu tư</label>
+          <select [(ngModel)]="selectedProjectName" (ngModelChange)="onProjectChange()" class="form-control">
+            <option value="">-- Tùy chỉnh tự do --</option>
+            <option *ngFor="let p of projects" [value]="p.name">{{ p.name }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Giá trị bất động sản</label>
+          <div class="input-wrap">
+            <input type="text" [(ngModel)]="propertyValueStr" (ngModelChange)="onCalculate()">
+            <span>VND</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tăng trưởng kỳ vọng /năm</label>
+          <div class="input-wrap">
+            <input type="number" step="0.1" [(ngModel)]="expectedGrowthRate" (ngModelChange)="onCalculate()">
+            <span>%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- B. Thông tin vốn -->
+      <div class="form-section">
+        <h5 class="sec-title">B. Thông tin vốn</h5>
+        <div class="form-group">
+          <label>Vốn ban đầu</label>
+          <div class="input-wrap disabled">
+            <input type="text" [value]="formatCurrency(initialCapital)" disabled>
+            <span>VND</span>
+          </div>
+        </div>
+        <div class="form-group slider-group">
+          <div class="lbl-row">
+            <label>Tỷ lệ vay ngân hàng</label>
+            <span>{{ loanPercentage }}%</span>
+          </div>
+          <input type="range" min="0" max="100" [(ngModel)]="loanPercentage" (ngModelChange)="onCalculate()">
+          <div class="range-lbls"><span>0%</span><span>50%</span><span>100%</span></div>
+        </div>
+        <div class="form-group">
+          <label>Số tiền vay (tự động)</label>
+          <div class="input-wrap disabled">
+            <input type="text" [value]="formatCurrency(loanAmount)" disabled>
+            <span>VND</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- C. Thông tin khoản vay -->
+      <div class="form-section">
+        <h5 class="sec-title">C. Thông tin khoản vay</h5>
+        <div class="form-group">
+          <label>Lãi suất vay</label>
+          <div class="input-wrap">
+            <input type="number" step="0.1" [(ngModel)]="interestRate" (ngModelChange)="onCalculate()">
+            <span>%/năm</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Thời hạn vay</label>
+          <div class="input-wrap">
+            <input type="number" [(ngModel)]="loanTermYears" (ngModelChange)="onCalculate()">
+            <span>năm</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Thời gian đầu tư</label>
+          <div class="input-wrap">
+            <input type="number" [(ngModel)]="investmentTimeYears" (ngModelChange)="onCalculate()">
+            <span>năm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Area: Results -->
+    <div class="right-results">
+      <!-- Quick Decisions -->
+      <div class="result-block">
+        <h4 class="block-title">KẾT QUẢ QUYẾT ĐỊNH NHANH</h4>
+        <div class="quick-metrics-grid">
+          <div class="metric-box box-red">
+            <small class="text-red">LỢI NHUẬN CUỐI KỲ</small>
+            <strong class="val text-red">{{ formatCurrency(netProfit) }}</strong>
+            <div class="currency text-red">VND</div>
+            <div class="badge-sub text-green">↑ {{ roi | number:'1.2-2' }}% so với vốn ban đầu</div>
+          </div>
+          <div class="metric-box box-green">
+            <small class="text-green">ROI SAU {{ investmentTimeYears }} NĂM</small>
+            <strong class="val text-green">{{ roi | number:'1.2-2' }}%</strong>
+            <div class="currency text-green" style="visibility: hidden;">VND</div>
+            <div class="sub">Hiệu suất sinh lời</div>
+          </div>
+          <div class="metric-box box-blue">
+            <small class="text-blue">GIÁ TRỊ BĐS CUỐI KỲ</small>
+            <strong class="val text-blue">{{ formatCurrency(futurePropertyValue) }}</strong>
+            <div class="currency text-blue">VND</div>
+            <div class="badge-sub text-green">↑ {{ formatCurrency(futurePropertyValue - propertyValue) }} VND</div>
+          </div>
+          <div class="metric-box box-orange">
+            <small class="text-orange">DÒNG TIỀN RÒNG/THÁNG</small>
+            <strong class="val text-orange">{{ formatCurrency(monthlyCashflow) }}</strong>
+            <div class="currency text-orange">VND</div>
+            <div class="sub text-dark">Tương đương <strong>{{ formatCurrency(monthlyCashflow * 12) }}</strong>/năm</div>
+          </div>
+        </div>
+        <div class="recommendation-banner">
+          <div class="rec-left">
+            <div class="icon-shield">✔</div>
+            <div>
+              <small>KHUYẾN NGHỊ NHANH</small>
+              <strong>NÊN ĐẦU TƯ</strong>
+            </div>
+          </div>
+          <div class="rec-mid">
+            Dự án có tỷ lệ tăng trưởng tốt, ROI cao hơn lãi suất vay và dòng tiền ròng dương.
+          </div>
+          <a href="#" class="rec-link">Chi tiết →</a>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="result-block">
+          <h4 class="block-title">TĂNG TRƯỞNG GIÁ TRỊ TÀI SẢN</h4>
+          <div class="chart-wrapper"><canvas #growthChart></canvas></div>
+        </div>
+        <div class="result-block">
+          <h4 class="block-title">DÒNG TIỀN</h4>
+          <div class="chart-wrapper"><canvas #cashflowChart></canvas></div>
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="result-block">
+        <h4 class="block-title">SO SÁNH CÁC DỰ ÁN ĐẦU TƯ</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Dự án</th>
+                <th>Giá trị hiện tại</th>
+                <th>Tăng trưởng</th>
+                <th>Giá trị sau {{ investmentTimeYears }} năm</th>
+                <th>Lợi nhuận</th>
+                <th>ROI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of projects | slice:0:4" [class.active-row]="p.name === selectedProjectName">
+                <td>
+                  <span class="tag" *ngIf="p.name === selectedProjectName">Đang chọn</span>
+                  {{ p.name }}
+                </td>
+                <td>{{ p.price }}</td>
+                <td>{{ p.growth }}</td>
+                <td>{{ p.futureVal || '--' }}</td>
+                <td>{{ p.profit || '--' }}</td>
+                <td>{{ p.roi || '--' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Loan Section -->
+  <div class="loan-section-bottom">
+    <div class="loan-col text-col">
+      <h4 class="block-title">KẾT QUẢ KHOẢN VAY</h4>
+      <div class="loan-sum-row"><span>Số tiền vay</span> <strong>{{ formatCurrency(loanAmount) }} VND</strong></div>
+      <div class="loan-sum-row"><span>Lãi suất vay</span> <strong>{{ interestRate }}%/năm</strong></div>
+      <div class="loan-sum-row"><span>Thời hạn vay</span> <strong>{{ loanTermYears }} năm</strong></div>
+      <div class="loan-sum-row"><span>Tổng tiền lãi phải trả ({{ loanTermYears }} năm)</span> <strong>{{
+          formatCurrency(totalInterestFullTerm) }} VND</strong></div>
+      <div class="loan-sum-row"><span>Dư nợ còn lại sau {{ investmentTimeYears }} năm</span> <strong>{{
+          formatCurrency(remainingBalanceAtEnd) }} VND</strong></div>
+    </div>
+
+    <div class="loan-col table-col">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h4 class="block-title" style="margin: 0;">BẢNG DƯ NỢ GIẢM DẦN (TÓM TẮT)</h4>
+        <a href="#" style="font-size: 13px; color: #cc0000; font-weight: 600; text-decoration: none;"
+          (click)="openAmortizationModal($event)">Xem tất cả &rarr;</a>
+      </div>
+      <div class="table-wrap small-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Năm</th>
+              <th>Dư nợ đầu kỳ</th>
+              <th>Gốc đã trả</th>
+              <th>Tiền lãi</th>
+              <th>Dư nợ cuối kỳ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of schedule | slice:0:investmentTimeYears">
+              <td>{{ s.year }}</td>
+              <td>{{ formatCurrency(s.balanceStart) }}</td>
+              <td>{{ formatCurrency(s.principalPaid) }}</td>
+              <td>{{ formatCurrency(s.interestPaid) }}</td>
+              <td>{{ formatCurrency(s.balanceEnd) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="loan-col chart-col">
+      <h4 class="block-title">CƠ CẤU NGUỒN VỐN</h4>
+      <div class="donut-wrap"><canvas #structureChart></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Chọn dự án -->
+<div class="modal-overlay" *ngIf="showProjectModal" (click)="closeProjectModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Tất cả dự án</h3>
+      <button class="close-btn" (click)="closeProjectModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-projects-grid">
+        <div class="modal-card" *ngFor="let p of projects" [class.is-active]="selectedProjectName === p.name"
+          (click)="selectProjectCard(p); closeProjectModal()">
+          <div class="mc-badge" *ngIf="selectedProjectName === p.name">Đang chọn</div>
+          <img [src]="p.img" alt="{{ p.name }}">
+          <div class="mc-info">
+            <h5>{{ p.name }}</h5>
+            <p class="mc-loc">📍 {{ p.loc }}</p>
+            <div class="mc-stats">
+              <div>
+                <small>Giá trị hiện tại</small>
+                <strong style="color: #cc0000;">{{ p.price }}</strong>
+              </div>
+              <div style="text-align: right;">
+                <small>Tăng trưởng kỳ vọng</small>
+                <strong style="color: #10b981;">↑ {{ p.growth }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Bảng dư nợ -->
+<div class="modal-overlay" *ngIf="showAmortizationModal" (click)="closeAmortizationModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()" style="max-width: 800px;">
+    <div class="modal-header">
+      <h3>Chi tiết bảng dư nợ ({{ loanTermYears }} năm)</h3>
+      <button class="close-btn" (click)="closeAmortizationModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="table-wrap small-table" style="max-height: 60vh; overflow-y: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: right; font-size: 13px;">
+          <thead>
+            <tr>
+              <th style="padding: 12px; border-bottom: 2px solid #e2e8f0; text-align: left; color: #64748b;">Năm</th>
+              <th style="padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b;">Dư nợ đầu kỳ</th>
+              <th style="padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b;">Gốc đã trả</th>
+              <th style="padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b;">Tiền lãi</th>
+              <th style="padding: 12px; border-bottom: 2px solid #e2e8f0; color: #64748b;">Dư nợ cuối kỳ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of schedule; let last = last" [style.border-bottom]="last ? 'none' : '1px solid #f1f5f9'">
+              <td style="padding: 12px; text-align: left; font-weight: 500;">{{ s.year }}</td>
+              <td style="padding: 12px;">{{ formatCurrency(s.balanceStart) }}</td>
+              <td style="padding: 12px;">{{ formatCurrency(s.principalPaid) }}</td>
+              <td style="padding: 12px; color: #cc0000;">{{ formatCurrency(s.interestPaid) }}</td>
+              <td style="padding: 12px; font-weight: 600;">{{ formatCurrency(s.balanceEnd) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

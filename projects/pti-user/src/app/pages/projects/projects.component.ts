@@ -1,9 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {
   CATEGORY_TABS,
   PROJECT_STATS,
-  PROJECTS,
   ProjectCategory,
   ProjectItem,
   ProjectStatus,
@@ -25,11 +25,14 @@ interface FilterState {
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnInit {
+  private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
+
   readonly stats = PROJECT_STATS;
   readonly tabs = CATEGORY_TABS;
   readonly statusLabels = STATUS_LABELS;
-  readonly allProjects = PROJECTS;
+  allProjects = signal<ProjectItem[]>([]);
 
   readonly areaOptions = ['Tất cả', 'Bình Dương', 'Bình Phước', 'Vũng Tàu', 'TP Bến Cát'];
   readonly priceOptions = ['Tất cả', 'Dưới 1 tỷ', '1 - 3 tỷ', 'Trên 3 tỷ', 'Liên hệ'];
@@ -61,10 +64,30 @@ export class ProjectsComponent {
     amenities: [],
   });
 
+  ngOnInit() {
+    this.http.get<any[]>('/assets/data/projects.json').subscribe(data => {
+      // Map JSON to expected structure if needed, or just set it
+      this.allProjects.set(data.map((p, i) => ({
+        id: p.id || `proj-${i}`,
+        name: p.name,
+        description: p.description,
+        location: p.loc || p.location,
+        category: p.category,
+        classification: p.classification,
+        price: p.price,
+        status: p.status,
+        growthPotential: p.growth || p.growthPotential,
+        profitRate: p.profitRate,
+        image: p.img || p.image,
+      })));
+      this.cdr.detectChanges();
+    });
+  }
+
   readonly filteredProjects = computed(() => {
     const f = this.filters();
     const tab = this.activeTab();
-    let list = [...this.allProjects];
+    let list = [...this.allProjects()];
 
     if (tab !== 'all') {
       list = list.filter((p) => p.category === tab);

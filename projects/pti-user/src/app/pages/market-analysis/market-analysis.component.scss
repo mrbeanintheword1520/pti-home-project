@@ -33,7 +33,7 @@ $orange-card: #fa8c16;
   position: relative;
   background-color: #0b0f19;
   background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.4) 0%, rgba(11, 15, 25, 1) 100%),
-    url('../../../assets/images/banner_building.png');
+    url('/assets/images/banner_building.png');
   background-size: cover;
   background-position: center;
   padding: 60px 60px 60px 60px;
@@ -427,8 +427,8 @@ $orange-card: #fa8c16;
 
 .panel-chart-1 { grid-column: span 7; }
 .panel-chart-2 { grid-column: span 5; }
-.panel-map { grid-column: span 7; }
-.stacked-lists { grid-column: span 5; }
+.panel-map { grid-column: span 6; }
+.stacked-lists { grid-column: span 6; }
 .panel-list-2 { grid-column: span 12; }
 
 .stacked-lists {
@@ -713,7 +713,7 @@ $orange-card: #fa8c16;
 /* Tables, Lists & Grids */
 .list-table {
   flex: 1;
-  overflow-x: auto;
+  overflow-x: hidden;
 
   table {
     width: 100%;
