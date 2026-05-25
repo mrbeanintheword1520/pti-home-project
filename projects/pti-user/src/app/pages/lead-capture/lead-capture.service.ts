@@ -30,6 +30,11 @@ export class LeadCaptureService {
     // TODO: POST lead to admin API when backend endpoint is ready.
   }
 
+  setCustomerPhone(phone: string): void {
+    localStorage.setItem(CUSTOMER_KEY, phone);
+    this.customerPhone.set(phone);
+  }
+
   hasSubmitted(): boolean {
     return !!this.customerPhone();
   }

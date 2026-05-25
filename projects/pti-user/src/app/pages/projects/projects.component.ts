@@ -29,10 +29,21 @@ export class ProjectsComponent implements OnInit {
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
 
-  readonly stats = PROJECT_STATS;
   readonly tabs = CATEGORY_TABS;
   readonly statusLabels = STATUS_LABELS;
   allProjects = signal<ProjectItem[]>([]);
+
+  readonly stats = computed(() => {
+    const total = this.allProjects().length;
+    const selling = this.allProjects().filter((p) => p.status === 'selling').length;
+    return [
+      { icon: 'building', label: 'Tổng dự án', value: `${total} Dự án` },
+      { icon: 'map', label: 'Đang mở bán', value: `${selling} Dự án` },
+      { icon: 'chart', label: 'Tỷ suất lợi nhuận TB', value: '12.4%/năm' },
+      { icon: 'users', label: 'Khách hàng tin tưởng', value: '8,450+ Khách hàng' },
+      { icon: 'star', label: 'Đánh giá hài lòng', value: '4.9/5 Điểm đánh giá' },
+    ];
+  });
 
   readonly areaOptions = ['Tất cả', 'Bình Dương', 'Bình Phước', 'Vũng Tàu', 'TP Bến Cát'];
   readonly priceOptions = ['Tất cả', 'Dưới 1 tỷ', '1 - 3 tỷ', 'Trên 3 tỷ', 'Liên hệ'];
@@ -54,6 +65,36 @@ export class ProjectsComponent implements OnInit {
   viewMode = signal<'grid' | 'list'>('grid');
   currentPage = signal(1);
   favorites = signal<Set<string>>(new Set());
+
+  // Booking modal
+  showBookingModal = false;
+  bookingName = '';
+  bookingPhone = '';
+  bookingProject = '';
+  bookingError = '';
+  bookingSuccess = false;
+
+  closeBookingModal(event: MouseEvent) {
+    if ((event.target as HTMLElement).classList.contains('booking-overlay')) {
+      this.showBookingModal = false;
+      this.bookingSuccess = false;
+    }
+  }
+
+  submitBooking(event: Event) {
+    event.preventDefault();
+    this.bookingError = '';
+    if (!this.bookingPhone.trim()) {
+      this.bookingError = 'Vui lòng nhập số điện thoại!';
+      return;
+    }
+    const phoneRegex = /^(0|\+84)[0-9]{8,10}$/;
+    if (!phoneRegex.test(this.bookingPhone.replace(/\s/g, ''))) {
+      this.bookingError = 'Số điện thoại không hợp lệ!';
+      return;
+    }
+    this.bookingSuccess = true;
+  }
 
   filters = signal<FilterState>({
     search: '',

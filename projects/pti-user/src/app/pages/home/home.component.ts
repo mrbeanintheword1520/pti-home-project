@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConsultationModalService } from '../consultation/consultation-modal.service';
 import {
@@ -41,14 +41,21 @@ interface NewsItem {
   featured?: boolean;
 }
 
+import { LeadCaptureService } from '../lead-capture/lead-capture.service';
+
 @Component({
   selector: 'app-home',
   imports: [RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class Home {
+export class Home implements AfterViewInit {
+  @ViewChild('trackWrap') trackWrap!: ElementRef<HTMLElement>;
+
   protected readonly consultation = inject(ConsultationModalService);
+  protected readonly leadCapture = inject(LeadCaptureService);
+
+  showWelcomePopup = signal(!this.leadCapture.hasSubmitted());
 
   readonly marketIndex = MARKET_INDEX;
   readonly pricePeriods = PRICE_PERIODS;
@@ -164,28 +171,36 @@ export class Home {
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop',
     },
     {
-      name: 'Trần Thị B',
-      project: 'Masteri Centre Point',
-      period: '03/2023 - 08/2024',
-      profit: '+28.3%',
+      name: 'Trần Minh B',
+      project: 'The Beverly Solari',
+      period: '01/2023 - 06/2024',
+      profit: '+28.7%',
       avatar:
-        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop',
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop',
     },
     {
-      name: 'Lê Minh C',
-      project: 'The Global City',
-      period: '01/2023 - 09/2024',
-      profit: '+35.7%',
+      name: 'Lê Hoàng C',
+      project: 'Masteri Centre Point',
+      period: '09/2022 - 06/2024',
+      profit: '+24.3%',
       avatar:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop',
     },
     {
-      name: 'Phạm Thu D',
-      project: 'Eaton Park',
-      period: '06/2022 - 12/2023',
-      profit: '+26.9%',
+      name: 'Phạm Thùy D',
+      project: 'Vinhomes Ocean Park',
+      period: '11/2022 - 06/2024',
+      profit: '+21.6%',
       avatar:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop',
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop',
+    },
+    {
+      name: 'Hoàng Quang H',
+      project: 'Lumière Boulevard',
+      period: '12/2022 - 06/2024',
+      profit: '+19.8%',
+      avatar:
+        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop',
     },
   ];
 
@@ -372,20 +387,47 @@ export class Home {
     }));
   }
 
-  prevProjects(): void {
-    this.carouselIndex.update((i) => Math.max(0, i - 1));
+  ngAfterViewInit() {}
+
+  onTrackScroll(event: Event): void {
+    const el = event.target as HTMLElement;
+    const scrollLeft = el.scrollLeft;
+    // Calculate index based on scroll position
+    // Each item is 25% width (since 4 are visible) plus gap.
+    // The exact width of an item is approx el.scrollWidth / projects.length.
+    const itemWidth = el.scrollWidth / this.projects.length;
+    const index = Math.round(scrollLeft / itemWidth);
+    
+    // Update signal only if it changed, without triggering scrollTo again
+    if (this.carouselIndex() !== index) {
+      this.carouselIndex.set(index);
+    }
   }
 
-  nextProjects(): void {
-    this.carouselIndex.update((i) => Math.min(this.maxProjectIndex(), i + 1));
+  setCarouselIndex(index: number): void {
+    this.carouselIndex.set(index);
+    if (this.trackWrap) {
+      const el = this.trackWrap.nativeElement;
+      const itemWidth = el.scrollWidth / this.projects.length;
+      el.scrollTo({
+        left: itemWidth * index,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  getCarouselDots(): number[] {
+    return Array.from({ length: this.maxProjectIndex() + 1 }, (_, i) => i);
   }
 
   maxProjectIndex(): number {
     return Math.max(0, this.projects.length - this.visibleProjectCount);
   }
 
-  projectCarouselTransform(): string {
-    const index = this.carouselIndex();
-    return `translateX(calc(-${index * 25}% - ${index * 4}px))`;
+  submitPhone(phone: string): void {
+    if (phone.trim()) {
+      this.leadCapture.setCustomerPhone(phone.trim());
+      this.showWelcomePopup.set(false);
+    }
   }
 }

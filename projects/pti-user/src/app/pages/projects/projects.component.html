@@ -3,30 +3,36 @@
   <section class="projects-hero">
     <div class="projects-hero__overlay"></div>
     <div class="projects-hero__inner">
-      <div class="projects-hero__text">
-        <h1>DỰ ÁN</h1>
-        <p>Khám phá các dự án bất động sản chất lượng đang được Công ty TNHH &amp; DV PTI HOME phát triển và phân phối</p>
+      <!-- Top row: text + booking button -->
+      <div class="projects-hero__top">
+        <div class="projects-hero__text">
+          <h1>DỰ ÁN</h1>
+          <p>Khám phá các dự án bất động sản chất lượng đang được Công ty TNHH &amp; DV PTI HOME phát triển và phân phối</p>
+        </div>
+        <button class="btn-booking" (click)="showBookingModal = true">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+          Booking ngay
+        </button>
       </div>
+      <!-- Bottom row: stat cards centered -->
       <div class="projects-hero__stats">
-        @for (stat of stats; track stat.label) {
+        @for (stat of stats(); track stat.label) {
           <div class="stat-card">
-            <span class="stat-card__icon" [attr.data-icon]="stat.icon" aria-hidden="true">
-              @switch (stat.icon) {
-                @case ('building') {
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M3 18h14V8l-7-5-7 5v10zm2-8l5-3.5L15 10v6H5v-6z"/></svg>
-                }
-                @case ('map') {
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2C7.24 2 5 4.24 5 7c0 4.5 5 11 5 11s5-6.5 5-11c0-2.76-2.24-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
-                }
-                @case ('chart') {
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M3 15l4-6 3 3 7-10v8H3z"/></svg>
-                }
-                @case ('users') {
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 10a3 3 0 100-6 3 3 0 000 6zm-6 6v-1a5 5 0 0110 0v1H4zm11 0v-1a4 4 0 00-3-3.87A5 5 0 0118 14v2h-3z"/></svg>
-                }
-                @default {
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2l2.2 6.8H19l-5.5 4 2.1 6.7L10 15.5 4.4 19.5l2.1-6.7L1 8.8h6.8L10 2z"/></svg>
-                }
+            <span class="stat-card__icon" aria-hidden="true">
+              @if (stat.icon === 'building') {
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M3 18h14V8l-7-5-7 5v10zm2-8l5-3.5L15 10v6H5v-6z"/></svg>
+              }
+              @if (stat.icon === 'map') {
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2C7.24 2 5 4.24 5 7c0 4.5 5 11 5 11s5-6.5 5-11c0-2.76-2.24-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
+              }
+              @if (stat.icon === 'chart') {
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+              }
+              @if (stat.icon === 'users') {
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 10a3 3 0 100-6 3 3 0 000 6zm-6 6v-1a5 5 0 0110 0v1H4zm11 0v-1a4 4 0 00-3-3.87A5 5 0 0118 14v2h-3z"/></svg>
+              }
+              @if (stat.icon === 'star') {
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
               }
             </span>
             <div>
@@ -38,6 +44,52 @@
       </div>
     </div>
   </section>
+
+  <!-- Booking Modal -->
+  @if (showBookingModal) {
+    <div class="booking-overlay" (click)="closeBookingModal($event)">
+      <div class="booking-modal">
+        <button class="booking-modal__close" (click)="showBookingModal = false">&times;</button>
+        <div class="booking-modal__icon">
+          <svg width="28" height="28" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+        </div>
+        <h3>Booking tham quan dự án</h3>
+        <p>Nhập số điện thoại để được tư vấn viên liên hệ và đặt lịch tham quan miễn phí.</p>
+        @if (!bookingSuccess) {
+          <form (submit)="submitBooking($event)">
+            <div class="booking-modal__field">
+              <label>Họ và tên</label>
+              <input type="text" placeholder="Nguyễn Văn A" [(ngModel)]="bookingName" name="bookingName" required />
+            </div>
+            <div class="booking-modal__field">
+              <label>Số điện thoại *</label>
+              <input type="tel" placeholder="0909 xxx xxx" [(ngModel)]="bookingPhone" name="bookingPhone" required />
+            </div>
+            <div class="booking-modal__field">
+              <label>Dự án quan tâm</label>
+              <select [(ngModel)]="bookingProject" name="bookingProject">
+                <option value="">Chọn dự án...</option>
+                @for (p of allProjects(); track p.id) {
+                  <option [value]="p.name">{{ p.name }}</option>
+                }
+              </select>
+            </div>
+            @if (bookingError) {
+              <p class="booking-modal__error">{{ bookingError }}</p>
+            }
+            <button type="submit" class="booking-modal__submit">Xác nhận Booking</button>
+          </form>
+        } @else {
+          <div class="booking-modal__success">
+            <svg width="48" height="48" viewBox="0 0 20 20" fill="#16a34a"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+            <h4>Booking thành công!</h4>
+            <p>Cảm ơn bạn <strong>{{ bookingName }}</strong>. Tư vấn viên sẽ liên hệ qua số <strong>{{ bookingPhone }}</strong> trong vòng 30 phút.</p>
+            <button class="booking-modal__submit" (click)="showBookingModal = false">Hoàn tất</button>
+          </div>
+        }
+      </div>
+    </div>
+  }
 
   <!-- Main -->
   <div class="projects-main">
