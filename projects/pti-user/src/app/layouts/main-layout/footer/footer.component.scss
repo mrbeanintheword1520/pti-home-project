@@ -2,7 +2,7 @@
 
 .footer {
   box-sizing: border-box;
-  background: #232b2b;
+  background: linear-gradient(135deg, #590303 0%, #020201 100%);
   color: #ffffff;
   border-top: 4px solid #972125;
   font-family: 'Montserrat', sans-serif;
@@ -27,7 +27,7 @@
 ========================= */
 
 .footer__top {
-  background: #232b2b;
+  background: transparent;
   padding: 32px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -133,14 +133,14 @@
 ========================= */
 
 .footer__bottom {
-  background: #232b2b;
-  padding: 40px 0 0;
+  background: transparent;
+  padding: 28px 0 0;
 }
 
 .footer__bottom-content {
   display: grid;
   grid-template-columns: 1.6fr 1fr 1.1fr 1.2fr;
-  gap: 36px;
+  gap: 24px;
   width: 100%;
 }
 

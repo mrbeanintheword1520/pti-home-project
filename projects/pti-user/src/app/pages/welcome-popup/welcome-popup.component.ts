@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomerService } from '../../shared/customer.service';
-import { ConsultationModalService } from '../../pages/consultation/consultation-modal.service';
 
 @Component({
   selector: 'app-welcome-popup',
@@ -13,7 +12,6 @@ import { ConsultationModalService } from '../../pages/consultation/consultation-
 })
 export class WelcomePopupComponent implements OnInit, OnDestroy {
   private customerService = inject(CustomerService);
-  private consultationService = inject(ConsultationModalService);
 
   isVisible = signal(false);
 
@@ -67,6 +65,5 @@ export class WelcomePopupComponent implements OnInit, OnDestroy {
     });
 
     this.close();
-    this.consultationService.open();
   }
 }
