@@ -4,10 +4,10 @@
       <!-- Column 1: Logo & Description -->
       <div class="footer__column footer__column--logo">
         <div class="footer__logo">
-          <img src="PTIGROUP-white.png" alt="PTI Home" class="footer__logo-img" />
+          <img src="PTIGROUP-white.png" [alt]="brand.companyName" class="footer__logo-img" />
         </div>
         <p class="footer__description">
-          PTI Home - Nền tảng bất động sản uy tín, cung cấp giải pháp đầu tư thông minh và những dự án chất lượng hàng đầu.
+          {{ brand.companyName }} – Nền tảng bất động sản uy tín, cung cấp giải pháp đầu tư thông minh và những dự án chất lượng hàng đầu.
         </p>
         <div class="footer__social">
           <!-- Facebook Icon -->
@@ -33,9 +33,9 @@
 
       <!-- Column 2: VỀ PTI HOME -->
       <div class="footer__column">
-        <h4 class="footer__heading">VỀ PTI HOME</h4>
+        <h4 class="footer__heading">VỀ {{ brand.shortName }}</h4>
         <ul class="footer__list">
-          <li><a href="#">Giới thiệu</a></li>
+          <li><a routerLink="/ve-chung-toi">Giới thiệu</a></li>
           <li><a href="#">Tin tức</a></li>
           <li><a href="#">Tuyển dụng</a></li>
           <li><a href="#">Liên hệ</a></li>
@@ -87,7 +87,7 @@
 
     <!-- Copyright -->
     <div class="footer__copyright">
-      <p>© 2024 PTI Home. All rights reserved.</p>
+      <p>© 2024 {{ brand.companyName }}. All rights reserved.</p>
     </div>
   </div>
 </footer>

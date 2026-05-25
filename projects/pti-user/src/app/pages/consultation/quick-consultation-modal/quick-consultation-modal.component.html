@@ -1,0 +1,179 @@
+@if (modal.isOpen()) {
+  <div class="qc-modal-backdrop" (click)="onBackdropClick($event)" role="presentation">
+    <div
+      class="qc-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="qc-modal-title"
+      (click)="$event.stopPropagation()"
+    >
+      <button type="button" class="qc-modal__close" (click)="modal.close()" aria-label="Đóng">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 5l10 10M15 5L5 15"/>
+        </svg>
+      </button>
+
+      <!-- Stepper -->
+      <div class="qc-stepper">
+        @for (s of steps; track s.step; let last = $last) {
+          <div
+            class="qc-stepper__item"
+            [class.qc-stepper__item--active]="modal.currentStep() === s.step"
+            [class.qc-stepper__item--done]="modal.currentStep() > s.step"
+          >
+            <span class="qc-stepper__circle">{{ s.step }}</span>
+            <span class="qc-stepper__label">{{ s.label }}</span>
+          </div>
+          @if (!last) {
+            <span class="qc-stepper__line" [class.qc-stepper__line--done]="modal.currentStep() > s.step"></span>
+          }
+        }
+      </div>
+
+      <!-- Header -->
+      <div class="qc-modal__header">
+        <span class="qc-modal__header-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 6c0-1.1.9-2 2-2h12a2 2 0 012 2v8a2 2 0 01-2 2H9l-5 4V6z" fill="#972125" opacity="0.9"/>
+            <circle cx="9" cy="10" r="1" fill="#fff"/>
+            <circle cx="12" cy="10" r="1" fill="#fff"/>
+            <circle cx="15" cy="10" r="1" fill="#fff"/>
+          </svg>
+        </span>
+        <div>
+          <h2 id="qc-modal-title" class="qc-modal__title">{{ currentStepConfig().title }}</h2>
+          <p class="qc-modal__subtitle">{{ currentStepConfig().subtitle }}</p>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="qc-modal__body">
+        @if (modal.currentStep() < 4) {
+          <div class="qc-options">
+            @for (opt of currentOptions(); track opt.id) {
+              <button
+                type="button"
+                class="qc-option"
+                [class.qc-option--selected]="selectedValue() === opt.id"
+                (click)="selectOption(opt.id)"
+              >
+                <span class="qc-option__icon" [attr.data-icon]="opt.icon" aria-hidden="true">
+                  @switch (opt.icon) {
+                    @case ('home') {
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l8-6 8 6v10a1 1 0 01-1 1H4a1 1 0 01-1-1V9z"/><path d="M9 20V12h4v8"/></svg>
+                    }
+                    @case ('chart') {
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l5-7 4 4 7-10"/><path d="M3 20h16"/></svg>
+                    }
+                    @case ('key') {
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="13" r="4"/><path d="M12 13h7M16 11v4"/></svg>
+                    }
+                    @case ('search') {
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="6"/><path d="M15 15l5 5"/></svg>
+                    }
+                    @case ('wallet') {
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="16" height="12" rx="2"/><path d="M3 10h16M15 14h2"/></svg>
+                    }
+                    @case ('building') {
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="3" width="12" height="18" rx="1"/><path d="M9 7h1M13 7h1M9 11h1M13 11h1M9 15h1M13 15h1"/></svg>
+                    }
+                    @case ('land') {
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 18L11 4l8 14H3z"/></svg>
+                    }
+                    @default {
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M11 8v6M8 11h6"/></svg>
+                    }
+                  }
+                </span>
+                <span class="qc-option__text">
+                  <strong>{{ opt.title }}</strong>
+                  <span>{{ opt.description }}</span>
+                </span>
+                <span class="qc-option__arrow" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4l4 4-4 4"/></svg>
+                </span>
+              </button>
+            }
+          </div>
+        } @else {
+          <form class="qc-form" (ngSubmit)="submit()">
+            <div class="qc-form__group">
+              <label for="qc-name">Họ và tên <span>*</span></label>
+              <input
+                id="qc-name"
+                type="text"
+                placeholder="Nguyễn Văn A"
+                [ngModel]="modal.formData().name"
+                (ngModelChange)="modal.setField('name', $event)"
+                name="name"
+                required
+              />
+            </div>
+            <div class="qc-form__row">
+              <div class="qc-form__group">
+                <label for="qc-phone">Số điện thoại <span>*</span></label>
+                <input
+                  id="qc-phone"
+                  type="tel"
+                  placeholder="0901 234 567"
+                  [ngModel]="modal.formData().phone"
+                  (ngModelChange)="modal.setField('phone', $event)"
+                  name="phone"
+                  required
+                />
+              </div>
+              <div class="qc-form__group">
+                <label for="qc-email">Email</label>
+                <input
+                  id="qc-email"
+                  type="email"
+                  placeholder="email@example.com"
+                  [ngModel]="modal.formData().email"
+                  (ngModelChange)="modal.setField('email', $event)"
+                  name="email"
+                />
+              </div>
+            </div>
+            <div class="qc-form__group">
+              <label for="qc-note">Ghi chú thêm</label>
+              <textarea
+                id="qc-note"
+                rows="3"
+                placeholder="Mô tả thêm nhu cầu của bạn..."
+                [ngModel]="modal.formData().note"
+                (ngModelChange)="modal.setField('note', $event)"
+                name="note"
+              ></textarea>
+            </div>
+          </form>
+        }
+      </div>
+
+      <!-- Footer -->
+      <div class="qc-modal__footer">
+        <p class="qc-modal__privacy">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+            <path d="M7 1L2 3v3c0 3.3 2.2 6.4 5 7 2.8-.6 5-3.7 5-7V3L7 1z"/>
+          </svg>
+          Thông tin của bạn được bảo mật tuyệt đối
+        </p>
+        <div class="qc-modal__actions">
+          @if (modal.currentStep() > 1) {
+            <button type="button" class="qc-btn qc-btn--ghost" (click)="back()">Quay lại</button>
+          }
+          <button
+            type="button"
+            class="qc-btn qc-btn--continue"
+            [disabled]="!canContinue()"
+            (click)="continue()"
+          >
+            {{ modal.currentStep() === 4 ? 'Gửi yêu cầu' : 'Tiếp tục' }}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

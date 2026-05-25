@@ -1,0 +1,172 @@
+<div class="about-page">
+  <!-- Hero -->
+  <section class="about-hero">
+    <div class="about-hero__overlay"></div>
+    <div class="about-hero__inner">
+      <span class="about-hero__badge">VỀ CHÚNG TÔI</span>
+      <h1>{{ brand.companyName }}</h1>
+      <p>{{ brand.tagline }}</p>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="about-section">
+    <div class="about-container about-intro">
+      <div class="about-intro__image">
+        <img src="PTIGROUP.png" [alt]="brand.companyName" />
+      </div>
+      <div class="about-intro__content">
+        <h2>Giới thiệu</h2>
+        <p>
+          {{ brand.companyName }} hoạt động trong lĩnh vực tư vấn, phân phối và phát triển
+          bất động sản với sứ mệnh kết nối nhà đầu tư với những cơ hội giá trị bền vững.
+        </p>
+        <p>
+          Chúng tôi không chỉ cung cấp sản phẩm bất động sản, mà còn mang đến hệ sinh thái
+          dịch vụ toàn diện: phân tích thị trường, công cụ đầu tư thông minh, tư vấn tài chính
+          và hỗ trợ pháp lý – giúp khách hàng ra quyết định an tâm và hiệu quả.
+        </p>
+        <p>{{ brand.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="about-stats">
+    <div class="about-container about-stats__grid">
+      @for (stat of stats; track stat.label) {
+        <div class="about-stat">
+          <strong>{{ stat.value }}</strong>
+          <span>{{ stat.label }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="about-section about-section--light">
+    <div class="about-container">
+      <div class="about-vm">
+        <article class="about-vm__card">
+          <span class="about-vm__icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="14" cy="14" r="10"/><path d="M14 8v6l4 2"/></svg>
+          </span>
+          <h3>Tầm nhìn</h3>
+          <p>
+            Trở thành đối tác bất động sản đáng tin cậy hàng đầu tại Việt Nam, tiên phong
+            ứng dụng công nghệ trong tư vấn và phân tích đầu tư.
+          </p>
+        </article>
+        <article class="about-vm__card">
+          <span class="about-vm__icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6l2-6z"/></svg>
+          </span>
+          <h3>Sứ mệnh</h3>
+          <p>
+            Kiến tạo giá trị bền vững cho khách hàng thông qua dự án chất lượng, dịch vụ
+            chuyên nghiệp và cam kết minh bạch trong mọi giao dịch.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core values -->
+  <section class="about-section">
+    <div class="about-container">
+      <div class="about-section__head">
+        <h2>Giá trị cốt lõi</h2>
+        <p>Những nguyên tắc định hướng mọi hoạt động của {{ brand.shortName }}</p>
+      </div>
+      <div class="about-values">
+        @for (v of values; track v.title) {
+          <article class="about-value">
+            <span class="about-value__icon" aria-hidden="true">
+              @switch (v.icon) {
+                @case ('shield') {
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg>
+                }
+                @case ('people') {
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a5 5 0 015-5h2a5 5 0 015 5v1M16 11a3 3 0 100-6M21 20v-1a4 4 0 00-3-3.87"/></svg>
+                }
+                @case ('layers') {
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l9 5-9 5-9-5 9-5zM3 12l9 5 9-5M3 17l9 5 9-5"/></svg>
+                }
+                @default {
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 18l6-10 4 6 6-10"/></svg>
+                }
+              }
+            </span>
+            <h3>{{ v.title }}</h3>
+            <p>{{ v.description }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="about-section about-section--light">
+    <div class="about-container">
+      <div class="about-section__head">
+        <h2>Hành trình phát triển</h2>
+        <p>Những cột mốc quan trọng trên con đường kiến tạo thịnh vượng</p>
+      </div>
+      <div class="about-timeline">
+        @for (item of milestones; track item.year) {
+          <div class="about-timeline__item">
+            <span class="about-timeline__year">{{ item.year }}</span>
+            <p>{{ item.text }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Why us -->
+  <section class="about-section">
+    <div class="about-container about-why">
+      <div class="about-why__content">
+        <h2>Vì sao chọn {{ brand.shortName }}?</h2>
+        <p>
+          Chúng tôi hiểu rằng mỗi nhà đầu tư có mục tiêu riêng – từ an cư, cho thuê đến
+          gia tăng tài sản dài hạn. {{ brand.companyName }} luôn đặt lợi ích khách hàng lên hàng đầu.
+        </p>
+        <ul>
+          @for (item of whyUs; track item) {
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.5 11.5L3 8l1-1 2.5 2.5L12 4l1 1-6.5 6.5z"/></svg>
+              {{ item }}
+            </li>
+          }
+        </ul>
+        <div class="about-why__actions">
+          <a routerLink="/du-an" class="btn btn--primary">Khám phá dự án</a>
+          <button type="button" class="btn btn--outline" (click)="consultation.open()">Tư vấn ngay</button>
+        </div>
+      </div>
+      <div class="about-why__visual">
+        <img
+          src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=500&fit=crop"
+          alt="Đội ngũ tư vấn bất động sản"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact strip -->
+  <section class="about-contact">
+    <div class="about-container about-contact__inner">
+      <div>
+        <h2>Liên hệ với chúng tôi</h2>
+        <p>40-42 Đường B, KDC Him Lam Phú Đông, P. Đông Hòa, TP. Hồ Chí Minh</p>
+        <p>
+          <a href="tel:1900633368">1900 633 368</a> ·
+          <a href="mailto:contact@ptihome.vn">contact&#64;ptihome.vn</a>
+        </p>
+      </div>
+      <button type="button" class="btn btn--white" (click)="consultation.open()">Đăng ký tư vấn</button>
+    </div>
+  </section>
+</div>
