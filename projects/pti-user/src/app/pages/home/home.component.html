@@ -85,8 +85,9 @@
     </form>
   </div>
 
-  <!-- Market analysis -->
-  <section class="section market">
+  <div class="home-main-content">
+    <!-- Market analysis -->
+    <section class="section market">
     <div class="section__container">
       <div class="section__header">
         <div>
@@ -202,18 +203,6 @@
               <span><i [style.background]="line.color"></i>{{ line.area }}</span>
             }
           </div>
-          <div class="price-summary">
-            @for (item of priceSeriesStats(); track item.area) {
-              <div class="price-summary__item">
-                <span class="price-summary__dot" [style.background]="item.color"></span>
-                <div>
-                  <strong>{{ item.area }}</strong>
-                  <span>{{ item.latestLabel }}</span>
-                </div>
-                <em [class.price-summary__change--down]="!item.isPositive">{{ item.changeLabel }}</em>
-              </div>
-            }
-          </div>
         </div>
 
         <!-- Growth areas -->
@@ -233,64 +222,11 @@
         </div>
       </div>
 
-      <div class="market__bottom">
-        @for (m of metrics; track m.label) {
-          <div class="card card--metric">
-            <span class="card--metric__label">{{ m.label }}</span>
-            <span class="card--metric__value">{{ m.value }}</span>
-            <span class="card--metric__change">{{ m.change }}</span>
-          </div>
-        }
-        <div class="card card--map heatmap-card">
-          <div class="heatmap-card__content">
-            <h3>Bản đồ nhiệt thị trường</h3>
-            <p>Xem mức độ tiềm năng các khu vực</p>
-            <a routerLink="/phan-tich" class="heatmap-card__button">Xem bản đồ</a>
-          </div>
-          <div class="heatmap-preview" aria-hidden="true">
-            <svg viewBox="0 0 260 150" role="img">
-              <defs>
-                <filter id="heatBlur">
-                  <feGaussianBlur stdDeviation="9" />
-                </filter>
-                <radialGradient id="heatRed" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#d71920" stop-opacity="0.86" />
-                  <stop offset="45%" stop-color="#ef4444" stop-opacity="0.42" />
-                  <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
-                </radialGradient>
-                <radialGradient id="heatOrange" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#f97316" stop-opacity="0.7" />
-                  <stop offset="100%" stop-color="#f97316" stop-opacity="0" />
-                </radialGradient>
-              </defs>
-              <rect width="260" height="150" rx="12" fill="#f8fafc" />
-              <path d="M12 116C42 92 68 88 96 96s48 24 80 18 48-28 76-36" stroke="#fbbf24" stroke-width="5" fill="none" opacity="0.65" />
-              <path d="M8 54c38 8 70 4 104-8 40-14 84-10 136 16" stroke="#93c5fd" stroke-width="4" fill="none" opacity="0.55" />
-              <path d="M22 30h54l22 18 42-10 36 28 54-12" stroke="#cbd5e1" stroke-width="2" fill="none" />
-              <path d="M36 136l28-42 42-10 34-42 70-20" stroke="#cbd5e1" stroke-width="2" fill="none" />
-              <path d="M2 82h78l40-18 44 12 94-10" stroke="#cbd5e1" stroke-width="2" fill="none" />
-              <path d="M78 4l24 24-8 24-36 2-18-20z" fill="#dcfce7" opacity="0.75" />
-              <path d="M188 8l48 12-10 30-42-2-18-22z" fill="#bbf7d0" opacity="0.72" />
-              <path d="M176 112l58-10 18 24-32 18-48-8z" fill="#dcfce7" opacity="0.75" />
-              <g filter="url(#heatBlur)">
-                <circle cx="128" cy="78" r="36" fill="url(#heatRed)" />
-                <circle cx="100" cy="54" r="24" fill="url(#heatRed)" />
-                <circle cx="168" cy="56" r="28" fill="url(#heatOrange)" />
-                <circle cx="78" cy="100" r="22" fill="url(#heatOrange)" />
-                <circle cx="184" cy="104" r="26" fill="url(#heatRed)" opacity="0.75" />
-              </g>
-              <circle cx="128" cy="78" r="5" fill="#b91c1c" />
-              <circle cx="168" cy="56" r="4" fill="#f97316" />
-              <circle cx="100" cy="54" r="4" fill="#ef4444" />
-            </svg>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
+    </section>
 
-  <!-- Featured projects -->
-  <section class="section projects">
+    <!-- Featured projects -->
+    <section class="section projects">
     <div class="section__container">
       <div class="section__header">
         <div>
@@ -301,11 +237,17 @@
       </div>
 
       <div class="carousel">
-        <button type="button" class="carousel__nav carousel__nav--prev" (click)="prevProjects()" aria-label="Dự án trước">
+        <button
+          type="button"
+          class="carousel__nav carousel__nav--prev"
+          [disabled]="carouselIndex() === 0"
+          (click)="prevProjects()"
+          aria-label="Dự án trước"
+        >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M12 4l-6 6 6 6"/></svg>
         </button>
         <div class="carousel__track-wrap">
-          <div class="carousel__track" [style.transform]="'translateX(-' + carouselIndex() * 25 + '%)'">
+          <div class="carousel__track" [style.transform]="projectCarouselTransform()">
             @for (project of projects; track project.name) {
               <article class="project-card">
                 <div class="project-card__img-wrap">
@@ -334,15 +276,21 @@
             }
           </div>
         </div>
-        <button type="button" class="carousel__nav carousel__nav--next" (click)="nextProjects()" aria-label="Dự án tiếp">
+        <button
+          type="button"
+          class="carousel__nav carousel__nav--next"
+          [disabled]="carouselIndex() === maxProjectIndex()"
+          (click)="nextProjects()"
+          aria-label="Dự án tiếp"
+        >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M8 4l6 6-6 6"/></svg>
         </button>
       </div>
     </div>
-  </section>
+    </section>
 
-  <!-- Transactions -->
-  <section class="section transactions">
+    <!-- Transactions -->
+    <section class="section transactions">
     <div class="section__container">
       <div class="section__header">
         <div>
@@ -369,10 +317,10 @@
         }
       </div>
     </div>
-  </section>
+    </section>
 
-  <!-- Tools -->
-  <section class="section tools">
+    <!-- Tools -->
+    <section class="section tools">
     <div class="section__container">
       <div class="section__header section__header--center">
         <div>
@@ -412,10 +360,62 @@
         }
       </div>
     </div>
-  </section>
+    </section>
 
-  <!-- CTA -->
-  <section class="cta-banner">
+    <!-- News -->
+    <section class="section news-section">
+      <div class="section__container">
+        <div class="news-heading">
+          <span></span>
+          <h2>Tin Tức</h2>
+          <span></span>
+        </div>
+
+        <div class="news-layout">
+          <div class="news-content">
+            <div class="news-featured">
+              @for (item of featuredNews; track item.title) {
+                <a href="#" class="news-featured__card">
+                  <img [src]="item.image" [alt]="item.title" loading="lazy" />
+                  <div class="news-featured__overlay">
+                    <h3>{{ item.title }}</h3>
+                    <time>{{ item.date }}</time>
+                  </div>
+                </a>
+              }
+            </div>
+
+            <div class="news-list">
+              @for (item of latestNews; track item.title) {
+                <a href="#" class="news-item">
+                  <img [src]="item.image" [alt]="item.title" loading="lazy" />
+                  <div>
+                    <h3>{{ item.title }}</h3>
+                    <time>{{ item.date }}</time>
+                  </div>
+                </a>
+              }
+            </div>
+
+            <div class="news-more-wrap">
+              <a routerLink="/tin-tuc" class="news-more">
+                Xem thêm
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M5 3l4 4-4 4" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <a href="#" class="news-ad" aria-label="Tuyển dụng chuyên viên kinh doanh bất động sản">
+            <img src="/homepage/BANNER-TUYEN-DUNG-NVKD_360X540_50-1.jpg" alt="Tuyển dụng chuyên viên kinh doanh bất động sản" loading="lazy" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
     <div class="cta-banner__inner">
       <div class="cta-banner__text">
         <h2>Tìm kiếm cơ hội đầu tư phù hợp?</h2>
@@ -443,5 +443,6 @@
         </div>
       </div>
     </div>
-  </section>
+    </section>
+  </div>
 </div>

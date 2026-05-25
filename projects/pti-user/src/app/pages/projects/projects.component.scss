@@ -8,7 +8,7 @@ $gray-400: #9ca3af;
 $gray-500: #6b7280;
 $gray-600: #4b5563;
 $gray-800: #1f2937;
-$container: 1216px;
+$container: 1440px;
 
 :host {
   display: block;
@@ -34,9 +34,11 @@ $container: 1216px;
   &__inner {
     position: relative;
     z-index: 1;
+    width: calc(100% - 60px);
     max-width: $container;
     margin: 0 auto;
     padding: 40px 32px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -110,9 +112,11 @@ $container: 1216px;
 
 // Main layout
 .projects-main {
+  width: calc(100% - 60px);
   max-width: $container;
   margin: 0 auto;
-  padding: 28px 32px 48px;
+  padding: 28px 40px 48px;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: 24px;
@@ -606,10 +610,12 @@ $container: 1216px;
 
 @media (max-width: 600px) {
   .projects-hero__inner {
+    width: calc(100% - 32px);
     padding: 28px 20px;
   }
 
   .projects-main {
+    width: calc(100% - 32px);
     padding: 20px;
   }
 

@@ -34,6 +34,13 @@ interface ToolItem {
   link: string;
 }
 
+interface NewsItem {
+  title: string;
+  date: string;
+  image: string;
+  featured?: boolean;
+}
+
 @Component({
   selector: 'app-home',
   imports: [RouterLink],
@@ -48,7 +55,7 @@ export class Home {
   readonly growthAreas = TOP_GROWTH_AREAS;
   readonly metrics = MARKET_METRICS;
 
-  activePricePeriod = signal<(typeof PRICE_PERIODS)[number]>('1Y');
+  activePricePeriod = signal<(typeof PRICE_PERIODS)[number]>('1M');
   readonly selectedPriceTrend = computed(
     () => PRICE_TRENDS[this.activePricePeriod()],
   );
@@ -221,7 +228,64 @@ export class Home {
     },
   ];
 
+  readonly featuredNews: NewsItem[] = [
+    {
+      title: 'Khởi công cầu Mã Đà nối Đồng Nai và Bình Phước vào tháng 6',
+      date: '19/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=640&h=360&fit=crop',
+      featured: true,
+    },
+    {
+      title: 'Tại sao nên mua đất Bombo Bình Phước: Cơ hội đầu tư bất động sản 2025',
+      date: '18/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=640&h=360&fit=crop',
+      featured: true,
+    },
+  ];
+
+  readonly latestNews: NewsItem[] = [
+    {
+      title: 'Những ưu điểm khi sáp nhập Đồng Nai và Bình Phước',
+      date: '19/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'Đất NTS là gì? Tìm hiểu ký hiệu đất NTS cùng Địa Ốc Đất Ngọc',
+      date: '11/04/2025',
+      image:
+        'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'Khởi công cầu Mã Đà nối Đồng Nai và Bình Phước vào tháng 6',
+      date: '19/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1465447142348-e9952c393450?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'Đất NTD là gì? Tìm hiểu chi tiết về loại đất NTD',
+      date: '09/04/2025',
+      image:
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'Xã Bombo: Kỳ vọng trở thành trung tâm đô thị, thương mại và du lịch',
+      date: '19/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'TSC là đất gì? Ký hiệu đất TSC và các quy định sử dụng',
+      date: '02/04/2025',
+      image:
+        'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=240&h=150&fit=crop',
+    },
+  ];
+
   carouselIndex = signal(0);
+  readonly visibleProjectCount = 4;
 
   setPricePeriod(period: (typeof PRICE_PERIODS)[number]): void {
     this.activePricePeriod.set(period);
@@ -313,7 +377,15 @@ export class Home {
   }
 
   nextProjects(): void {
-    const max = Math.max(0, this.projects.length - 4);
-    this.carouselIndex.update((i) => Math.min(max, i + 1));
+    this.carouselIndex.update((i) => Math.min(this.maxProjectIndex(), i + 1));
+  }
+
+  maxProjectIndex(): number {
+    return Math.max(0, this.projects.length - this.visibleProjectCount);
+  }
+
+  projectCarouselTransform(): string {
+    const index = this.carouselIndex();
+    return `translateX(calc(-${index * 25}% - ${index * 4}px))`;
   }
 }

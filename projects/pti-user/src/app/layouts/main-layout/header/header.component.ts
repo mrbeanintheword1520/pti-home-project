@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConsultationModalService } from '../../../pages/consultation/consultation-modal.service';
+import { LeadCaptureService } from '../../../pages/lead-capture/lead-capture.service';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,7 @@ import { ConsultationModalService } from '../../../pages/consultation/consultati
 })
 export class HeaderComponent {
   protected readonly consultation = inject(ConsultationModalService);
+  protected readonly leadCapture = inject(LeadCaptureService);
 
   openConsultation(event: Event): void {
     event.preventDefault();

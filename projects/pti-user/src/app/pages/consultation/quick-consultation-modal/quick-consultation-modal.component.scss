@@ -303,8 +303,7 @@ $gray-800: #1f2937;
       }
     }
 
-    input,
-    textarea {
+    input {
       padding: 10px 14px;
       border: 1px solid $gray-200;
       border-radius: 8px;
@@ -322,11 +321,6 @@ $gray-800: #1f2937;
         border-color: $red;
         box-shadow: 0 0 0 3px rgba(151, 33, 37, 0.1);
       }
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
     }
   }
 }

@@ -92,7 +92,7 @@ export class QuickConsultationModalComponent {
     if (step === 1) return !!data.purpose;
     if (step === 2) return !!data.budget;
     if (step === 3) return !!data.need;
-    if (step === 4) return !!data.name.trim() && !!data.phone.trim();
+    if (step === 4) return !!data.phone.trim();
     return false;
   });
 

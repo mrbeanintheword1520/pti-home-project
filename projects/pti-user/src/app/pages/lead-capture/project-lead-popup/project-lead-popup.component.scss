@@ -1,0 +1,227 @@
+$green: #024d43;
+$gold: #d7bd79;
+$red: #972125;
+$gray: #6b7280;
+$dark: #17312d;
+
+.lead-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.72);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.lead-popup {
+  position: relative;
+  width: min(1120px, 96vw);
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: 1.45fr 0.9fr;
+  border: 1px solid rgba(215, 189, 121, 0.55);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b2e2f;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: #0d4b42;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__visual {
+    min-height: 620px;
+    background: #0b2e2f;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}
+
+.lead-form {
+  align-self: center;
+  margin: 36px 34px 30px 0;
+  padding: 42px 36px 28px;
+  background: rgba(255, 253, 246, 0.96);
+  border-radius: 14px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+
+  h2 {
+    margin: 0 0 18px;
+    text-align: center;
+    text-transform: uppercase;
+    color: $dark;
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  &__benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 22px;
+    display: grid;
+    gap: 12px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: $dark;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    span {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: $green;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(215, 189, 121, 0.8), transparent);
+    margin-bottom: 20px;
+  }
+
+  &__submit {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, #005246, #003d36);
+    color: #f7df9a;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(0, 77, 67, 0.28);
+  }
+
+  &__privacy {
+    margin: 14px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $gray;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+}
+
+.lead-field {
+  display: block;
+  margin-bottom: 16px;
+
+  > span {
+    display: block;
+    margin-bottom: 8px;
+    color: $dark;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  small {
+    display: block;
+    margin-top: 6px;
+    color: $red;
+    font-size: 12px;
+  }
+}
+
+.lead-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #d7d7d2;
+  border-radius: 8px;
+  background: #fff;
+  color: $gray;
+
+  input,
+  select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: $dark;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  select {
+    cursor: pointer;
+  }
+
+  &--error {
+    border-color: $red;
+    box-shadow: 0 0 0 3px rgba(151, 33, 37, 0.08);
+  }
+
+  &--select {
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .lead-popup {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    max-height: 92vh;
+    overflow-y: auto;
+
+    &__visual {
+      min-height: 260px;
+    }
+  }
+
+  .lead-form {
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .lead-popup-backdrop {
+    padding: 12px;
+  }
+
+  .lead-form {
+    padding: 30px 20px 24px;
+
+    h2 {
+      font-size: 22px;
+    }
+  }
+}

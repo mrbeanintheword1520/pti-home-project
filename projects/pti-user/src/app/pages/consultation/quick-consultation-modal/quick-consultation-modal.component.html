@@ -98,7 +98,7 @@
         } @else {
           <form class="qc-form" (ngSubmit)="submit()">
             <div class="qc-form__group">
-              <label for="qc-name">Họ và tên <span>*</span></label>
+              <label for="qc-name">Họ và tên</label>
               <input
                 id="qc-name"
                 type="text"
@@ -106,7 +106,6 @@
                 [ngModel]="modal.formData().name"
                 (ngModelChange)="modal.setField('name', $event)"
                 name="name"
-                required
               />
             </div>
             <div class="qc-form__row">
@@ -133,17 +132,6 @@
                   name="email"
                 />
               </div>
-            </div>
-            <div class="qc-form__group">
-              <label for="qc-note">Ghi chú thêm</label>
-              <textarea
-                id="qc-note"
-                rows="3"
-                placeholder="Mô tả thêm nhu cầu của bạn..."
-                [ngModel]="modal.formData().note"
-                (ngModelChange)="modal.setField('note', $event)"
-                name="note"
-              ></textarea>
             </div>
           </form>
         }
