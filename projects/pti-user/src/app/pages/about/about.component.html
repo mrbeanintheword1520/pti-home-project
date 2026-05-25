@@ -9,64 +9,94 @@
     </div>
   </section>
 
+  <!-- Intro banner -->
+  <section #introBanner class="about-intro-banner" [class.about-intro-banner--open]="isLetterOpen()">
+    <div class="about-container">
+      <div class="about-letter">
+        <div class="about-letter__flap" aria-hidden="true"></div>
+        <img class="about-letter__image" src="/about_us/BANNER-LOI-NGO.jpg" alt="Lời ngỏ PTI HOME" />
+      </div>
+    </div>
+  </section>
+
   <!-- Intro -->
   <section class="about-section">
     <div class="about-container about-intro">
       <div class="about-intro__image">
-        <img src="PTIGROUP.png" [alt]="brand.companyName" />
+        <img src="/about_us/gioi-thieu-pti-home.jpg" alt="Giới thiệu PTI HOME" />
       </div>
       <div class="about-intro__content">
         <h2>Giới thiệu</h2>
         <p>
-          {{ brand.companyName }} hoạt động trong lĩnh vực tư vấn, phân phối và phát triển
-          bất động sản với sứ mệnh kết nối nhà đầu tư với những cơ hội giá trị bền vững.
+          PTI HOME là một trong những đơn vị tiên phong trong lĩnh vực phát triển và phân phối
+          dự án bất động sản, hoạt động với định hướng “Lấy giá trị thật làm gốc – Lấy sự phát
+          triển bền vững làm kim chỉ nam”.
         </p>
         <p>
-          Chúng tôi không chỉ cung cấp sản phẩm bất động sản, mà còn mang đến hệ sinh thái
-          dịch vụ toàn diện: phân tích thị trường, công cụ đầu tư thông minh, tư vấn tài chính
-          và hỗ trợ pháp lý – giúp khách hàng ra quyết định an tâm và hiệu quả.
+          Chúng tôi sở hữu hệ thống vận hành chuyên nghiệp, đội ngũ nhân sự dày dạn kinh nghiệm,
+          tận tâm. Trên hành trình kiến tạo vị thế, PTI HOME không ngừng hoàn thiện năng lực
+          triển khai, mở rộng mạng lưới đối tác và xây dựng hệ sinh thái bất động sản bền vững.
         </p>
-        <p>{{ brand.description }}</p>
+        <p>
+          Chúng tôi không chỉ phân phối mà còn trực tiếp phát triển dự án – từ nghiên cứu thị
+          trường, thiết kế sản phẩm đến chiến lược bán hàng. Mang đến những sản phẩm đúng nhu cầu,
+          pháp lý rõ ràng và tiềm năng sinh lời bền vững cho nhà đầu tư. Cam kết đồng hành cùng
+          đối tác và khách hàng trong hành trình kiến tạo giá trị thực.
+        </p>
       </div>
     </div>
   </section>
 
   <!-- Stats -->
-  <section class="about-stats">
+  <section #statsSection class="about-stats">
     <div class="about-container about-stats__grid">
-      @for (stat of stats; track stat.label) {
+      @for (stat of animatedStats(); track stat.label) {
         <div class="about-stat">
           <strong>{{ stat.value }}</strong>
-          <span>{{ stat.label }}</span>
+          <span [attr.aria-label]="stat.label">{{ stat.animatedLabel }}</span>
         </div>
       }
     </div>
   </section>
 
   <!-- Vision & Mission -->
-  <section class="about-section about-section--light">
+  <section class="about-vm-section">
     <div class="about-container">
       <div class="about-vm">
-        <article class="about-vm__card">
-          <span class="about-vm__icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="14" cy="14" r="10"/><path d="M14 8v6l4 2"/></svg>
-          </span>
-          <h3>Tầm nhìn</h3>
-          <p>
-            Trở thành đối tác bất động sản đáng tin cậy hàng đầu tại Việt Nam, tiên phong
-            ứng dụng công nghệ trong tư vấn và phân tích đầu tư.
-          </p>
-        </article>
-        <article class="about-vm__card">
-          <span class="about-vm__icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6l2-6z"/></svg>
-          </span>
-          <h3>Sứ mệnh</h3>
-          <p>
-            Kiến tạo giá trị bền vững cho khách hàng thông qua dự án chất lượng, dịch vụ
-            chuyên nghiệp và cam kết minh bạch trong mọi giao dịch.
-          </p>
-        </article>
+        <div class="about-vm__logo-wrap">
+          <div class="about-vm__logo-ring">
+            <img src="PTIGROUP.png" alt="PTI HOME" />
+          </div>
+        </div>
+
+        <div class="about-vm__content">
+          <article class="about-vm__item">
+            <h3>Tầm nhìn</h3>
+            <p>
+              Trở thành thương hiệu phát triển và phân phối bất động sản dẫn đầu tại Việt Nam,
+              với khả năng tạo ra các sản phẩm có tính thanh khoản cao, pháp lý minh bạch và
+              gia tăng giá trị theo thời gian.
+            </p>
+          </article>
+
+          <article class="about-vm__item">
+            <h3>Sứ mệnh</h3>
+            <p>
+              Kiến tạo những giá trị đầu tư bền vững thông qua việc phát triển và phân phối các
+              sản phẩm bất động sản có giá trị thực, pháp lý rõ ràng, vị trí chiến lược và tiềm
+              năng sinh lời cao.
+            </p>
+          </article>
+
+          <article class="about-vm__item">
+            <h3>Giá trị cốt lõi</h3>
+            <p>
+              Chúng tôi đặt sự hài lòng và lợi ích của khách hàng là ưu tiên hàng đầu. Mỗi sản
+              phẩm được phân phối đều được nghiên cứu kỹ lưỡng nhằm mang đến giá trị thật và
+              giải pháp đầu tư phù hợp.
+            </p>
+          </article>
+        </div>
       </div>
     </div>
   </section>
@@ -113,12 +143,27 @@
         <p>Những cột mốc quan trọng trên con đường kiến tạo thịnh vượng</p>
       </div>
       <div class="about-timeline">
-        @for (item of milestones; track item.year) {
-          <div class="about-timeline__item">
-            <span class="about-timeline__year">{{ item.year }}</span>
-            <p>{{ item.text }}</p>
-          </div>
-        }
+        <div class="about-timeline__nav" aria-label="Chọn năm trong hành trình phát triển">
+          @for (item of milestones; track item.year; let i = $index) {
+            <button
+              type="button"
+              class="about-timeline__year-btn"
+              [class.about-timeline__year-btn--active]="activeMilestoneIndex() === i"
+              (click)="selectMilestone(i)"
+            >
+              <span class="about-timeline__dot">{{ i + 1 }}</span>
+              <span>
+                <small>Năm</small>
+                {{ item.year }}
+              </span>
+            </button>
+          }
+        </div>
+        <article class="about-timeline__panel" [attr.data-year]="activeMilestone().year">
+          <span class="about-timeline__eyebrow">Cột mốc {{ activeMilestoneIndex() + 1 }}</span>
+          <strong class="about-timeline__year">{{ activeMilestone().year }}</strong>
+          <p>{{ activeMilestone().text }}</p>
+        </article>
       </div>
     </div>
   </section>
@@ -151,6 +196,69 @@
           alt="Đội ngũ tư vấn bất động sản"
           loading="lazy"
         />
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners & social -->
+  <section class="about-partners">
+    <div class="about-container">
+      <div class="about-partners__heading">
+        <span></span>
+        <h2>Đối tác của PTI HOME</h2>
+        <span></span>
+      </div>
+
+      <div class="about-partners__logos">
+        <div class="about-partner-logo">
+          <img src="/about_us/logo-an-gia-1-300x57.webp" alt="An Gia" />
+        </div>
+        <div class="about-partner-logo">
+          <img src="/about_us/logo-the-felix-2025-1-300x124.png" alt="The Felix" />
+        </div>
+        <div class="about-partner-logo">
+          <img src="/about_us/gia-khai-luxury-logo-300x181.png" alt="Gia Khải Luxury" />
+        </div>
+        <div class="about-partner-logo">
+          <img src="/about_us/Charm-Group-logo-300x117.png" alt="Charm Group" />
+        </div>
+      </div>
+    </div>
+
+    <div class="about-social">
+      <div class="about-container">
+        <p class="about-social__title">Trải nghiệm hệ sinh thái mạng xã hội của chúng tôi qua các kênh bên dưới</p>
+        <div class="about-social__grid">
+          <article class="about-social-card">
+            <h3>Dành cho khách hàng</h3>
+            <div class="about-social-card__links">
+              <a class="social-icon" href="https://www.facebook.com/ptihomeBDS" target="_blank" rel="noopener noreferrer" aria-label="Facebook PTI HOME">
+                <img src="/about_us/logo_facebook.png" alt="Facebook" />
+              </a>
+              <a class="social-icon" href="https://www.youtube.com/@PTIHOME9999" target="_blank" rel="noopener noreferrer" aria-label="YouTube PTI HOME">
+                <img src="/about_us/logo_youtube.png" alt="YouTube" />
+              </a>
+              <a class="social-icon" href="https://id.zalo.me/account/login?continue=http%3A%2F%2Fzalo.me%2F0333499999" target="_blank" rel="noopener noreferrer" aria-label="Zalo PTI HOME">
+                <img src="/about_us/logo_zalo.png" alt="Zalo" />
+              </a>
+              <a class="social-icon" href="https://www.tiktok.com/@pti.home6868?lang=vi-VN" target="_blank" rel="noopener noreferrer" aria-label="TikTok PTI HOME">
+                <img src="/about_us/logo_tiktok.png" alt="TikTok" />
+              </a>
+            </div>
+          </article>
+
+          <article class="about-social-card">
+            <h3>Dành cho nhân viên/Ứng viên</h3>
+            <div class="about-social-card__links">
+              <a class="social-icon" href="https://www.facebook.com/ptihometuyendung" target="_blank" rel="noopener noreferrer" aria-label="Facebook tuyển dụng PTI HOME">
+                <img src="/about_us/logo_facebook.png" alt="Facebook" />
+              </a>
+              <a class="social-icon" href="https://www.tiktok.com/@ptihometuyendung" target="_blank" rel="noopener noreferrer" aria-label="TikTok tuyển dụng PTI HOME">
+                <img src="/about_us/logo_tiktok.png" alt="TikTok" />
+              </a>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </section>

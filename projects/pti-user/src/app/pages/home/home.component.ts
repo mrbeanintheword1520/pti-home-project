@@ -54,7 +54,7 @@ export class Home {
   readonly growthAreas = TOP_GROWTH_AREAS;
   readonly metrics = MARKET_METRICS;
 
-  activePricePeriod = signal<(typeof PRICE_PERIODS)[number]>('1Y');
+  activePricePeriod = signal<(typeof PRICE_PERIODS)[number]>('1M');
   readonly selectedPriceTrend = computed(
     () => PRICE_TRENDS[this.activePricePeriod()],
   );
