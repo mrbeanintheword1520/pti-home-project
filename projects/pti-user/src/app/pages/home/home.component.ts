@@ -51,6 +51,35 @@ export class Home {
   readonly selectedPriceTrend = computed(
     () => PRICE_TRENDS[this.activePricePeriod()],
   );
+  readonly priceValueRange = computed(() => {
+    const values = this.selectedPriceTrend().series.flatMap((line) => line.values);
+    const min = Math.floor(Math.min(...values) / 10) * 10;
+    const max = Math.ceil(Math.max(...values) / 10) * 10;
+    return { min, max };
+  });
+  readonly priceYAxisLabels = computed(() => {
+    const { min, max } = this.priceValueRange();
+    const step = (max - min) / 3;
+    return [max, max - step, max - step * 2, min].map((value) =>
+      Math.round(value),
+    );
+  });
+  readonly priceSeriesStats = computed(() =>
+    this.selectedPriceTrend().series.map((line) => {
+      const first = line.values[0];
+      const latest = line.values[line.values.length - 1];
+      const change = ((latest - first) / first) * 100;
+
+      return {
+        area: line.area,
+        color: line.color,
+        latest,
+        latestLabel: `${latest.toFixed(0)} triệu/m²`,
+        changeLabel: `${change >= 0 ? '+' : ''}${change.toFixed(1)}%`,
+        isPositive: change >= 0,
+      };
+    }),
+  );
   readonly marketIndexLinePoints = this.chartPoints(
     this.marketIndex.points.map((p) => p.value),
     280,
@@ -222,6 +251,33 @@ export class Home {
 
   chartLabelX(index: number, total: number, width = 400, padding = 10): number {
     return this.chartDotX(index, total, width, padding);
+  }
+
+  priceChartPoints(values: readonly number[]): string {
+    return values
+      .map((value, index) => {
+        const x = this.priceChartX(index, values.length);
+        const y = this.priceChartY(value);
+        return `${x},${y}`;
+      })
+      .join(' ');
+  }
+
+  priceChartX(index: number, total: number): number {
+    const left = 36;
+    const right = 42;
+    const width = 420;
+    if (total <= 1) return width / 2;
+    return left + (index * (width - left - right)) / (total - 1);
+  }
+
+  priceChartY(value: number): number {
+    const top = 20;
+    const bottom = 30;
+    const height = 150;
+    const { min, max } = this.priceValueRange();
+    const range = max - min || 1;
+    return top + ((max - value) / range) * (height - top - bottom);
   }
 
   private normalizeValues(

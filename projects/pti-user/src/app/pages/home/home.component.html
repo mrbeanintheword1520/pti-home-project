@@ -145,26 +145,53 @@
               }
             </div>
           </div>
-          <svg class="chart-multi" viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true">
-            <text x="18" y="12" class="chart-unit">{{ selectedPriceTrend().unit }}</text>
-            <line x1="18" y1="28" x2="388" y2="28" class="chart-grid-line"/>
-            <line x1="18" y1="58" x2="388" y2="58" class="chart-grid-line"/>
-            <line x1="18" y1="88" x2="388" y2="88" class="chart-grid-line"/>
-            <line x1="18" y1="118" x2="388" y2="118" class="chart-grid-line"/>
+          <svg class="chart-multi" viewBox="0 0 420 158" preserveAspectRatio="none" aria-label="Biểu đồ biến động giá theo khu vực">
+            <text x="36" y="12" class="chart-unit">{{ selectedPriceTrend().unit }}</text>
+            @for (value of priceYAxisLabels(); track value) {
+              <line
+                x1="36"
+                x2="378"
+                [attr.y1]="priceChartY(value)"
+                [attr.y2]="priceChartY(value)"
+                class="chart-grid-line"
+              />
+              <text
+                x="28"
+                [attr.y]="priceChartY(value) + 3"
+                text-anchor="end"
+                class="chart-axis-label"
+              >{{ value }}</text>
+            }
             @for (line of selectedPriceTrend().series; track line.area) {
               <polyline
-                [attr.points]="chartPoints(line.values, 400, 120, 18)"
+                [attr.points]="priceChartPoints(line.values)"
                 fill="none"
                 [attr.stroke]="line.color"
                 stroke-width="2.4"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
+              @for (value of line.values; track $index; let i = $index) {
+                <circle
+                  [attr.cx]="priceChartX(i, line.values.length)"
+                  [attr.cy]="priceChartY(value)"
+                  r="2.8"
+                  fill="#fff"
+                  [attr.stroke]="line.color"
+                  stroke-width="1.7"
+                />
+              }
+              <text
+                [attr.x]="priceChartX(line.values.length - 1, line.values.length) + 6"
+                [attr.y]="priceChartY(line.values[line.values.length - 1]) + 4"
+                [attr.fill]="line.color"
+                class="chart-value-label"
+              >{{ line.values[line.values.length - 1] }}</text>
             }
             @for (label of selectedPriceTrend().labels; track label; let i = $index) {
               <text
-                [attr.x]="chartLabelX(i, selectedPriceTrend().labels.length, 400, 18)"
-                y="136"
+                [attr.x]="priceChartX(i, selectedPriceTrend().labels.length)"
+                y="152"
                 text-anchor="middle"
                 class="chart-axis-label"
               >{{ label }}</text>
@@ -173,6 +200,18 @@
           <div class="chart-legend">
             @for (line of selectedPriceTrend().series; track line.area) {
               <span><i [style.background]="line.color"></i>{{ line.area }}</span>
+            }
+          </div>
+          <div class="price-summary">
+            @for (item of priceSeriesStats(); track item.area) {
+              <div class="price-summary__item">
+                <span class="price-summary__dot" [style.background]="item.color"></span>
+                <div>
+                  <strong>{{ item.area }}</strong>
+                  <span>{{ item.latestLabel }}</span>
+                </div>
+                <em [class.price-summary__change--down]="!item.isPositive">{{ item.changeLabel }}</em>
+              </div>
             }
           </div>
         </div>
@@ -202,18 +241,49 @@
             <span class="card--metric__change">{{ m.change }}</span>
           </div>
         }
-        <div class="card card--map">
-          <h3>Bản đồ nhiệt thị trường</h3>
-          <div class="heatmap-preview">
-            <svg viewBox="0 0 200 120" aria-hidden="true">
-              <rect width="200" height="120" fill="#E5E7EB" rx="8"/>
-              <circle cx="80" cy="50" r="25" fill="#972125" opacity="0.6"/>
-              <circle cx="120" cy="70" r="18" fill="#972125" opacity="0.4"/>
-              <circle cx="60" cy="80" r="15" fill="#972125" opacity="0.5"/>
-              <circle cx="140" cy="40" r="20" fill="#972125" opacity="0.7"/>
+        <div class="card card--map heatmap-card">
+          <div class="heatmap-card__content">
+            <h3>Bản đồ nhiệt thị trường</h3>
+            <p>Xem mức độ tiềm năng các khu vực</p>
+            <a routerLink="/phan-tich" class="heatmap-card__button">Xem bản đồ</a>
+          </div>
+          <div class="heatmap-preview" aria-hidden="true">
+            <svg viewBox="0 0 260 150" role="img">
+              <defs>
+                <filter id="heatBlur">
+                  <feGaussianBlur stdDeviation="9" />
+                </filter>
+                <radialGradient id="heatRed" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#d71920" stop-opacity="0.86" />
+                  <stop offset="45%" stop-color="#ef4444" stop-opacity="0.42" />
+                  <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+                </radialGradient>
+                <radialGradient id="heatOrange" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#f97316" stop-opacity="0.7" />
+                  <stop offset="100%" stop-color="#f97316" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <rect width="260" height="150" rx="12" fill="#f8fafc" />
+              <path d="M12 116C42 92 68 88 96 96s48 24 80 18 48-28 76-36" stroke="#fbbf24" stroke-width="5" fill="none" opacity="0.65" />
+              <path d="M8 54c38 8 70 4 104-8 40-14 84-10 136 16" stroke="#93c5fd" stroke-width="4" fill="none" opacity="0.55" />
+              <path d="M22 30h54l22 18 42-10 36 28 54-12" stroke="#cbd5e1" stroke-width="2" fill="none" />
+              <path d="M36 136l28-42 42-10 34-42 70-20" stroke="#cbd5e1" stroke-width="2" fill="none" />
+              <path d="M2 82h78l40-18 44 12 94-10" stroke="#cbd5e1" stroke-width="2" fill="none" />
+              <path d="M78 4l24 24-8 24-36 2-18-20z" fill="#dcfce7" opacity="0.75" />
+              <path d="M188 8l48 12-10 30-42-2-18-22z" fill="#bbf7d0" opacity="0.72" />
+              <path d="M176 112l58-10 18 24-32 18-48-8z" fill="#dcfce7" opacity="0.75" />
+              <g filter="url(#heatBlur)">
+                <circle cx="128" cy="78" r="36" fill="url(#heatRed)" />
+                <circle cx="100" cy="54" r="24" fill="url(#heatRed)" />
+                <circle cx="168" cy="56" r="28" fill="url(#heatOrange)" />
+                <circle cx="78" cy="100" r="22" fill="url(#heatOrange)" />
+                <circle cx="184" cy="104" r="26" fill="url(#heatRed)" opacity="0.75" />
+              </g>
+              <circle cx="128" cy="78" r="5" fill="#b91c1c" />
+              <circle cx="168" cy="56" r="4" fill="#f97316" />
+              <circle cx="100" cy="54" r="4" fill="#ef4444" />
             </svg>
           </div>
-          <a routerLink="/phan-tich" class="btn btn--outline-sm">Xem bản đồ</a>
         </div>
       </div>
     </div>
