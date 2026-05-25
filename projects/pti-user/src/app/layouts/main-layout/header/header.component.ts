@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ConsultationModalService } from '../../../pages/consultation/consultation-modal.service';
 
 @Component({
   selector: 'app-header',
@@ -8,4 +9,11 @@ import { RouterModule } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  protected readonly consultation = inject(ConsultationModalService);
+
+  openConsultation(event: Event): void {
+    event.preventDefault();
+    this.consultation.open();
+  }
+}

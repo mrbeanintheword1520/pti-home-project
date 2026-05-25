@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { BRAND } from '../../../shared/brand';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
 })
-export class Footer {}
+export class Footer {
+  protected readonly brand = BRAND;
+}

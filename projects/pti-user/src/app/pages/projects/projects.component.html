@@ -1,0 +1,268 @@
+<div class="projects-page">
+  <!-- Hero -->
+  <section class="projects-hero">
+    <div class="projects-hero__overlay"></div>
+    <div class="projects-hero__inner">
+      <div class="projects-hero__text">
+        <h1>DỰ ÁN</h1>
+        <p>Khám phá các dự án bất động sản chất lượng đang được Công ty TNHH &amp; DV PTI HOME phát triển và phân phối</p>
+      </div>
+      <div class="projects-hero__stats">
+        @for (stat of stats; track stat.label) {
+          <div class="stat-card">
+            <span class="stat-card__icon" [attr.data-icon]="stat.icon" aria-hidden="true">
+              @switch (stat.icon) {
+                @case ('building') {
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M3 18h14V8l-7-5-7 5v10zm2-8l5-3.5L15 10v6H5v-6z"/></svg>
+                }
+                @case ('map') {
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2C7.24 2 5 4.24 5 7c0 4.5 5 11 5 11s5-6.5 5-11c0-2.76-2.24-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/></svg>
+                }
+                @case ('chart') {
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M3 15l4-6 3 3 7-10v8H3z"/></svg>
+                }
+                @case ('users') {
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 10a3 3 0 100-6 3 3 0 000 6zm-6 6v-1a5 5 0 0110 0v1H4zm11 0v-1a4 4 0 00-3-3.87A5 5 0 0118 14v2h-3z"/></svg>
+                }
+                @default {
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2l2.2 6.8H19l-5.5 4 2.1 6.7L10 15.5 4.4 19.5l2.1-6.7L1 8.8h6.8L10 2z"/></svg>
+                }
+              }
+            </span>
+            <div>
+              <span class="stat-card__label">{{ stat.label }}</span>
+              <strong>{{ stat.value }}</strong>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <div class="projects-main">
+    <!-- Sidebar -->
+    <aside class="projects-sidebar">
+      <div class="projects-sidebar__head">
+        <h2>BỘ LỌC</h2>
+        <button type="button" class="projects-sidebar__clear" (click)="clearFilters()">Xóa bộ lọc</button>
+      </div>
+
+      <div class="filter-group">
+        <label>Tìm kiếm dự án</label>
+        <input
+          type="text"
+          placeholder="Nhập tên dự án, khu vực..."
+          [ngModel]="filters().search"
+          (ngModelChange)="updateFilter('search', $event)"
+        />
+      </div>
+
+      <div class="filter-group">
+        <label>Khu vực</label>
+        <select [ngModel]="filters().area" (ngModelChange)="updateFilter('area', $event)">
+          @for (area of areaOptions; track area) {
+            <option [value]="area">{{ area }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Khoảng giá</label>
+        <select [ngModel]="filters().priceRange" (ngModelChange)="updateFilter('priceRange', $event)">
+          @for (price of priceOptions; track price) {
+            <option [value]="price">{{ price }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group__title">Loại hình</span>
+        @for (cat of filterCategories; track cat.id) {
+          <label class="filter-check">
+            <input
+              type="checkbox"
+              [checked]="isCategoryChecked(cat.id)"
+              (change)="toggleFilterCategory(cat.id)"
+            />
+            {{ cat.label }}
+          </label>
+        }
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group__title">Trạng thái dự án</span>
+        @for (st of statusFilters; track st.id) {
+          <label class="filter-check">
+            <input
+              type="checkbox"
+              [checked]="isStatusChecked(st.id)"
+              (change)="toggleFilterStatus(st.id)"
+            />
+            {{ st.label }}
+          </label>
+        }
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group__title">Tiện ích nổi bật</span>
+        @for (amenity of amenityFilters; track amenity) {
+          <label class="filter-check">
+            <input
+              type="checkbox"
+              [checked]="isAmenityChecked(amenity)"
+              (change)="toggleAmenity(amenity)"
+            />
+            {{ amenity }}
+          </label>
+        }
+      </div>
+
+      <button type="button" class="btn-apply" (click)="applyFilters()">Áp dụng bộ lọc</button>
+    </aside>
+
+    <!-- Content -->
+    <div class="projects-content">
+      <!-- Category tabs -->
+      <div class="category-tabs">
+        @for (tab of tabs; track tab.id) {
+          <button
+            type="button"
+            class="category-tabs__item"
+            [class.category-tabs__item--active]="activeTab() === tab.id"
+            (click)="setTab(tab.id)"
+          >
+            @switch (tab.icon) {
+              @case ('grid') {
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="11" y="1" width="6" height="6" rx="1"/><rect x="1" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg>
+              }
+              @case ('building') {
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 16h12V7l-6-4-6 4v9z"/></svg>
+              }
+              @case ('land') {
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 15L9 3l7 12H2z"/></svg>
+              }
+              @case ('house') {
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 9l7-6 7 6v7H2V9z"/></svg>
+              }
+              @default {
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="6" r="3"/><path d="M3 16c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+              }
+            }
+            {{ tab.label }}
+          </button>
+        }
+      </div>
+
+      <!-- Toolbar -->
+      <div class="projects-toolbar">
+        <h2>Tất cả dự án ({{ totalCount() }})</h2>
+        <div class="projects-toolbar__actions">
+          <select [ngModel]="sortBy()" (ngModelChange)="sortBy.set($event)">
+            @for (opt of sortOptions; track opt) {
+              <option [value]="opt">Sắp xếp: {{ opt }}</option>
+            }
+          </select>
+          <div class="view-toggle">
+            <button
+              type="button"
+              [class.view-toggle__btn--active]="viewMode() === 'grid'"
+              (click)="viewMode.set('grid')"
+              aria-label="Xem dạng lưới"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="11" y="1" width="6" height="6" rx="1"/><rect x="1" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg>
+            </button>
+            <button
+              type="button"
+              [class.view-toggle__btn--active]="viewMode() === 'list'"
+              (click)="viewMode.set('list')"
+              aria-label="Xem dạng danh sách"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><rect x="1" y="2" width="16" height="3" rx="1"/><rect x="1" y="8" width="16" height="3" rx="1"/><rect x="1" y="14" width="16" height="3" rx="1"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      @if (pagedProjects().length) {
+        <div class="projects-grid" [class.projects-grid--list]="viewMode() === 'list'">
+          @for (project of pagedProjects(); track project.id) {
+            <article class="project-card" [class.project-card--list]="viewMode() === 'list'">
+              <div class="project-card__media">
+                <img [src]="project.image" [alt]="project.name" loading="lazy" />
+                <span class="project-card__badge project-card__badge--{{ project.status }}">
+                  {{ statusLabels[project.status] }}
+                </span>
+                <button
+                  type="button"
+                  class="project-card__fav"
+                  [class.project-card__fav--active]="isFavorite(project.id)"
+                  (click)="toggleFavorite(project.id, $event)"
+                  aria-label="Yêu thích"
+                >
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9 15.5l-1.1-1C4.14 11.36 2 9.28 2 6.5 2 4.5 3.5 3 5.5 3c1.12 0 2.2.53 2.9 1.36L9 5.09l.6-.73C10.3 3.53 11.38 3 12.5 3 14.5 3 16 4.5 16 6.5c0 2.78-2.14 4.86-5.9 7.9L9 15.5z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="project-card__body">
+                <h3>{{ project.name }}</h3>
+                <p class="project-card__desc">{{ project.description }}</p>
+                <p class="project-card__location">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+                    <path d="M6 0C3.79 0 2 1.79 2 4c0 3 4 8 4 8s4-5 4-8c0-2.21-1.79-4-4-4zm0 5.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/>
+                  </svg>
+                  {{ project.location }} · {{ project.classification }}
+                </p>
+                <p class="project-card__price">Giá từ <strong>{{ project.price }}</strong></p>
+                <div class="project-card__stats">
+                  <div>
+                    <span>Tiềm năng tăng giá</span>
+                    <strong class="text-green">{{ project.growthPotential }}</strong>
+                  </div>
+                  <div>
+                    <span>Tỷ suất lợi nhuận</span>
+                    <strong class="text-green">{{ project.profitRate }}</strong>
+                  </div>
+                </div>
+                <a href="#" class="project-card__link">
+                  Xem chi tiết
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg>
+                </a>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="projects-empty">
+          <p>Không tìm thấy dự án phù hợp. Hãy thử điều chỉnh bộ lọc.</p>
+        </div>
+      }
+
+      <!-- Pagination -->
+      @if (totalPages() > 1) {
+        <nav class="pagination" aria-label="Phân trang">
+          <button type="button" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 4l-4 4 4 4"/></svg>
+          </button>
+          @for (p of pageNumbers(); track $index) {
+            @if (p === 'ellipsis') {
+              <span class="pagination__ellipsis">...</span>
+            } @else {
+              <button
+                type="button"
+                class="pagination__page"
+                [class.pagination__page--active]="currentPage() === p"
+                (click)="goToPage(p)"
+              >{{ p }}</button>
+            }
+          }
+          <button type="button" [disabled]="currentPage() === totalPages()" (click)="goToPage(currentPage() + 1)">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4l4 4-4 4"/></svg>
+          </button>
+        </nav>
+      }
+    </div>
+  </div>
+</div>
