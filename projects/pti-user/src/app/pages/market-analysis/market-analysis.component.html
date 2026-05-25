@@ -1,0 +1,589 @@
+<div class="market-analysis-container">
+  <!-- Top Section: Header & Cards -->
+  <div class="top-section">
+    <div class="header">
+      <div class="header-left">
+        <div class="sub-heading">PTI HOME MARKET INSIGHTS</div>
+        <h1>TRUNG TÂM PHÂN TÍCH &<br>THEO DÕI THỊ TRƯỜNG</h1>
+        <p>Cập nhật biến động thị trường bất động sản nhanh chóng,<br>chính xác và trực quan</p>
+      </div>
+      <div class="header-right">
+        <div class="update-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          <span>Cập nhật lúc {{ currentTime | date:'hh:mm a - dd/MM/yyyy' }}</span>
+        </div>
+        <button class="btn-download-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+          </svg>
+          Tải báo cáo thị trường
+        </button>
+      </div>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stat-cards">
+      <div class="card stat-card">
+        <div class="card-title">
+          <span>ĐỘ NÓNG THỊ TRƯỜNG</span>
+          <div class="icon red">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z">
+              </path>
+            </svg>
+          </div>
+        </div>
+        <div class="card-value">
+          <span class="number">78</span><span class="unit">/100</span>
+        </div>
+        <div class="card-growth">
+          Tăng <span class="text-red">11 điểm</span> so với tuần trước
+        </div>
+        <div class="card-chart">
+          <!-- Mock sparkline -->
+          <svg width="100%" height="80" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <path d="M0,60 L10,50 L20,70 L30,40 L40,30 L50,45 L60,10 L70,25 L80,30 L90,10 L100,0" fill="none"
+              stroke="#ff4d4f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 -5px 8px #ff4d4f);" />
+            <g fill="#ff4d4f" style="filter: drop-shadow(0 -2px 5px #ff4d4f);">
+              <circle cx="0" cy="60" r="1.5" />
+              <circle cx="10" cy="50" r="1.5" />
+              <circle cx="20" cy="70" r="1.5" />
+              <circle cx="30" cy="40" r="1.5" />
+              <circle cx="40" cy="30" r="1.5" />
+              <circle cx="50" cy="45" r="1.5" />
+              <circle cx="60" cy="10" r="1.5" />
+              <circle cx="70" cy="25" r="1.5" />
+              <circle cx="80" cy="30" r="1.5" />
+              <circle cx="90" cy="10" r="1.5" />
+              <circle cx="100" cy="0" r="1.5" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div class="card-title">
+          <span>CHỈ SỐ QUAN TÂM ĐẦU TƯ</span>
+          <div class="icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="card-value">
+          <span class="number">124,215</span>
+        </div>
+        <div class="card-growth">
+          Tăng <span class="positive">18.7%</span> so với tuần trước
+        </div>
+        <div class="card-chart">
+          <svg width="100%" height="80" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <path d="M0,70 L10,60 L20,55 L30,60 L40,40 L50,30 L60,50 L70,35 L80,15 L90,20 L100,5" fill="none"
+              stroke="#52c41a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 -5px 8px #52c41a);" />
+            <g fill="#52c41a" style="filter: drop-shadow(0 -2px 5px #52c41a);">
+              <circle cx="0" cy="70" r="1.5" />
+              <circle cx="10" cy="60" r="1.5" />
+              <circle cx="20" cy="55" r="1.5" />
+              <circle cx="30" cy="60" r="1.5" />
+              <circle cx="40" cy="40" r="1.5" />
+              <circle cx="50" cy="30" r="1.5" />
+              <circle cx="60" cy="50" r="1.5" />
+              <circle cx="70" cy="35" r="1.5" />
+              <circle cx="80" cy="15" r="1.5" />
+              <circle cx="90" cy="20" r="1.5" />
+              <circle cx="100" cy="5" r="1.5" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div class="card-title">
+          <span>LƯỢNG TÌM KIẾM</span>
+          <div class="icon blue">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+        </div>
+        <div class="card-value">
+          <span class="number">32,658</span>
+        </div>
+        <div class="card-growth">
+          Tăng <span class="text-blue">24.5%</span> so với tuần trước
+        </div>
+        <div class="card-chart">
+          <svg width="100%" height="80" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <path d="M0,60 L10,65 L20,55 L30,45 L40,55 L50,35 L60,25 L70,30 L80,15 L90,5 L100,15" fill="none"
+              stroke="#1890ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 -5px 8px #1890ff);" />
+            <g fill="#1890ff" style="filter: drop-shadow(0 -2px 5px #1890ff);">
+              <circle cx="0" cy="60" r="1.5" />
+              <circle cx="10" cy="65" r="1.5" />
+              <circle cx="20" cy="55" r="1.5" />
+              <circle cx="30" cy="45" r="1.5" />
+              <circle cx="40" cy="55" r="1.5" />
+              <circle cx="50" cy="35" r="1.5" />
+              <circle cx="60" cy="25" r="1.5" />
+              <circle cx="70" cy="30" r="1.5" />
+              <circle cx="80" cy="15" r="1.5" />
+              <circle cx="90" cy="5" r="1.5" />
+              <circle cx="100" cy="15" r="1.5" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div class="card-title">
+          <span>TỶ SUẤT LỢI NHUẬN TB</span>
+          <div class="icon purple">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+              <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+          </div>
+        </div>
+        <div class="card-value">
+          <span class="number">12.4%</span><span class="unit"> /năm</span>
+        </div>
+        <div class="card-growth">
+          Tăng <span class="text-purple">1.6%</span> so với tháng trước
+        </div>
+        <div class="card-chart">
+          <svg width="100%" height="80" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <path d="M0,70 L20,55 L40,60 L60,40 L80,25 L100,10" fill="none" stroke="#722ed1" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"
+              style="filter: drop-shadow(0 -5px 8px #722ed1);" />
+            <g fill="#722ed1" style="filter: drop-shadow(0 -2px 5px #722ed1);">
+              <circle cx="0" cy="70" r="1.5" />
+              <circle cx="20" cy="55" r="1.5" />
+              <circle cx="40" cy="60" r="1.5" />
+              <circle cx="60" cy="40" r="1.5" />
+              <circle cx="80" cy="25" r="1.5" />
+              <circle cx="100" cy="10" r="1.5" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div class="card-title">
+          <span>NGUỒN CUNG MỚI</span>
+          <div class="icon orange">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+              <path d="M9 22v-4h6v4"></path>
+              <path d="M8 6h.01"></path>
+              <path d="M16 6h.01"></path>
+              <path d="M12 6h.01"></path>
+              <path d="M12 10h.01"></path>
+              <path d="M12 14h.01"></path>
+              <path d="M16 10h.01"></path>
+              <path d="M16 14h.01"></path>
+              <path d="M8 10h.01"></path>
+              <path d="M8 14h.01"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="card-value">
+          <span class="number">2,450</span>
+        </div>
+        <div class="card-growth">
+          Tăng <span class="text-orange">12.3%</span> so với tháng trước
+        </div>
+        <div class="card-chart">
+          <svg width="100%" height="80" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <path d="M0,75 L10,65 L20,60 L30,65 L40,45 L50,55 L60,30 L70,40 L80,15 L90,20 L100,5" fill="none"
+              stroke="#fa8c16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 -5px 8px #fa8c16);" />
+            <g fill="#fa8c16" style="filter: drop-shadow(0 -2px 5px #fa8c16);">
+              <circle cx="0" cy="75" r="1.5" />
+              <circle cx="10" cy="65" r="1.5" />
+              <circle cx="20" cy="60" r="1.5" />
+              <circle cx="30" cy="65" r="1.5" />
+              <circle cx="40" cy="45" r="1.5" />
+              <circle cx="50" cy="55" r="1.5" />
+              <circle cx="60" cy="30" r="1.5" />
+              <circle cx="70" cy="40" r="1.5" />
+              <circle cx="80" cy="15" r="1.5" />
+              <circle cx="90" cy="20" r="1.5" />
+              <circle cx="100" cy="5" r="1.5" />
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Section: Dashboard content -->
+  <div class="bottom-section">
+
+    <!-- Filters Row (Floating above tabs) -->
+    <div class="filters-wrapper">
+      <div class="filters-left">
+        <select class="form-select">
+          <option>Toàn quốc</option>
+        </select>
+        <select class="form-select">
+          <option>Chọn khu vực</option>
+        </select>
+
+        <div class="btn-group">
+          <button class="btn-outline">7 ngày</button>
+          <button class="btn-outline active">1 tháng</button>
+          <button class="btn-outline">3 tháng</button>
+          <button class="btn-outline">6 tháng</button>
+          <button class="btn-outline">1 năm</button>
+        </div>
+      </div>
+
+      <div class="filters-right">
+        <button class="btn-outline">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="4" y1="21" x2="4" y2="14" />
+            <line x1="4" y1="10" x2="4" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12" y2="3" />
+            <line x1="20" y1="21" x2="20" y2="16" />
+            <line x1="20" y1="12" x2="20" y2="3" />
+            <line x1="1" y1="14" x2="7" y2="14" />
+            <line x1="9" y1="8" x2="15" y2="8" />
+            <line x1="17" y1="16" x2="23" y2="16" />
+          </svg>
+          Tùy chỉnh chỉ số
+        </button>
+      </div>
+    </div>
+
+    <!-- Centered Tabs -->
+    <div class="tabs-wrapper">
+      <div class="tabs">
+        <a *ngFor="let tab of tabs" [class.active]="tab.active" (click)="selectTab(tab.id)" href="javascript:void(0)">
+          {{ tab.label }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Dashboard Grid Layout -->
+    <div class="dashboard-grid">
+      <!-- Chart 1 -->
+      <div class="dashboard-card panel-chart-1">
+        <div class="panel-header">
+          <h3>BIẾN ĐỘNG GIÁ THEO KHU VỰC</h3>
+          <div class="panel-actions">
+            <span class="unit">Đơn vị: Triệu/m²</span>
+          </div>
+        </div>
+        <div class="chart-mockup line-chart">
+          <div style="position: relative; flex: 1; width: 100%; min-height: 220px;">
+            <canvas id="priceChart"></canvas>
+          </div>
+          <div class="legend">
+            <div class="legend-item"><span class="dot" style="background: #f5222d"></span> TP. Thủ Đức <span
+                class="growth positive">+18.7%</span></div>
+            <div class="legend-item"><span class="dot" style="background: #fa8c16"></span> Quận 7 <span
+                class="growth positive">+15.3%</span></div>
+            <div class="legend-item"><span class="dot" style="background: #52c41a"></span> Bình Chánh <span
+                class="growth positive">+12.1%</span></div>
+            <div class="legend-item"><span class="dot" style="background: #1890ff"></span> Nhà Bè <span
+                class="growth positive">+10.2%</span></div>
+            <div class="legend-item"><span class="dot" style="background: #722ed1"></span> Dĩ An <span
+                class="growth positive">+9.8%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 2 -->
+      <div class="dashboard-card panel-chart-2">
+        <div class="panel-header">
+          <h3>MỨC ĐỘ QUAN TÂM THEO THỜI GIAN</h3>
+          <div class="panel-actions">
+            <div class="time-pills">
+              <span class="active">1M</span>
+              <span>3M</span>
+              <span>6M</span>
+              <span>1Y</span>
+            </div>
+          </div>
+        </div>
+        <div class="big-number">
+          124,215
+          <div class="growth positive">+18.7% so với tuần trước</div>
+        </div>
+        <div class="chart-mockup area-chart">
+          <div style="position: relative; flex: 1; width: 100%; min-height: 220px;">
+            <canvas id="viewsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="dashboard-card panel-map">
+        <div class="panel-header">
+          <h3>BẢN ĐỒ NHIỆT THỊ TRƯỜNG</h3>
+        </div>
+        <div class="map-container">
+          <!-- Leaflet Interactive Map -->
+          <div id="marketMap" style="width: 100%; height: 100%; z-index: 1; position: absolute; top: 0; left: 0;"></div>
+
+          <div class="map-popup" style="top: 20px; left: 20px;">
+            <h4>Hóc Môn</h4>
+            <div class="popup-stats">
+              <div class="stat">
+                <span class="val red">78<small>/100</small></span>
+                <span class="lbl">Độ nóng</span>
+              </div>
+              <div class="stat">
+                <span class="val green">+18.7%</span>
+                <span class="lbl">So với tuần trước</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="map-popup" style="top: 150px; left: 280px;">
+            <h4>TP. Thủ Đức</h4>
+            <div class="popup-stats">
+              <div class="stat">
+                <span class="val red">85<small>/100</small></span>
+                <span class="lbl">Độ nóng</span>
+              </div>
+              <div class="stat">
+                <span class="val green">+15.3%</span>
+                <span class="lbl">So với tuần trước</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="map-popup" style="top: 250px; left: 50px;">
+            <h4>Bình Chánh</h4>
+            <div class="popup-stats">
+              <div class="stat">
+                <span class="val red">65<small>/100</small></span>
+                <span class="lbl">Độ nóng</span>
+              </div>
+              <div class="stat">
+                <span class="val green">+12.1%</span>
+                <span class="lbl">So với tuần trước</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="map-popup" style="bottom: 50px; right: 80px; top: auto; left: auto;">
+            <h4>Quận 7</h4>
+            <div class="popup-stats">
+              <div class="stat">
+                <span class="val red">72<small>/100</small></span>
+                <span class="lbl">Độ nóng</span>
+              </div>
+              <div class="stat">
+                <span class="val green">+10.5%</span>
+                <span class="lbl">So với tuần trước</span>
+              </div>
+            </div>
+          </div>
+          <div class="map-legend">
+            <span>Thấp</span>
+            <div class="gradient-bar"></div>
+            <span>Cao</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stacked-lists">
+        <!-- List 1 -->
+        <div class="dashboard-card panel-list-1">
+          <div class="panel-header">
+            <h3>KHU VỰC TĂNG TRƯỞNG NHANH NHẤT</h3>
+          </div>
+          <div class="list-table">
+            <table>
+              <tr *ngFor="let item of fastestGrowingAreas">
+                <td width="30" class="text-muted">{{ item.rank }}</td>
+                <td width="50"><img [src]="item.img" alt="Location" class="img-thumb round" /></td>
+                <td class="font-medium">{{ item.name }}</td>
+                <td class="text-right positive">{{ item.growth }}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="panel-footer">
+            <a href="#">Xem bảng xếp hạng đầy đủ →</a>
+          </div>
+        </div>
+
+        <!-- List 3 -->
+        <div class="dashboard-card panel-list-3">
+          <div class="panel-header">
+            <h3>BẢNG XẾP HẠNG KHU VỰC TIỀM NĂNG</h3>
+            <a href="#" class="link-action">Xem phương pháp tính</a>
+          </div>
+          <div class="list-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Khu vực</th>
+                  <th class="text-center">Tiềm năng đầu tư</th>
+                  <th class="text-center">Độ nóng</th>
+                  <th class="text-right">Tăng trưởng giá</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of potentialRanking">
+                  <td class="text-muted">{{ item.rank }}</td>
+                  <td class="font-medium">{{ item.name }}</td>
+                  <td class="text-center">{{ item.potential }}/100</td>
+                  <td class="text-center">{{ item.heat }}/100</td>
+                  <td class="text-right positive">{{ item.priceGrowth }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel-footer">
+            <a href="#">Xem bảng xếp hạng đầy đủ →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- List 2 -->
+      <div class="dashboard-card panel-list-2">
+        <div class="panel-header">
+          <h3>TOP DỰ ÁN ĐƯỢC QUAN TÂM NHIỀU NHẤT</h3>
+          <span class="subtitle">Cập nhật 20/05/2024</span>
+        </div>
+        <div class="featured-project-grid">
+          <div class="project-card" *ngFor="let item of topProjects; let i = index" [class.featured]="i === 0" (click)="openProjectModal(item, false)" style="cursor: pointer;">
+            <div class="project-img-wrapper">
+              <img [src]="item.img" alt="Project" class="project-img" />
+            </div>
+            <div class="project-info">
+              <div class="proj-tags" *ngIf="i !== 0">
+                <span class="tag-loc">{{ item.shortLoc }}</span>
+                <span class="tag-status">Đang bán</span>
+              </div>
+
+              <div class="proj-name">{{ item.name }}</div>
+
+              <!-- Featured (Large) Card Details -->
+              <div class="proj-details" *ngIf="i === 0">
+                <div class="proj-desc" *ngIf="item.desc" [innerHTML]="item.desc"></div>
+                <div class="detail-row">
+                  <span>Vị trí</span>
+                  <span>{{ item.location }}</span>
+                </div>
+                <div class="detail-row">
+                  <span>Lượt quan tâm</span>
+                  <span>{{ item.views }} lượt</span>
+                </div>
+                <div class="detail-row">
+                  <span>Tăng trưởng</span>
+                  <span class="positive">{{ item.growth }}</span>
+                </div>
+              </div>
+
+              <!-- Smaller Card Details -->
+              <div class="proj-stats" *ngIf="i !== 0">
+                <div class="price">Giá liên hệ</div>
+                <div class="proj-desc-small">{{ item.desc }}</div>
+                <div class="specs">
+                  <span>{{ item.views }} lượt quan tâm</span> • <span class="positive">{{ item.growth }}</span>
+                </div>
+              </div>
+
+              <button class="btn-outline" (click)="$event.stopPropagation(); openProjectModal(item, true)">Nhận báo giá ngay</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <a href="#">Xem tất cả dự án →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Bottom Banner -->
+    <div class="sticky-banner" [class.hidden]="isBannerHidden">
+      <div class="banner-content">
+        <div class="banner-left">
+          <div class="banner-icon shake-animation">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="banner-text">
+            <h4>Cập nhật thị trường bất động sản hàng tuần</h4>
+            <p>Theo dõi xu hướng, phân tích chuyên sâu và cơ hội đầu tư tiềm năng</p>
+          </div>
+        </div>
+        <div class="banner-right">
+          <input type="tel" placeholder="Nhập số điện thoại của bạn" class="form-input">
+          <button class="btn-primary">Nhận tư vấn ngay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Project Details -->
+<div class="modal-overlay" *ngIf="selectedProject" (click)="closeProjectModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeProjectModal()">&times;</button>
+    
+    <ng-container *ngIf="!showFormOnly">
+      <div class="modal-header">
+        <img [src]="selectedProject.img" alt="Project Image" class="modal-img">
+        <h3 style="font-family: 'Montserrat', sans-serif !important;">{{ selectedProject.name }}</h3>
+        <p class="modal-loc" style="font-family: 'Montserrat', sans-serif !important;">{{ selectedProject.location }}</p>
+      </div>
+    </ng-container>
+
+    <div class="modal-body" [class.form-only]="showFormOnly">
+      <ng-container *ngIf="!showFormOnly">
+        <div class="modal-desc" [innerHTML]="selectedProject.desc" style="font-family: 'Montserrat', sans-serif !important;"></div>
+        <div class="modal-stats" style="font-family: 'Montserrat', sans-serif !important; flex-wrap: wrap;">
+          <div class="stat-box" style="flex-basis: 100%; margin-bottom: 10px;">
+            <span class="lbl">Vị trí chính xác</span>
+            <span class="val" style="font-size: 14px; color: #444; white-space: normal;">{{ selectedProject.location }}</span>
+          </div>
+          <div class="stat-box">
+            <span class="lbl">Lượt quan tâm</span>
+            <span class="val">{{ selectedProject.views }}</span>
+          </div>
+          <div class="stat-box">
+            <span class="lbl">Tăng trưởng</span>
+            <span class="val positive">{{ selectedProject.growth }}</span>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="consultation-form" style="font-family: 'Montserrat', sans-serif !important;">
+        <h4 style="font-family: 'Montserrat', sans-serif !important;">Nhận tư vấn ngay {{ showFormOnly ? 'cho ' + selectedProject.name : '' }}</h4>
+        <p style="font-family: 'Montserrat', sans-serif !important;">Để lại số điện thoại, chuyên viên của chúng tôi sẽ liên hệ với bạn trong 5 phút.</p>
+        <div class="input-group">
+          <input type="tel" placeholder="Nhập số điện thoại..." class="form-input" [(ngModel)]="phoneNumber" style="font-family: 'Montserrat', sans-serif !important;">
+          <button class="btn-primary" (click)="submitConsultation()" style="font-family: 'Montserrat', sans-serif !important;">Tiến hành tư vấn</button>
+        </div>
+        <p class="success-msg" *ngIf="isSubmitted" style="font-family: 'Montserrat', sans-serif !important;">Đã gửi yêu cầu tư vấn thành công! Chúng tôi sẽ sớm liên hệ cho bạn.</p>
+      </div>
+    </div>
+  </div>
+</div>

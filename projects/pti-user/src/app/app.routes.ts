@@ -7,7 +7,8 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: '', component: Home, pathMatch: 'full' }
+      { path: '', component: Home, pathMatch: 'full' },
+      { path: 'phan-tich-thi-truong', loadComponent: () => import('./pages/market-analysis/market-analysis.component').then(m => m.MarketAnalysisComponent) }
     ]
   },
   { path: '**', redirectTo: '' }
