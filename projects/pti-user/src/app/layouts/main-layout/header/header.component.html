@@ -11,13 +11,22 @@
       <a routerLink="/du-an" routerLinkActive="active" class="nav-link">Dự án</a>
       <a routerLink="/phan-tich-thi-truong" routerLinkActive="active" class="nav-link">Phân tích thị trường</a>
       <a routerLink="/cong-cu" routerLinkActive="active" class="nav-link">Công cụ đầu tư</a>
+      <a routerLink="/ban-do-du-an" routerLinkActive="active" class="nav-link">Bản đồ dự án</a>
       <a routerLink="/tin-tuc" routerLinkActive="active" class="nav-link">Tin tức</a>
       <a routerLink="/ve-chung-toi" routerLinkActive="active" class="nav-link">Về chúng tôi</a>
     </nav>
 
     <!-- Actions -->
     <div class="actions">
-      <a routerLink="/login" class="login-link">Đăng nhập</a>
+      @if (leadCapture.customerPhone()) {
+        <span class="customer-phone">{{ leadCapture.customerPhone() }}</span>
+      }
+      <button type="button" class="search-button" aria-label="Tìm kiếm">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="8" cy="8" r="5" />
+          <path d="M12 12l4 4" />
+        </svg>
+      </button>
       <a href="#" class="cta-button" (click)="openConsultation($event)">Tư vấn ngay</a>
     </div>
   </div>
