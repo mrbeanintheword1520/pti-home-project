@@ -278,7 +278,7 @@ $container: 1216px;
 
 // Sections
 .section {
-  padding: 56px 0;
+  padding: 28px 0;
 
   &__container {
     max-width: $container;
@@ -291,7 +291,7 @@ $container: 1216px;
     justify-content: space-between;
     align-items: flex-start;
     gap: 24px;
-    margin-bottom: 28px;
+    margin-bottom: 16px;
 
     &--center {
       justify-content: center;
@@ -381,15 +381,68 @@ $container: 1216px;
 
 // Market
 .market {
-  padding-top: 48px;
+  padding-top: 24px;
 
   &__top {
     display: grid;
     grid-template-columns: 1fr 1.4fr 1fr;
     gap: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
+}
+
+.market-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.market-metric-card {
+  min-height: 142px;
+  padding: 28px 30px;
+  border: 1px solid $gray-100;
+  border-radius: $radius;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(31, 41, 55, 0.05);
+
+  h3 {
+    margin: 0 0 20px;
+    color: $gray-600;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 14px;
+    color: #111827;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #22c55e;
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+
+.projects {
+  padding-top: 12px;
+  padding-bottom: 10px;
+}
+
+.transactions {
+  padding-top: 10px;
 }
 
 .market-index {
@@ -566,8 +619,8 @@ $container: 1216px;
   &__track-wrap {
     overflow: hidden;
     flex: 1;
-    padding: 18px 4px 24px;
-    margin: -18px -4px -24px;
+    padding: 10px 4px 12px;
+    margin: -10px -4px -12px;
   }
 
   &__track {
@@ -774,23 +827,40 @@ $container: 1216px;
   border-radius: $radius;
   border: 1px solid $gray-100;
   text-decoration: none;
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s, border-color 0.2s;
 
   &:hover {
+    transform: translateY(-4px);
     box-shadow: $shadow;
     border-color: rgba(151, 33, 37, 0.2);
+
+    .tool-item__icon {
+      background: linear-gradient(145deg, $red, $red-dark);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 14px 30px rgba(151, 33, 37, 0.24);
+    }
   }
 
   &__icon {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 56px;
     height: 56px;
-    border-radius: 12px;
-    border: 1.5px solid $red;
+    border-radius: 18px;
+    border: 1px solid rgba(151, 33, 37, 0.18);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.85), transparent 34%),
+      linear-gradient(145deg, rgba(151, 33, 37, 0.08), rgba(151, 33, 37, 0.02));
     color: $red;
     margin-bottom: 14px;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+    svg {
+      filter: drop-shadow(0 4px 10px rgba(151, 33, 37, 0.12));
+    }
   }
 
   h3 {
@@ -1044,6 +1114,10 @@ $container: 1216px;
     }
   }
 
+  .market-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .transactions__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1108,6 +1182,10 @@ $container: 1216px;
 
   .card--wide {
     grid-column: span 1 !important;
+  }
+
+  .market-metrics {
+    grid-template-columns: 1fr;
   }
 
   .transactions__grid,
