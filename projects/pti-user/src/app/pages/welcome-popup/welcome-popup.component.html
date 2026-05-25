@@ -1,0 +1,97 @@
+@if (isVisible()) {
+  <div class="welcome-popup">
+    <div class="welcome-popup__backdrop"></div>
+    
+    <!-- Nút đóng - góc trên phải -->
+    <button class="welcome-popup__close" (click)="close()" aria-label="Đóng">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <div class="welcome-popup__container">
+      <!-- Khối ảnh bên trái - 58% -->
+      <div class="welcome-popup__image-section">
+        <img src="images/pop-up.png" alt="PTI Home" class="welcome-popup__image" />
+      </div>
+
+      <!-- Khối form bên phải - 42% -->
+      <div class="welcome-popup__form-section">
+        <div class="welcome-popup__form-card">
+          <h3 class="welcome-popup__title">Đăng ký tư vấn miễn phí</h3>
+          
+          <ul class="welcome-popup__benefits">
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#972125"/>
+                <path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Tư vấn miễn phí 1-1 với chuyên gia
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#972125"/>
+                <path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Cập nhật thông tin dự án sớm nhất
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#972125"/>
+                <path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Hỗ trợ thủ tục pháp lý chu đáo
+            </li>
+          </ul>
+
+          <form class="welcome-popup__form" (ngSubmit)="onSubmit()">
+            <div class="welcome-popup__field">
+              <label>Số điện thoại</label>
+              <input
+                type="tel"
+                [(ngModel)]="formData.phone"
+                name="phone"
+                placeholder="Nhập số điện thoại *"
+                required
+              />
+            </div>
+
+            <div class="welcome-popup__field">
+              <label>Họ và tên</label>
+              <input
+                type="text"
+                [(ngModel)]="formData.name"
+                name="name"
+                placeholder="Nhập họ và tên của bạn"
+              />
+            </div>
+
+            <div class="welcome-popup__field">
+              <label>Email</label>
+              <input
+                type="email"
+                [(ngModel)]="formData.email"
+                name="email"
+                placeholder="Nhập email của bạn"
+              />
+            </div>
+
+            <div class="welcome-popup__field">
+              <label>Loại bất động sản quan tâm</label>
+              <select [(ngModel)]="formData.interest" name="interest">
+                <option value="">Chọn loại bất động sản</option>
+                @for (opt of interestOptions; track opt.value) {
+                  <option [value]="opt.value">{{ opt.label }}</option>
+                }
+              </select>
+            </div>
+
+            <button type="submit" class="welcome-popup__submit">
+              Đăng ký ngay
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+}

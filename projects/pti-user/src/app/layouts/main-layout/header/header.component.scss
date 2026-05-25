@@ -99,10 +99,21 @@
     line-height: 20px;
     color: #4B5563;
     text-decoration: none;
-    
+    display: flex;
+    align-items: center;
+    gap: 6px;
     transition: color 0.3s ease;
 
     &:hover {
+      color: #972125;
+    }
+  }
+
+  .user-phone {
+    color: #972125;
+    font-weight: 600;
+
+    svg {
       color: #972125;
     }
   }
@@ -115,7 +126,7 @@
     line-height: 20px;
     color: #FFFFFF;
     text-decoration: none;
-    
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -127,7 +138,7 @@
     transition: background 0.3s ease;
 
     &:hover {
-      background: #7a1b1e; 
+      background: #7a1b1e;
     }
   }
 }

@@ -1,93 +1,135 @@
 <footer class="footer">
-  <div class="footer__container">
-    <div class="footer__content">
-      <!-- Column 1: Logo & Description -->
-      <div class="footer__column footer__column--logo">
-        <div class="footer__logo">
-          <img src="PTIGROUP-white.png" [alt]="brand.companyName" class="footer__logo-img" />
+  <div class="footer__top">
+    <div class="footer__container">
+      <div class="footer__top-content">
+        <div class="footer__brand">
+          <img src="PTIGROUP-white.png" alt="PTI Home" class="footer__logo-img" />
+          <p class="footer__brand-desc">
+            PTI HOME là một trong những đơn vị tiên phong trong lĩnh vực phát triển và phân phối dự án bất động sản, hoạt động với định hướng "Lấy giá trị thật làm gốc – Lấy sự phát triển bền vững làm kim chỉ nam".
+          </p>
         </div>
-        <p class="footer__description">
-          {{ brand.companyName }} – Nền tảng bất động sản uy tín, cung cấp giải pháp đầu tư thông minh và những dự án chất lượng hàng đầu.
-        </p>
-        <div class="footer__social">
-          <!-- Facebook Icon -->
-          <a href="#" class="footer__social-link" aria-label="Facebook">
-            <svg width="17" height="16" viewBox="0 0 17 16" fill="currentColor">
-              <path d="M10.25 5.5H11.5V4C11.5 3.17 11.83 2.52 13 2.52H14V0.84C14 0.8 13.88 0.78 13.72 0.78C12.5 0.78 11.5 1.05 10.63 2.08C10.24 2.57 10.06 3.16 10 3.7H8V5.5H10.25ZM8.5 16C6.29 16 4.5 14.21 4.5 12C4.5 9.79 6.29 8 8.5 8C10.71 8 12.5 9.79 12.5 12C12.5 14.21 10.71 16 8.5 16Z"/>
-            </svg>
-          </a>
-          <!-- YouTube Icon -->
-          <a href="#" class="footer__social-link" aria-label="YouTube">
-            <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
-              <path d="M16.36 2.03C16.44 2.39 16.5 2.96 16.5 3.74C16.5 4.52 16.44 5.09 16.36 5.45C16.28 5.81 16.13 6.15 15.91 6.45C15.69 6.75 15.42 7 15.1 7.2C14.78 7.4 14.41 7.54 14 7.62C13.57 7.7 13.12 7.75 12.64 7.75H4.36C3.88 7.75 3.43 7.7 3 7.62C2.59 7.54 2.22 7.4 1.9 7.2C1.58 7 1.31 6.75 1.09 6.45C0.87 6.15 0.72 5.81 0.64 5.45C0.56 5.09 0.5 4.52 0.5 3.74C0.5 2.96 0.56 2.39 0.64 2.03C0.72 1.67 0.87 1.33 1.09 1.03C1.31 0.73 1.58 0.48 1.9 0.28C2.22 0.08 2.59 -0.06 3 -0.14C3.43 -0.22 3.88 -0.27 4.36 -0.27H12.64C13.12 -0.27 13.57 -0.22 14 -0.14C14.41 -0.06 14.78 0.08 15.1 0.28C15.42 0.48 15.69 0.73 15.91 1.03C16.13 1.33 16.28 1.67 16.36 2.03ZM6.86 9.45V3.03L11.14 6.24L6.86 9.45Z"/>
-            </svg>
-          </a>
-          <!-- LinkedIn Icon -->
-          <a href="#" class="footer__social-link" aria-label="LinkedIn">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-              <path d="M12.25 0H1.75C0.79 0 0 0.79 0 1.75V12.25C0 13.21 0.79 14 1.75 14H12.25C13.21 14 14 13.21 14 12.25V1.75C14 0.79 13.21 0 12.25 0ZM4.44 11.2H2.5V5.6H4.44V11.2ZM3.47 4.72C2.76 4.72 2.18 4.14 2.18 3.43C2.18 2.72 2.76 2.14 3.47 2.14C4.18 2.14 4.76 2.72 4.76 3.43C4.76 4.14 4.18 4.72 3.47 4.72ZM11.5 11.2H9.56V8.36C9.56 7.63 9.53 6.69 8.56 6.69C7.56 6.69 7.39 7.5 7.39 8.36V11.2H5.45V5.6H7.33V6.4H7.36C7.63 5.86 8.35 5.26 9.41 5.26C11.37 5.26 11.5 6.5 11.5 8.07V11.2Z"/>
-            </svg>
-          </a>
+
+        <div class="footer__contact-row">
+          <div class="footer__contact-item">
+            <div class="footer__contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+              </svg>
+            </div>
+            <div class="footer__contact-info">
+              <span class="footer__contact-label">Hotline</span>
+              <a href="tel:19001881" class="footer__contact-value">1900 1881</a>
+            </div>
+          </div>
+
+          <div class="footer__contact-item">
+            <div class="footer__contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="footer__contact-info">
+              <span class="footer__contact-label">Hỗ trợ khách hàng</span>
+              <a href="https://trogiup.batdongsan.com.vn" class="footer__contact-value">
+                trogiup.batdongsan.com.vn
+              </a>
+            </div>
+          </div>
+
+          <div class="footer__contact-item">
+            <div class="footer__contact-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+            </div>
+            <div class="footer__contact-info">
+              <span class="footer__contact-label">Chăm sóc khách hàng</span>
+              <a href="mailto:hotro@batdongsan.com.vn" class="footer__contact-value">
+                hotro&#64;batdongsan.com.vn
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <!-- Column 2: VỀ PTI HOME -->
-      <div class="footer__column">
-        <h4 class="footer__heading">VỀ {{ brand.shortName }}</h4>
-        <ul class="footer__list">
-          <li><a routerLink="/ve-chung-toi">Giới thiệu</a></li>
-          <li><a href="#">Tin tức</a></li>
-          <li><a href="#">Tuyển dụng</a></li>
-          <li><a href="#">Liên hệ</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 3: DỰ ÁN & CÔNG CỤ -->
-      <div class="footer__column">
-        <h4 class="footer__heading">DỰ ÁN & CÔNG CỤ</h4>
-        <ul class="footer__list">
-          <li><a href="#">Dự án đang mở bán</a></li>
-          <li><a href="#">Dự án sắp triển khai</a></li>
-          <li><a href="#">Công cụ phân tích</a></li>
-          <li><a href="#">Công cụ tài chính</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 4: LIÊN HỆ VỚI CHÚNG TÔI -->
-      <div class="footer__column footer__column--contact">
-        <h4 class="footer__heading">LIÊN HỆ VỚI CHÚNG TÔI</h4>
-        <ul class="footer__contact-list">
-          <li class="footer__contact-item">
-            <span class="footer__contact-icon">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                <path d="M12.5 10.3L10.5 8.3C10.3 8.1 10.1 8 9.8 8H6.5C5.7 8 5 7.3 5 6.5V3.2C5 2.9 5.1 2.7 5.3 2.5L7.3 0.5C7.5 0.3 7.7 0.2 8 0.2H11.5C11.8 0.2 12 0.3 12.2 0.5L14 2.3C14.2 2.5 14.3 2.7 14.3 3C14.3 5.8 12.1 8.3 12.5 10.3ZM6.5 6.5H8.5L1.5 13.5C1.2 13.8 0.8 13.8 0.5 13.5C0.2 13.2 0.2 12.8 0.5 12.5L6.5 6.5Z"/>
-              </svg>
-            </span>
-            <span>1900 633 368</span>
-          </li>
-          <li class="footer__contact-item">
-            <span class="footer__contact-icon">
-              <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor">
-                <path d="M12.6 0H1.4C0.7 0 0 0.3 0 1V9C0 9.7 0.7 10 1.4 10H12.6C13.3 10 14 9.7 14 9V1C14 0.3 13.3 0 12.6 0ZM7 6.5C7 6.8 6.8 7 6.5 7H1.5C1.2 7 1 6.8 1 6.5V2C1 1.7 1.2 1.5 1.5 1.5H6.5C6.8 1.5 7 1.7 7 2V6.5ZM13 6.5C13 6.8 12.8 7 12.5 7H8.5C8.2 7 8 6.8 8 6.5V4L12.6 8.2C12.9 8.5 13.3 8.5 13.6 8.2L13 7.6V6.5Z"/>
-              </svg>
-            </span>
-            <span>contact&#64;ptihome.vn</span>
-          </li>
-          <li class="footer__contact-item footer__contact-item--address">
-            <span class="footer__contact-icon">
-              <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor">
-                <path d="M5 0C2.24 0 0 2.24 0 5C0 8.5 5 14 5 14C5 14 10 8.5 10 5C10 2.24 7.76 0 5 0ZM5 7C4.17 7 3.5 6.33 3.5 5.5C3.5 4.67 4.17 4 5 4C5.83 4 6.5 4.67 6.5 5.5C6.5 6.33 5.83 7 5 7Z"/>
-              </svg>
-            </span>
-            <span>40-42 Đường B, KDC Him Lam Phú Đông, P. Đông Hòa, Thành phố Hồ Chí Minh.</span>
-          </li>
-        </ul>
       </div>
     </div>
+  </div>
 
-    <!-- Copyright -->
-    <div class="footer__copyright">
-      <p>© 2024 {{ brand.companyName }}. All rights reserved.</p>
+  <div class="footer__bottom">
+    <div class="footer__container">
+      <div class="footer__bottom-content">
+        <div class="footer__column">
+          <h4 class="footer__heading">CÔNG TY TNHH ĐẦU TƯ VÀ DỊCH VỤ PTI HOME</h4>
+          <ul class="footer__list">
+            <li class="footer__address">
+              <span class="footer__address-label">Vị trí Văn Phòng:</span>
+              <span class="footer__address-value">
+                40-42 Đường B, KDC Him Lam Phú Đông, P. Đông Hòa, Thành phố Hồ Chí Minh.
+              </span>
+            </li>
+            <li class="footer__address">
+              <span class="footer__address-label">Hotline:</span>
+              <a href="tel:0333499999" class="footer__address-value footer__address-link">
+                0333.49.9999
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__column">
+          <h4 class="footer__heading">PTI HOME</h4>
+          <ul class="footer__list">
+            <li><a href="#">Về chúng tôi</a></li>
+            <li><a href="#">Báo giá và hỗ trợ</a></li>
+            <li><a href="#">Câu hỏi thường gặp</a></li>
+            <li><a href="#">Góp ý báo lỗi</a></li>
+            <li><a href="#">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__column">
+          <h4 class="footer__heading">DỰ ÁN NỔI BẬT</h4>
+          <ul class="footer__project-list">
+            <li><a href="#">Vinhomes Saigon Park</a></li>
+            <li><a href="#">Gia Khải Luxury</a></li>
+            <li><a href="#">The Seahorse Central</a></li>
+            <li><a href="#">Lan Anh Avenue</a></li>
+            <li><a href="#">The Infinity Dĩ An</a></li>
+            <li><a href="#">The Felix Bình Dương</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__column footer__column--subscribe">
+          <h4 class="footer__heading">ĐĂNG KÝ NHẬN TIN</h4>
+
+          <div class="footer__subscribe-form">
+            <input
+              type="email"
+              placeholder="Nhập email của bạn"
+              class="footer__subscribe-input"
+            />
+            <button class="footer__subscribe-btn" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" />
+              </svg>
+            </button>
+          </div>
+
+          <h4 class="footer__heading footer__heading--lang">QUỐC GIA & NGÔN NGỮ</h4>
+
+          <div class="footer__language-select">
+            <select class="footer__language-dropdown">
+              <option value="vi">Tiếng Việt</option>
+              <option value="en">English</option>
+              <option value="zh">中文</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__copyright">
+        <p>&#169; 2024 PTI Home. All rights reserved.</p>
+      </div>
     </div>
   </div>
 </footer>
