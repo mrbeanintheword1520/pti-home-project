@@ -1,21 +1,19 @@
 <header class="pti-header">
   <div class="pti-container">
-    <!-- Logo -->
     <a routerLink="/" class="logo">
       <img src="PTIGROUP.png" alt="Công ty TNHH &amp; DV PTI HOME" />
     </a>
 
-    <!-- Navigation -->
     <nav class="navigation">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Trang chủ</a>
       <a routerLink="/du-an" routerLinkActive="active" class="nav-link">Dự án</a>
-      <a routerLink="/phan-tich" routerLinkActive="active" class="nav-link">Phân tích thị trường</a>
+      <a routerLink="/phan-tich-thi-truong" routerLinkActive="active" class="nav-link">Phân tích thị trường</a>
       <a routerLink="/cong-cu" routerLinkActive="active" class="nav-link">Công cụ đầu tư</a>
+      <a routerLink="/ban-do-du-an" routerLinkActive="active" class="nav-link">Bản đồ dự án</a>
       <a routerLink="/tin-tuc" routerLinkActive="active" class="nav-link">Tin tức</a>
       <a routerLink="/ve-chung-toi" routerLinkActive="active" class="nav-link">Về chúng tôi</a>
     </nav>
 
-    <!-- Actions -->
     <div class="actions">
       @if (customerService.hasCustomer()) {
         <a href="tel:{{ customerService.customer()?.phone }}" class="login-link user-phone">

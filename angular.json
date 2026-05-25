@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -62,7 +63,8 @@
               {
                 "glob": "**/*",
                 "input": "projects/pti-user/public"
-              }
+              },
+              "projects/pti-user/src/assets"
             ],
             "styles": ["projects/pti-user/src/styles.scss"]
           },
@@ -76,8 +78,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "12kB",
-                  "maximumError": "20kB"
+                  "maximumWarning": "25kB",
+                  "maximumError": "50kB"
                 }
               ],
               "outputHashing": "all"

@@ -85,8 +85,9 @@
     </form>
   </div>
 
-  <!-- Market analysis -->
-  <section class="section market">
+  <div class="home-main-content">
+    <!-- Market analysis -->
+    <section class="section market">
     <div class="section__container">
       <div class="section__header">
         <div>
@@ -145,26 +146,53 @@
               }
             </div>
           </div>
-          <svg class="chart-multi" viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true">
-            <text x="18" y="12" class="chart-unit">{{ selectedPriceTrend().unit }}</text>
-            <line x1="18" y1="28" x2="388" y2="28" class="chart-grid-line"/>
-            <line x1="18" y1="58" x2="388" y2="58" class="chart-grid-line"/>
-            <line x1="18" y1="88" x2="388" y2="88" class="chart-grid-line"/>
-            <line x1="18" y1="118" x2="388" y2="118" class="chart-grid-line"/>
+          <svg class="chart-multi" viewBox="0 0 420 158" preserveAspectRatio="none" aria-label="Biểu đồ biến động giá theo khu vực">
+            <text x="36" y="12" class="chart-unit">{{ selectedPriceTrend().unit }}</text>
+            @for (value of priceYAxisLabels(); track value) {
+              <line
+                x1="36"
+                x2="378"
+                [attr.y1]="priceChartY(value)"
+                [attr.y2]="priceChartY(value)"
+                class="chart-grid-line"
+              />
+              <text
+                x="28"
+                [attr.y]="priceChartY(value) + 3"
+                text-anchor="end"
+                class="chart-axis-label"
+              >{{ value }}</text>
+            }
             @for (line of selectedPriceTrend().series; track line.area) {
               <polyline
-                [attr.points]="chartPoints(line.values, 400, 120, 18)"
+                [attr.points]="priceChartPoints(line.values)"
                 fill="none"
                 [attr.stroke]="line.color"
                 stroke-width="2.4"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
+              @for (value of line.values; track $index; let i = $index) {
+                <circle
+                  [attr.cx]="priceChartX(i, line.values.length)"
+                  [attr.cy]="priceChartY(value)"
+                  r="2.8"
+                  fill="#fff"
+                  [attr.stroke]="line.color"
+                  stroke-width="1.7"
+                />
+              }
+              <text
+                [attr.x]="priceChartX(line.values.length - 1, line.values.length) + 6"
+                [attr.y]="priceChartY(line.values[line.values.length - 1]) + 4"
+                [attr.fill]="line.color"
+                class="chart-value-label"
+              >{{ line.values[line.values.length - 1] }}</text>
             }
             @for (label of selectedPriceTrend().labels; track label; let i = $index) {
               <text
-                [attr.x]="chartLabelX(i, selectedPriceTrend().labels.length, 400, 18)"
-                y="136"
+                [attr.x]="priceChartX(i, selectedPriceTrend().labels.length)"
+                y="152"
                 text-anchor="middle"
                 class="chart-axis-label"
               >{{ label }}</text>
@@ -194,33 +222,11 @@
         </div>
       </div>
 
-      <div class="market__bottom">
-        @for (m of metrics; track m.label) {
-          <div class="card card--metric">
-            <span class="card--metric__label">{{ m.label }}</span>
-            <span class="card--metric__value">{{ m.value }}</span>
-            <span class="card--metric__change">{{ m.change }}</span>
-          </div>
-        }
-        <div class="card card--map">
-          <h3>Bản đồ nhiệt thị trường</h3>
-          <div class="heatmap-preview">
-            <svg viewBox="0 0 200 120" aria-hidden="true">
-              <rect width="200" height="120" fill="#E5E7EB" rx="8"/>
-              <circle cx="80" cy="50" r="25" fill="#972125" opacity="0.6"/>
-              <circle cx="120" cy="70" r="18" fill="#972125" opacity="0.4"/>
-              <circle cx="60" cy="80" r="15" fill="#972125" opacity="0.5"/>
-              <circle cx="140" cy="40" r="20" fill="#972125" opacity="0.7"/>
-            </svg>
-          </div>
-          <a routerLink="/phan-tich" class="btn btn--outline-sm">Xem bản đồ</a>
-        </div>
-      </div>
     </div>
-  </section>
+    </section>
 
-  <!-- Featured projects -->
-  <section class="section projects">
+    <!-- Featured projects -->
+    <section class="section projects">
     <div class="section__container">
       <div class="section__header">
         <div>
@@ -231,11 +237,17 @@
       </div>
 
       <div class="carousel">
-        <button type="button" class="carousel__nav carousel__nav--prev" (click)="prevProjects()" aria-label="Dự án trước">
+        <button
+          type="button"
+          class="carousel__nav carousel__nav--prev"
+          [disabled]="carouselIndex() === 0"
+          (click)="prevProjects()"
+          aria-label="Dự án trước"
+        >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M12 4l-6 6 6 6"/></svg>
         </button>
         <div class="carousel__track-wrap">
-          <div class="carousel__track" [style.transform]="'translateX(-' + carouselIndex() * 25 + '%)'">
+          <div class="carousel__track" [style.transform]="projectCarouselTransform()">
             @for (project of projects; track project.name) {
               <article class="project-card">
                 <div class="project-card__img-wrap">
@@ -264,15 +276,21 @@
             }
           </div>
         </div>
-        <button type="button" class="carousel__nav carousel__nav--next" (click)="nextProjects()" aria-label="Dự án tiếp">
+        <button
+          type="button"
+          class="carousel__nav carousel__nav--next"
+          [disabled]="carouselIndex() === maxProjectIndex()"
+          (click)="nextProjects()"
+          aria-label="Dự án tiếp"
+        >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M8 4l6 6-6 6"/></svg>
         </button>
       </div>
     </div>
-  </section>
+    </section>
 
-  <!-- Transactions -->
-  <section class="section transactions">
+    <!-- Transactions -->
+    <section class="section transactions">
     <div class="section__container">
       <div class="section__header">
         <div>
@@ -299,10 +317,10 @@
         }
       </div>
     </div>
-  </section>
+    </section>
 
-  <!-- Tools -->
-  <section class="section tools">
+    <!-- Tools -->
+    <section class="section tools">
     <div class="section__container">
       <div class="section__header section__header--center">
         <div>
@@ -342,10 +360,62 @@
         }
       </div>
     </div>
-  </section>
+    </section>
 
-  <!-- CTA -->
-  <section class="cta-banner">
+    <!-- News -->
+    <section class="section news-section">
+      <div class="section__container">
+        <div class="news-heading">
+          <span></span>
+          <h2>Tin Tức</h2>
+          <span></span>
+        </div>
+
+        <div class="news-layout">
+          <div class="news-content">
+            <div class="news-featured">
+              @for (item of featuredNews; track item.title) {
+                <a href="#" class="news-featured__card">
+                  <img [src]="item.image" [alt]="item.title" loading="lazy" />
+                  <div class="news-featured__overlay">
+                    <h3>{{ item.title }}</h3>
+                    <time>{{ item.date }}</time>
+                  </div>
+                </a>
+              }
+            </div>
+
+            <div class="news-list">
+              @for (item of latestNews; track item.title) {
+                <a href="#" class="news-item">
+                  <img [src]="item.image" [alt]="item.title" loading="lazy" />
+                  <div>
+                    <h3>{{ item.title }}</h3>
+                    <time>{{ item.date }}</time>
+                  </div>
+                </a>
+              }
+            </div>
+
+            <div class="news-more-wrap">
+              <a routerLink="/tin-tuc" class="news-more">
+                Xem thêm
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M5 3l4 4-4 4" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <a href="#" class="news-ad" aria-label="Tuyển dụng chuyên viên kinh doanh bất động sản">
+            <img src="/homepage/BANNER-TUYEN-DUNG-NVKD_360X540_50-1.jpg" alt="Tuyển dụng chuyên viên kinh doanh bất động sản" loading="lazy" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
     <div class="cta-banner__inner">
       <div class="cta-banner__text">
         <h2>Tìm kiếm cơ hội đầu tư phù hợp?</h2>
@@ -373,5 +443,6 @@
         </div>
       </div>
     </div>
-  </section>
+    </section>
+  </div>
 </div>

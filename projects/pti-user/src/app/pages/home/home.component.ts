@@ -33,6 +33,13 @@ interface ToolItem {
   icon: string;
 }
 
+interface NewsItem {
+  title: string;
+  date: string;
+  image: string;
+  featured?: boolean;
+}
+
 @Component({
   selector: 'app-home',
   imports: [RouterLink],
@@ -50,6 +57,35 @@ export class Home {
   activePricePeriod = signal<(typeof PRICE_PERIODS)[number]>('1Y');
   readonly selectedPriceTrend = computed(
     () => PRICE_TRENDS[this.activePricePeriod()],
+  );
+  readonly priceValueRange = computed(() => {
+    const values = this.selectedPriceTrend().series.flatMap((line) => line.values);
+    const min = Math.floor(Math.min(...values) / 10) * 10;
+    const max = Math.ceil(Math.max(...values) / 10) * 10;
+    return { min, max };
+  });
+  readonly priceYAxisLabels = computed(() => {
+    const { min, max } = this.priceValueRange();
+    const step = (max - min) / 3;
+    return [max, max - step, max - step * 2, min].map((value) =>
+      Math.round(value),
+    );
+  });
+  readonly priceSeriesStats = computed(() =>
+    this.selectedPriceTrend().series.map((line) => {
+      const first = line.values[0];
+      const latest = line.values[line.values.length - 1];
+      const change = ((latest - first) / first) * 100;
+
+      return {
+        area: line.area,
+        color: line.color,
+        latest,
+        latestLabel: `${latest.toFixed(0)} triệu/m²`,
+        changeLabel: `${change >= 0 ? '+' : ''}${change.toFixed(1)}%`,
+        isPositive: change >= 0,
+      };
+    }),
   );
   readonly marketIndexLinePoints = this.chartPoints(
     this.marketIndex.points.map((p) => p.value),
@@ -185,7 +221,64 @@ export class Home {
     },
   ];
 
+  readonly featuredNews: NewsItem[] = [
+    {
+      title: 'Khởi công cầu Mã Đà nối Đồng Nai và Bình Phước vào tháng 6',
+      date: '19/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=640&h=360&fit=crop',
+      featured: true,
+    },
+    {
+      title: 'Tại sao nên mua đất Bombo Bình Phước: Cơ hội đầu tư bất động sản 2025',
+      date: '18/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=640&h=360&fit=crop',
+      featured: true,
+    },
+  ];
+
+  readonly latestNews: NewsItem[] = [
+    {
+      title: 'Những ưu điểm khi sáp nhập Đồng Nai và Bình Phước',
+      date: '19/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'Đất NTS là gì? Tìm hiểu ký hiệu đất NTS cùng Địa Ốc Đất Ngọc',
+      date: '11/04/2025',
+      image:
+        'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'Khởi công cầu Mã Đà nối Đồng Nai và Bình Phước vào tháng 6',
+      date: '19/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1465447142348-e9952c393450?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'Đất NTD là gì? Tìm hiểu chi tiết về loại đất NTD',
+      date: '09/04/2025',
+      image:
+        'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'Xã Bombo: Kỳ vọng trở thành trung tâm đô thị, thương mại và du lịch',
+      date: '19/05/2025',
+      image:
+        'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=240&h=150&fit=crop',
+    },
+    {
+      title: 'TSC là đất gì? Ký hiệu đất TSC và các quy định sử dụng',
+      date: '02/04/2025',
+      image:
+        'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=240&h=150&fit=crop',
+    },
+  ];
+
   carouselIndex = signal(0);
+  readonly visibleProjectCount = 4;
 
   setPricePeriod(period: (typeof PRICE_PERIODS)[number]): void {
     this.activePricePeriod.set(period);
@@ -224,6 +317,33 @@ export class Home {
     return this.chartDotX(index, total, width, padding);
   }
 
+  priceChartPoints(values: readonly number[]): string {
+    return values
+      .map((value, index) => {
+        const x = this.priceChartX(index, values.length);
+        const y = this.priceChartY(value);
+        return `${x},${y}`;
+      })
+      .join(' ');
+  }
+
+  priceChartX(index: number, total: number): number {
+    const left = 36;
+    const right = 42;
+    const width = 420;
+    if (total <= 1) return width / 2;
+    return left + (index * (width - left - right)) / (total - 1);
+  }
+
+  priceChartY(value: number): number {
+    const top = 20;
+    const bottom = 30;
+    const height = 150;
+    const { min, max } = this.priceValueRange();
+    const range = max - min || 1;
+    return top + ((max - value) / range) * (height - top - bottom);
+  }
+
   private normalizeValues(
     values: readonly number[],
     width: number,
@@ -250,7 +370,15 @@ export class Home {
   }
 
   nextProjects(): void {
-    const max = Math.max(0, this.projects.length - 4);
-    this.carouselIndex.update((i) => Math.min(max, i + 1));
+    this.carouselIndex.update((i) => Math.min(this.maxProjectIndex(), i + 1));
+  }
+
+  maxProjectIndex(): number {
+    return Math.max(0, this.projects.length - this.visibleProjectCount);
+  }
+
+  projectCarouselTransform(): string {
+    const index = this.carouselIndex();
+    return `translateX(calc(-${index * 25}% - ${index * 4}px))`;
   }
 }

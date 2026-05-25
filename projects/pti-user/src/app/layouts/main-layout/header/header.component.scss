@@ -4,7 +4,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   width: 100%;
   height: 65px;
   background: #FFFFFF;
@@ -21,10 +21,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1216px; /* Sẽ tự co dãn trên màn hình nhỏ, và tối đa 1216px trên màn hình lớn */
-  margin: 0 auto; /* Tự động căn giữa màn hình */
-  height: 65px; 
-  padding: 0 32px; 
+  max-width: 1216px;
+  margin: 0 auto;
+  height: 65px;
+  padding: 0 32px;
 }
 
 .logo {
@@ -32,7 +32,7 @@
   align-items: center;
   height: 48px;
   text-decoration: none;
-  
+
   img {
     height: 48px;
     width: auto;
@@ -43,7 +43,7 @@
 .navigation {
   display: flex;
   flex-direction: row;
-  align-items: center; /* Center items vertically */
+  align-items: center;
   height: 100%;
 
   .nav-link {
@@ -55,13 +55,8 @@
     color: #4B5563;
     text-decoration: none;
     position: relative;
-    
-    /* Margin between links */
     margin-left: 32px;
-    
-    /* Khoảng cách từ chữ xuống đường gạch đỏ */
-    padding-bottom: 4px; 
-    
+    padding-bottom: 4px;
     transition: color 0.3s ease;
 
     &:first-child {
@@ -71,8 +66,7 @@
     &:hover, &.active {
       color: #972125;
       font-weight: 600;
-      
-      /* Active border bottom */
+
       &::after {
         content: '';
         position: absolute;
@@ -91,12 +85,7 @@
   flex-direction: row;
   align-items: center;
 
-  .login-link {
-    font-family: 'Montserrat', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
+  .customer-phone {
     color: #4B5563;
     text-decoration: none;
     display: flex;
@@ -126,7 +115,6 @@
     line-height: 20px;
     color: #FFFFFF;
     text-decoration: none;
-
     display: flex;
     flex-direction: row;
     align-items: center;

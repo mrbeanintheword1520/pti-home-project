@@ -10,6 +10,8 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: Home, pathMatch: 'full' },
+      { path: 'phan-tich-thi-truong', loadComponent: () => import('./pages/market-analysis/market-analysis.component').then(m => m.MarketAnalysisComponent) },
+      { path: 'ban-do-du-an', loadComponent: () => import('./pages/market-analysis/market-analysis.component').then(m => m.MarketAnalysisComponent) },
       { path: 'du-an', component: ProjectsComponent },
       { path: 've-chung-toi', component: AboutComponent },
     ],

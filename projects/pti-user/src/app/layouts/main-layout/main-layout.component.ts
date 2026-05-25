@@ -4,11 +4,12 @@ import { HeaderComponent } from './header/header.component';
 import { Footer } from './footer/footer.component';
 import { WelcomePopupComponent } from '../../pages/welcome-popup/welcome-popup.component';
 import { QuickConsultationModalComponent } from '../../pages/consultation/quick-consultation-modal/quick-consultation-modal.component';
+import { ProjectLeadPopupComponent } from '../../pages/lead-capture/project-lead-popup/project-lead-popup.component';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, Footer, WelcomePopupComponent, QuickConsultationModalComponent],
+  imports: [RouterOutlet, HeaderComponent, Footer, WelcomePopupComponent, QuickConsultationModalComponent, ProjectLeadPopupComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
