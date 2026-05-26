@@ -1,5 +1,5 @@
-import { Component, inject, signal, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, computed, effect, HostListener, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MarketSurveyModalService } from '../consultation/market-survey-modal.service';
 import { ConsultationModalService } from '../consultation/consultation-modal.service';
@@ -39,7 +39,6 @@ export class ProjectMapComponent {
   private readonly surveyModalService = inject(MarketSurveyModalService);
   private readonly consultModalService = inject(ConsultationModalService);
   activeZone = signal<number | null>(2); // Mặc định chọn Global Park (id = 2)
-  isConsultDropdownOpen = signal<boolean>(false);
   phone = '';
   searchQuery = '';
   selectedType = 'Tất cả loại hình';
@@ -47,6 +46,278 @@ export class ProjectMapComponent {
   areaRangeValue = 250; // Diện tích lớn nhất 250 m2
   selectedDirection = 'Tất cả hướng';
   selectedStatus = 'Tất cả';
+
+  activeSubTab = signal<'map' | 'potential'>('map');
+  
+  // Potential Heatmap State
+  selectedPotentialRegion = signal<'thuduc' | 'binhduong'>('thuduc');
+  selectedPill = signal<string>('Tổng hợp');
+  activeHotspotName = signal<string>('Trường Thọ');
+  potentialSearchQuery = '';
+  potentialTimeRange = '12 tháng gần nhất';
+  
+  // Layer options
+  layers = {
+    interest: true,
+    priceSpeed: true,
+    traffic: true,
+    planning: true,
+    density: false,
+    liquidity: false
+  };
+
+  private readonly platformId = inject(PLATFORM_ID);
+  private leafletMap: any;
+  private heatmapLayer: any;
+  private markers: any[] = [];
+  private currentTileLayer: any;
+  isSatelliteMode = signal<boolean>(false);
+
+  regionsData: Record<'thuduc' | 'binhduong', any> = {
+    thuduc: {
+      name: 'TP. Thủ Đức (TP.HCM)',
+      subName: 'Đô thị sáng tạo tương tác cao phía Đông',
+      score: 89,
+      rating: 'Rất cao',
+      trafficScore: 92,
+      planningScore: 88,
+      densityScore: 75,
+      growthRate: 90,
+      liquidityScore: 85,
+      priceTrend: '+18.6% (55-145 tr/m²)',
+      interestTrend: '+24.3% tìm kiếm',
+      developmentTrend: 'TP. Thủ Đức định hướng phát triển là Đô thị sáng tạo tương tác cao phía Đông TP.HCM. Trọng điểm phát triển hạ tầng xoay quanh Tuyến Metro số 1 Bến Thành - Suối Tiên, siêu dự án Vành Đai 3 kết nối và quy hoạch lõi đô thị cảng thông minh Trường Thọ đến năm 2040.',
+      highlights: [
+        'Vận hành thương mại Tuyến Metro số 1',
+        'Vành Đai 3 TP.HCM thi công thần tốc',
+        'Quy hoạch khu đô thị cảng sáng tạo Trường Thọ',
+        'Khu công nghệ cao TP.HCM (SHTP) hút vốn FDI',
+        'Trung tâm tài chính quốc tế Thủ Thiêm phát triển'
+      ],
+      forecastPrice: '+15% - 20% / năm',
+      forecastInterest: '+20% - 25% quý tới',
+      forecastLiquidity: 'Thanh khoản Cao',
+      projects: [
+        { name: 'Vinhomes Grand Park (Quận 9)', price: '52 - 85 tr/m²', img: 'images/phankhu/vinhomes-aerial.jpg' },
+        { name: 'The Global City (An Phú)', price: '110 - 160 tr/m²', img: 'images/phankhu/ivy-villa.jpg' },
+        { name: 'Eaton Park (Mai Chí Thọ)', price: '120 - 145 tr/m²', img: 'images/phankhu/ivy-shophouse.jpg' }
+      ],
+      hotspots: [
+        { name: 'Trường Thọ', score: 92, lat: 10.825, lng: 106.762, price: '85 - 110 tr/m²', projects: 'Trường Thọ Urban, Metro Star', description: 'Định hướng là trung tâm hành chính và Đô thị cảng sáng tạo tương lai của TP. Thủ Đức, phát triển logistic thông minh.' },
+        { name: 'Thủ Đức', score: 89, lat: 10.849, lng: 106.772, price: '75 - 95 tr/m²', projects: 'King Crown Infinity, Moonlight Residences', description: 'Trung tâm hiện hữu sầm uất với mật độ giao thương cao, giá trị thương mại lớn tại mặt tiền Võ Văn Ngân.' },
+        { name: 'Linh Trung', score: 86, lat: 10.862, lng: 106.787, price: '55 - 70 tr/m²', projects: 'Linh Trung Urban, Avenue Tower', description: 'Liền kề Khu công nghệ cao và Làng Đại học. Nhu cầu thuê căn hộ của chuyên gia và sinh viên luôn dẫn đầu khu vực.' },
+        { name: 'Thảo Điền', score: 93, lat: 10.803, lng: 106.732, price: '120 - 180 tr/m²', projects: 'Masteri Thảo Điền, Q2 Thảo Điền', description: 'Khu biệt thự và căn hộ hạng sang bên sông Sài Gòn. Nơi tập trung cộng đồng người nước ngoài và giới thượng lưu.' },
+        { name: 'Tam Bình', score: 78, lat: 10.858, lng: 106.745, price: '48 - 60 tr/m²', projects: 'Savills Tam Bình, Đạt Gia Residence', description: 'Khu vực tiềm năng giao thoa Quốc lộ 1A và Phạm Văn Đồng. Hưởng lợi trực tiếp khi đường Vành Đai 2 khép kín.' },
+        { name: 'Phước Long B', score: 80, lat: 10.812, lng: 106.780, price: '65 - 85 tr/m²', projects: 'Flora Anh Đào, Valora Kikyo', description: 'Hưởng lợi gián tiếp từ dự án The Global City liền kề, hạ tầng mở rộng trục Đỗ Xuân Hợp thúc đẩy giá trị.' },
+        { name: 'Hiệp Bình Phước', score: 77, lat: 10.852, lng: 106.719, price: '60 - 80 tr/m²', projects: 'Vạn Phúc City, Urban Green', description: 'Trục Quốc lộ 13 đi Bình Dương. Phát triển vượt bậc nhờ đại đô thị Vạn Phúc City và hạ tầng nâng cấp giao thông.' },
+        { name: 'Bình Thọ', score: 72, lat: 10.838, lng: 106.765, price: '80 - 105 tr/m²', projects: 'Khu biệt thự Bình Thọ', description: 'Khu biệt thự cổ kính có mảng xanh lớn nhất Thủ Đức. Giá đất thổ cư cao và giữ giá ổn định bậc nhất.' },
+        { name: 'Hiệp Bình Chánh', score: 82, lat: 10.828, lng: 106.726, price: '70 - 95 tr/m²', projects: 'Opal Garden, Opal Riverside', description: 'Vị trí ven sông Sài Gòn cận kề Bình Thạnh. Di chuyển cực nhanh ra sân bay qua đại lộ Phạm Văn Đồng.' },
+        { name: 'Phú Hữu', score: 69, lat: 10.793, lng: 106.795, price: '55 - 75 tr/m²', projects: 'Verosa Park, Merita Khang Điền', description: 'Khu đô thị thấp tầng compound biệt lập. Kết nối cao tốc thuận lợi, hạ tầng cầu đường liên tục nâng cấp.' }
+      ]
+    },
+    binhduong: {
+      name: 'Tỉnh Bình Dương',
+      subName: 'Đô thị Thông minh trực thuộc Trung ương',
+      score: 85,
+      rating: 'Cao',
+      trafficScore: 89,
+      planningScore: 85,
+      densityScore: 70,
+      growthRate: 88,
+      liquidityScore: 80,
+      priceTrend: '+12.4% (32-95 tr/m²)',
+      interestTrend: '+19.8% tìm kiếm',
+      developmentTrend: 'Tỉnh Bình Dương định hướng trở thành thành phố trực thuộc Trung ương trước năm 2030. Các trục giao thông huyết mạch như mở rộng Quốc lộ 13 lên 8 làn xe, Mỹ Phước - Tân Vạn, và kết nối Metro số 1 kéo dài đến Dĩ An là lực đẩy lớn cho bất động sản.',
+      highlights: [
+        'Mở rộng Quốc lộ 13 (Đại lộ BD) lên 8 làn xe',
+        'Tuyến Mỹ Phước - Tân Vạn kết nối logistic vùng',
+        'Bình Dương liên tiếp lọt Top 1 Cộng đồng thông minh',
+        'Đầu tư FDI khổng lồ (KCN VSIP III & nhà máy Lego)',
+        'Đề xuất tuyến Metro số 1 kéo dài về Dĩ An'
+      ],
+      forecastPrice: '+10% - 15% / năm',
+      forecastInterest: '+15% - 20% quý tới',
+      forecastLiquidity: 'Thanh khoản Ổn định',
+      projects: [
+        { name: 'Astral City (Thuận An)', price: '38 - 48 tr/m²', img: 'images/phankhu/vinhomes-aerial.jpg' },
+        { name: 'Sycamore (Thành phố Mới)', price: '60 - 95 tr/m²', img: 'images/phankhu/ivy-villa.jpg' },
+        { name: 'The Felix (Thuận An)', price: '32 - 38 tr/m²', img: 'images/phankhu/ivy-interior.jpg' }
+      ],
+      hotspots: [
+        { name: 'Dĩ An (Đông Hòa)', score: 88, lat: 10.902, lng: 106.785, price: '38 - 48 tr/m²', projects: 'Bcons City, HT Pearl, Charm City', description: 'Đô thị vệ tinh giáp ranh Thủ Đức. Đón đầu quy hoạch kéo dài Metro số 1 Bến Thành - Suối Tiên về ga Dĩ An.' },
+        { name: 'Thuận An (Lái Thiêu)', score: 85, lat: 10.915, lng: 106.695, price: '36 - 45 tr/m²', projects: 'Astral City, The Emerald Golf View', description: 'Khu vực thương mại sầm uất giáp ranh TP.HCM qua QL13. Tập trung AEON Mall Bình Dương và sân golf Sông Bé.' },
+        { name: 'Thủ Dầu Một', score: 82, lat: 10.980, lng: 106.660, price: '45 - 65 tr/m²', projects: 'Happy One Central, Compass One', description: 'Thủ phủ văn hóa hành chính của Bình Dương. Hạ tầng đô thị kiểu mẫu, tỷ lệ phủ kín cao dân cư trí thức.' },
+        { name: 'Bến Cát', score: 74, lat: 11.130, lng: 106.600, price: '22 - 32 tr/m²', projects: 'Oasis City, Golden Center City', description: 'Mới nâng cấp lên thành phố năm 2024. Đại đô thị công nghiệp lớn với nhiều cơ hội đầu tư đất nền giá rẻ.' },
+        { name: 'Tân Uyên', score: 70, lat: 11.020, lng: 106.790, price: '25 - 35 tr/m²', projects: 'VSIP III Land, Bcons Plaza', description: 'Thành phố trẻ đột phá nhờ KCN xanh VSIP III quy mô lớn, thu hút siêu dự án sản xuất thông minh của Lego.' }
+      ]
+    }
+  };
+
+  currentRegion = computed(() => this.regionsData[this.selectedPotentialRegion()]);
+  activeHotspot = computed(() => {
+    const region = this.currentRegion();
+    return region.hotspots.find((h: any) => h.name === this.activeHotspotName()) || region.hotspots[0];
+  });
+
+  constructor() {
+    effect(() => {
+      const tab = this.activeSubTab();
+      const region = this.selectedPotentialRegion();
+      const satellite = this.isSatelliteMode();
+      if (tab === 'potential') {
+        setTimeout(() => {
+          this.initOrUpdateLeafletMap();
+        }, 50);
+      }
+    });
+  }
+
+  initOrUpdateLeafletMap() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const mapElement = document.getElementById('potentialLeafletMap');
+    if (!mapElement) return;
+
+    import('leaflet').then(L => {
+      (window as any).L = L;
+      import('leaflet.heat').then(() => {
+        const coords = this.selectedPotentialRegion() === 'thuduc' ? [10.825, 106.762] : [10.980, 106.660];
+        const zoom = this.selectedPotentialRegion() === 'thuduc' ? 12 : 11;
+
+        if (!this.leafletMap) {
+          this.leafletMap = L.map('potentialLeafletMap', {
+            zoomControl: false,
+            attributionControl: false
+          }).setView(coords as any, zoom);
+        } else {
+          this.leafletMap.setView(coords as any, zoom);
+        }
+
+        // Clean up previous layers
+        if (this.currentTileLayer) {
+          this.leafletMap.removeLayer(this.currentTileLayer);
+        }
+        if (this.heatmapLayer) {
+          this.leafletMap.removeLayer(this.heatmapLayer);
+        }
+        this.markers.forEach(m => this.leafletMap.removeLayer(m));
+        this.markers = [];
+
+        // Add Tile layer
+        const tileUrl = this.isSatelliteMode() 
+          ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+          : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+        this.currentTileLayer = L.tileLayer(tileUrl, {
+          maxZoom: 18
+        }).addTo(this.leafletMap);
+
+        // Add Heatmap points
+        const region = this.currentRegion();
+        const heatPoints: [number, number, number][] = [];
+        
+        region.hotspots.forEach((h: any) => {
+          heatPoints.push([h.lat, h.lng, h.score / 100]);
+          for (let i = 0; i < 20; i++) {
+            const latOffset = (Math.random() - 0.5) * 0.02;
+            const lngOffset = (Math.random() - 0.5) * 0.02;
+            heatPoints.push([h.lat + latOffset, h.lng + lngOffset, (h.score / 100) * 0.5]);
+          }
+        });
+
+        this.heatmapLayer = (L as any).heatLayer(heatPoints, {
+          radius: 35,
+          blur: 25,
+          maxZoom: 15,
+          max: 1.0,
+          gradient: {
+            0.2: '#3b82f6', // blue
+            0.4: '#10b981', // green
+            0.6: '#eab308', // yellow
+            0.8: '#f97316', // orange
+            1.0: '#ef4444'  // red
+          }
+        }).addTo(this.leafletMap);
+
+        // Add Hotspot Marker Icons
+        region.hotspots.forEach((h: any) => {
+          const isActive = this.activeHotspotName() === h.name;
+          const markerHtml = `
+            <div class="leaflet-hotspot-marker ${isActive ? 'active' : ''}">
+              <div class="marker-dot"></div>
+              <div class="marker-label">
+                <span class="hotspot-name">${h.name}</span>
+                <span class="hotspot-score">${h.score}/100</span>
+              </div>
+            </div>
+          `;
+
+          const customIcon = L.divIcon({
+            html: markerHtml,
+            className: 'custom-leaflet-div-icon',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+          });
+
+          const marker = L.marker([h.lat, h.lng] as any, { icon: customIcon })
+            .addTo(this.leafletMap)
+            .on('click', () => {
+              this.activeHotspotName.set(h.name);
+              this.updateMarkerHighlights(L);
+            });
+
+          this.markers.push(marker);
+        });
+
+      });
+    });
+  }
+
+  updateMarkerHighlights(L: any) {
+    const region = this.currentRegion();
+    this.markers.forEach((marker, index) => {
+      const h = region.hotspots[index];
+      const isActive = this.activeHotspotName() === h.name;
+      const markerHtml = `
+        <div class="leaflet-hotspot-marker ${isActive ? 'active' : ''}">
+          <div class="marker-dot"></div>
+          <div class="marker-label">
+            <span class="hotspot-name">${h.name}</span>
+            <span class="hotspot-score">${h.score}/100</span>
+          </div>
+        </div>
+      `;
+      const newIcon = L.divIcon({
+        html: markerHtml,
+        className: 'custom-leaflet-div-icon',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+      });
+      marker.setIcon(newIcon);
+    });
+  }
+
+  zoomIn() {
+    if (this.leafletMap) {
+      this.leafletMap.zoomIn();
+    }
+  }
+
+  zoomOut() {
+    if (this.leafletMap) {
+      this.leafletMap.zoomOut();
+    }
+  }
+
+  toggleSatellite() {
+    this.isSatelliteMode.update(v => !v);
+  }
+
+  selectPotentialRegion(regionKey: 'thuduc' | 'binhduong') {
+    this.selectedPotentialRegion.set(regionKey);
+    const defaultHotspot = this.regionsData[regionKey].hotspots[0].name;
+    this.activeHotspotName.set(defaultHotspot);
+  }
 
   // Modal signals
   isDetailModalOpen = signal<boolean>(false);
@@ -277,46 +548,15 @@ export class ProjectMapComponent {
     }
   }
 
-  @HostListener('document:click')
-  onDocumentClick() {
-    this.isConsultDropdownOpen.set(false);
-  }
-
-  toggleConsultDropdown(event: MouseEvent) {
-    event.stopPropagation();
-    this.isConsultDropdownOpen.update(v => !v);
-  }
-
-  selectConsultOption(option: string, event: MouseEvent) {
-    event.stopPropagation();
-    this.isConsultDropdownOpen.set(false);
-    
-    const optLower = option.toLowerCase();
-    if (optLower.includes('bảng giá')) {
-      this.surveyModalService.open('Vinhomes Saigon Park');
-      this.surveyModalService.setField('specialNeed', option);
-      this.surveyModalService.setField('purpose', 'invest');
-    } else {
-      this.consultModalService.open();
-      if (optLower.includes('tham quan')) {
-        this.consultModalService.setField('purpose', 'live');
-        this.consultModalService.setField('need', 'apartment');
-        this.consultModalService.setField('note', 'Đăng ký tham quan nhà mẫu Vinhomes Saigon Park');
-      } else if (optLower.includes('tài chính')) {
-        this.consultModalService.setField('purpose', 'invest');
-        this.consultModalService.setField('note', 'Tư vấn tài chính & vay vốn Vinhomes Saigon Park');
-      } else if (optLower.includes('phong thủy')) {
-        this.consultModalService.setField('need', 'undecided');
-        this.consultModalService.setField('note', 'Chọn căn đẹp phong thủy Vinhomes Saigon Park');
-      } else {
-        this.consultModalService.setField('note', option);
-      }
-    }
-  }
-
   openSurveyModal() {
     this.surveyModalService.open('Vinhomes Saigon Park');
     this.surveyModalService.setField('specialNeed', 'Nhận bảng giá');
+    this.surveyModalService.setField('purpose', 'invest');
+  }
+
+  openSurveyModalWithConsult() {
+    this.surveyModalService.open('Vinhomes Saigon Park');
+    this.surveyModalService.setField('specialNeed', 'Nhận tư vấn');
     this.surveyModalService.setField('purpose', 'invest');
   }
 

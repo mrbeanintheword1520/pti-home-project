@@ -1,0 +1,213 @@
+<div class="appointments-container">
+  
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-title-section">
+      <h1>Hệ thống Lịch hẹn Khách hàng</h1>
+      <p class="subtitle">Quản lý các lượt đăng ký nhận tư vấn và đặt lịch hẹn chuyên gia từ bản đồ dự án</p>
+    </div>
+    <div class="header-actions">
+      <button class="export-btn" (click)="fetchAppointments()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+        </svg>
+        Làm mới dữ liệu
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card total">
+      <div class="card-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">TỔNG LỊCH HẸN</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ totalCount() }}</span>
+        </div>
+        <p class="card-subtext">Lượt đặt lịch tư vấn</p>
+      </div>
+    </div>
+
+    <div class="stat-card today">
+      <div class="card-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">HẸN HÔM NAY</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ todayCount() }}</span>
+        </div>
+        <p class="card-subtext">Cần liên hệ chăm sóc ngay</p>
+      </div>
+    </div>
+
+    <div class="stat-card waiting">
+      <div class="card-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+          <polyline points="2 17 12 22 22 17"/>
+          <polyline points="2 12 12 17 22 12"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">CHỜ TƯ VẤN</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ waitingCount() }}</span>
+        </div>
+        <p class="card-subtext">Đang trong tiến trình liên hệ</p>
+      </div>
+    </div>
+
+    <div class="stat-card done">
+      <div class="card-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">ĐÃ CHỐT CỌC</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ doneCount() }}</span>
+        </div>
+        <p class="card-subtext">Lịch hẹn giao dịch thành công</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Appointments Table Card -->
+  <div class="table-card">
+    <div class="table-wrapper">
+      @if (isLoading()) {
+        <div class="table-loading-spinner">
+          <div class="spinner"></div>
+          <span>Đang tải danh sách lịch hẹn...</span>
+        </div>
+      } @else {
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Khách hàng</th>
+              <th>Dự án quan tâm</th>
+              <th>Thời gian hẹn</th>
+              <th>Nhu cầu & Ghi chú</th>
+              <th>Chuyên viên phụ trách</th>
+              <th>Trạng thái hẹn</th>
+              <th style="text-align: center;">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (appointments().length === 0) {
+              <tr>
+                <td colspan="7" class="empty-row">Không tìm thấy lịch hẹn nào trên hệ thống.</td>
+              </tr>
+            } @else {
+              @for (app of appointments(); track app.id) {
+                <tr class="lead-row">
+                  <!-- Khách hàng -->
+                  <td>
+                    <div class="client-cell">
+                      <div class="client-name-group">
+                        <span class="client-name">{{ app.name }}</span>
+                        <span class="client-phone">{{ app.phone }}</span>
+                        <span class="client-email">{{ app.email }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  
+                  <!-- Dự án -->
+                  <td>
+                    <div class="project-cell">
+                      <span class="project-name">{{ app.project }}</span>
+                      <span class="subdivision-name">{{ app.subdivision }} • {{ app.budget }}</span>
+                    </div>
+                  </td>
+
+                  <!-- Thời gian hẹn -->
+                  <td>
+                    <div class="appointment-time-cell">
+                      <span class="date-badge" [class.today-badge]="app.appointmentDate === 'Hôm nay'">
+                        {{ app.appointmentDate }}
+                      </span>
+                      <span class="time-slot">{{ app.appointmentTime }}</span>
+                    </div>
+                  </td>
+
+                  <!-- Nhu cầu -->
+                  <td style="max-width: 250px;">
+                    <div class="note-cell">
+                      <p class="behavior-desc">{{ app.behavior }}</p>
+                    </div>
+                  </td>
+
+                  <!-- Chuyên viên -->
+                  <td>
+                    <select class="agent-select" 
+                            [ngModel]="app.agent" 
+                            (ngModelChange)="updateAppointmentAgent(app, $event)">
+                      <option value="Nguyễn Hoàng">Nguyễn Hoàng</option>
+                      <option value="Phạm Mai">Phạm Mai</option>
+                      <option value="Trần Văn Nam">Trần Văn Nam</option>
+                    </select>
+                  </td>
+
+                  <!-- Trạng thái -->
+                  <td>
+                    <select class="status-badge-select"
+                            [ngModel]="app.status"
+                            [class.status-blue]="app.status === 'Mới'"
+                            [class.status-yellow]="app.status === 'Đang tư vấn'"
+                            [class.status-green]="app.status === 'Đã cọc'"
+                            [class.status-red]="app.status === 'Không liên lạc được'"
+                            (ngModelChange)="updateAppointmentStatus(app, $event)">
+                      <option value="Mới">Mới</option>
+                      <option value="Đang tư vấn">Đang tư vấn</option>
+                      <option value="Đã cọc">Đã cọc</option>
+                      <option value="Không liên lạc được">Bận/Hủy hẹn</option>
+                    </select>
+                  </td>
+
+                  <!-- Hành động -->
+                  <td>
+                    <div class="actions-cell">
+                      <a [href]="'tel:' + app.phone" class="action-circle-btn call" title="Gọi hotline">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                      </a>
+                      <button class="action-circle-btn chat" (click)="navigateToChat(app.phone)" title="Chăm sóc CRM">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </button>
+                      <button class="action-circle-btn delete" (click)="deleteAppointment(app.id)" title="Xóa lịch hẹn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                          <line x1="10" y1="11" x2="10" y2="17"/>
+                          <line x1="14" y1="11" x2="14" y2="17"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+
+</div>

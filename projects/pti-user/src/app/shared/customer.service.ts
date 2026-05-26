@@ -7,6 +7,12 @@ export interface CustomerInfo {
   interest?: string;
   note?: string;
   createdAt?: string;
+  budget?: string;
+  agent?: string;
+  behavior?: string;
+  source?: string;
+  appointmentDate?: string;
+  appointmentTime?: string;
 }
 
 @Injectable({
@@ -44,6 +50,26 @@ export class CustomerService {
     };
     this.customerInfo.set(customerData);
     this.saveToStorage(customerData);
+
+    // Đồng bộ lên Mock API Server cổng 3000
+    fetch('http://localhost:3000/api/leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: customerData.name || 'Khách hàng ẩn danh',
+        phone: customerData.phone,
+        email: customerData.email || '',
+        project: customerData.interest || 'Vinhomes Grand Park',
+        budget: customerData.budget || 'Chưa cập nhật',
+        agent: customerData.agent || 'Nguyễn Hoàng',
+        behavior: customerData.behavior || 'Đăng ký tư vấn',
+        source: customerData.source || 'Facebook Ads',
+        appointmentDate: customerData.appointmentDate || '',
+        appointmentTime: customerData.appointmentTime || ''
+      })
+    }).catch(err => console.warn('Mock API Server offline:', err));
   }
 
   clearCustomer(): void {

@@ -2,6 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MarketSurveyModalService, MarketSurveyFormData } from '../market-survey-modal.service';
+import { CustomerService } from '../../../shared/customer.service';
 
 interface SurveyProject {
   id: string;
@@ -37,6 +38,7 @@ export interface Expert {
 })
 export class MarketSurveyModalComponent implements OnInit {
   protected readonly modal = inject(MarketSurveyModalService);
+  protected readonly customerService = inject(CustomerService);
 
   readonly allProjects: SurveyProject[] = [
     { id: 'vinhomes-saigon-park', name: 'Vinhomes Saigon Park', location: 'TP. Hồ Chí Minh' },
@@ -236,6 +238,43 @@ export class MarketSurveyModalComponent implements OnInit {
   continue(): void {
     if (!this.canContinue()) return;
     if (this.modal.currentStep() === 4) {
+      const data = this.modal.formData();
+
+      const agentMap: { [key: string]: string } = {
+        'nguyen-hoang': 'Nguyễn Hoàng',
+        'tran-minh-thu': 'Phạm Mai',
+        'le-quoc-bao': 'Trần Văn Nam'
+      };
+
+      const purposeMap: { [key: string]: string } = {
+        'invest': 'Đầu tư',
+        'live': 'Mua để ở',
+        'rent': 'Cho thuê',
+        'research': 'Khảo sát thị trường'
+      };
+
+      const budgetMap: { [key: string]: string } = {
+        'under-2': 'Dưới 2 tỷ',
+        '2-5': '2 - 5 tỷ',
+        '5-10': '5 - 10 tỷ',
+        '10-20': '10 - 20 tỷ',
+        'over-20': 'Trên 20 tỷ'
+      };
+
+      this.customerService.saveCustomer({
+        phone: data.phone,
+        name: data.name,
+        email: data.email,
+        interest: data.project,
+        budget: budgetMap[data.budget] || data.budget || 'Chưa chọn',
+        behavior: `Khảo sát: Nhu cầu ${purposeMap[data.purpose] || 'Đầu tư'}. Ghi chú: ${data.specialNeed || 'Không có'}`,
+        agent: agentMap[data.selectedExpertId] || 'Nguyễn Hoàng',
+        source: 'Zalo',
+        note: data.specialNeed,
+        appointmentDate: data.date,
+        appointmentTime: data.timeSlot
+      });
+
       this.modal.nextStep(); // Chuyển sang màn hình thành công (Step 5)
       return;
     }

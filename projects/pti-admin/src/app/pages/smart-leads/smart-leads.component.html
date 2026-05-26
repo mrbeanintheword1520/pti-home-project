@@ -1,0 +1,531 @@
+<div class="smart-leads-container">
+  
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-title-section">
+      <h1>Quản lý khách hàng tiềm năng</h1>
+      <p class="subtitle">Hệ thống chấm điểm và phân loại khách hàng thông minh</p>
+    </div>
+    <div class="header-actions">
+      <div class="date-filter">
+        <svg class="calendar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span>01/05/2024 - 31/05/2024</span>
+      </div>
+      <button class="export-btn" (click)="exportReport()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Xuất báo cáo
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Cards Row -->
+  <div class="stats-row">
+    <!-- Card 1: Tổng số khách hàng -->
+    <div class="stat-card card-total">
+      <div class="card-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">Tổng số khách hàng</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ totalCount() | number }}</span>
+          <span class="card-trend green">▼ 15.6%</span>
+        </div>
+        <p class="card-subtext">so với tháng trước</p>
+      </div>
+    </div>
+
+    <!-- Card 2: Khách hàng nóng -->
+    <div class="stat-card card-hot">
+      <div class="card-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2c-3.3 2.5-5 5.5-5 8.5 0 2.8 1.9 5.5 5 6.5s5-3.7 5-6.5c0-3-1.7-6-5-8.5z"/>
+          <path d="M12 18.5c.8 0 1.5-.2 2.1-.5-1-1.3-1.6-3-1.6-4.5 0-.5.1-1 .2-1.5-.8 1-2 2-2 3.5 0 1.7 1.3 3 3 3z"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">Khách hàng nóng</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ hotCount() | number }}</span>
+          <span class="card-trend green">▲ 18.2%</span>
+        </div>
+        <p class="card-subtext">so với tháng trước</p>
+      </div>
+    </div>
+
+    <!-- Card 3: Khách hàng tiềm năng -->
+    <div class="stat-card card-potential">
+      <div class="card-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">Khách hàng tiềm năng</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ potentialCount() | number }}</span>
+          <span class="card-trend green">▲ 12.7%</span>
+        </div>
+        <p class="card-subtext">so với tháng trước</p>
+      </div>
+    </div>
+
+    <!-- Card 4: Khách hàng tham khảo -->
+    <div class="stat-card card-reference">
+      <div class="card-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="8.5" cy="7" r="4"/>
+          <polyline points="17 11 19 13 23 9"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">Khách tham khảo</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ referenceCount() | number }}</span>
+          <span class="card-trend green">▲ 9.3%</span>
+        </div>
+        <p class="card-subtext">so với tháng trước</p>
+      </div>
+    </div>
+
+    <!-- Card 5: Tỷ lệ chuyển đổi -->
+    <div class="stat-card card-conversion">
+      <div class="card-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="6"/>
+          <circle cx="12" cy="12" r="2"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <span class="card-label">Tỷ lệ chuyển đổi</span>
+        <div class="card-value-group">
+          <span class="card-value">{{ conversionRate() }}</span>
+          <span class="card-trend green">▲ 4.2%</span>
+        </div>
+        <p class="card-subtext">so với tháng trước</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-grid">
+    <!-- Chart 1: Phân bổ Lead theo mức độ -->
+    <div class="chart-card">
+      <h3 class="chart-title">Phân bổ Lead theo mức độ</h3>
+      <div class="donut-chart-container">
+        <!-- SVG Donut Chart representing percentages -->
+        <svg width="180" height="180" viewBox="0 0 36 36" class="donut-svg">
+          <circle class="donut-ring" cx="18" cy="18" r="15.915" fill="transparent" stroke="#f1f5f9" stroke-width="3"></circle>
+          
+          <!-- Green Slice (Tham khảo) -->
+          <circle class="donut-segment reference-slice" cx="18" cy="18" r="15.915" fill="transparent" stroke="#10b981" stroke-width="3.2"
+                  stroke-dasharray="47.3 52.7" stroke-dashoffset="25"></circle>
+          
+          <!-- Orange Slice (Tiềm năng) -->
+          <circle class="donut-segment potential-slice" cx="18" cy="18" r="15.915" fill="transparent" stroke="#f59e0b" stroke-width="3.2"
+                  stroke-dasharray="41.2 58.8" stroke-dashoffset="-22.3"></circle>
+                  
+          <!-- Red Slice (Nóng) -->
+          <circle class="donut-segment hot-slice" cx="18" cy="18" r="15.915" fill="transparent" stroke="#ef4444" stroke-width="3.2"
+                  stroke-dasharray="11.5 88.5" stroke-dashoffset="-63.5"></circle>
+
+          <g class="donut-text">
+            <text x="50%" y="48%" class="donut-number">{{ totalCount() }}</text>
+            <text x="50%" y="62%" class="donut-label">Tổng Lead</text>
+          </g>
+        </svg>
+
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="dot red"></span>
+            <div class="legend-info">
+              <span class="legend-label">Lead nóng</span>
+              <span class="legend-value">{{ hotCount() }} ({{ levelDistribution().hot }}%)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="dot orange"></span>
+            <div class="legend-info">
+              <span class="legend-label">Lead tiềm năng</span>
+              <span class="legend-value">{{ potentialCount() }} ({{ levelDistribution().potential }}%)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="dot green"></span>
+            <div class="legend-info">
+              <span class="legend-label">Lead tham khảo</span>
+              <span class="legend-value">{{ referenceCount() }} ({{ levelDistribution().reference }}%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 2: Lead Score Distribution -->
+    <div class="chart-card">
+      <h3 class="chart-title">Lead Score Distribution</h3>
+      <div class="bar-chart-container">
+        <div class="bar-y-axis">
+          <span>800</span>
+          <span>600</span>
+          <span>400</span>
+          <span>200</span>
+          <span>0</span>
+        </div>
+        <div class="bars-wrapper">
+          <!-- Bar 1: 0-20 -->
+          <div class="bar-column">
+            <div class="bar-value-text">{{ scoreDistribution().range1 }}</div>
+            <div class="bar-rect red-bar" [style.height.%]="(scoreDistribution().range1 / 800) * 100 || 5"></div>
+            <span class="bar-label">0 - 20</span>
+          </div>
+
+          <!-- Bar 2: 21-40 -->
+          <div class="bar-column">
+            <div class="bar-value-text">{{ scoreDistribution().range2 }}</div>
+            <div class="bar-rect orange-bar" [style.height.%]="(scoreDistribution().range2 / 800) * 100 || 15"></div>
+            <span class="bar-label">21 - 40</span>
+          </div>
+
+          <!-- Bar 3: 41-60 -->
+          <div class="bar-column">
+            <div class="bar-value-text">{{ scoreDistribution().range3 }}</div>
+            <div class="bar-rect yellow-bar" [style.height.%]="(scoreDistribution().range3 / 800) * 100 || 30"></div>
+            <span class="bar-label">41 - 60</span>
+          </div>
+
+          <!-- Bar 4: 61-80 -->
+          <div class="bar-column">
+            <div class="bar-value-text">{{ scoreDistribution().range4 }}</div>
+            <div class="bar-rect green-bar" [style.height.%]="(scoreDistribution().range4 / 800) * 100 || 45"></div>
+            <span class="bar-label">61 - 80</span>
+          </div>
+
+          <!-- Bar 5: 81-100 -->
+          <div class="bar-column">
+            <div class="bar-value-text">{{ scoreDistribution().range5 }}</div>
+            <div class="bar-rect teal-bar" [style.height.%]="(scoreDistribution().range5 / 800) * 100 || 25"></div>
+            <span class="bar-label">81 - 100</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 3: Nguồn khách hàng -->
+    <div class="chart-card">
+      <h3 class="chart-title">Nguồn khách hàng</h3>
+      <div class="sources-list-container">
+        <!-- SVG Donut for Sources -->
+        <svg width="110" height="110" viewBox="0 0 36 36" class="sources-svg">
+          <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#f1f5f9" stroke-width="4.5"></circle>
+          <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#3b82f6" stroke-width="4.5" stroke-dasharray="35.6 64.4" stroke-dashoffset="25"></circle>
+          <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#10b981" stroke-width="4.5" stroke-dasharray="28.7 71.3" stroke-dashoffset="-10.6"></circle>
+          <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#f59e0b" stroke-width="4.5" stroke-dasharray="16.3 83.7" stroke-dashoffset="-39.3"></circle>
+          <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#8b5cf6" stroke-width="4.5" stroke-dasharray="10.2 89.8" stroke-dashoffset="-55.6"></circle>
+          <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#94a3b8" stroke-width="4.5" stroke-dasharray="9.2 90.8" stroke-dashoffset="-65.8"></circle>
+        </svg>
+
+        <div class="sources-list">
+          <div class="source-item">
+            <span class="dot blue"></span>
+            <span class="source-name">Facebook Ads</span>
+            <span class="source-pct">35.6%</span>
+          </div>
+          <div class="source-item">
+            <span class="dot green"></span>
+            <span class="source-name">Google Ads</span>
+            <span class="source-pct">28.7%</span>
+          </div>
+          <div class="source-item">
+            <span class="dot orange"></span>
+            <span class="source-name">Tìm kiếm tự nhiên</span>
+            <span class="source-pct">16.3%</span>
+          </div>
+          <div class="source-item">
+            <span class="dot purple"></span>
+            <span class="source-name">Zalo</span>
+            <span class="source-pct">10.2%</span>
+          </div>
+          <div class="source-item">
+            <span class="dot gray"></span>
+            <span class="source-name">Khác</span>
+            <span class="source-pct">9.2%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Row -->
+  <div class="filters-row">
+    <div class="search-filter-box">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" 
+             placeholder="Tìm kiếm theo tên, SĐT, email..." 
+             [ngModel]="searchQuery()" 
+             (ngModelChange)="searchQuery.set($event)" 
+             class="filter-search-input" />
+    </div>
+
+    <div class="filter-dropdowns">
+      <div class="filter-item">
+        <label>Mức độ Lead</label>
+        <select [ngModel]="selectedLevel()" (ngModelChange)="selectedLevel.set($event)">
+          @for (lvl of levelOptions; track lvl) {
+            <option [value]="lvl">{{ lvl }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>Dự án quan tâm</label>
+        <select [ngModel]="selectedProject()" (ngModelChange)="selectedProject.set($event)">
+          @for (proj of projectOptions; track proj) {
+            <option [value]="proj">{{ proj }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>Nguồn khách hàng</label>
+        <select [ngModel]="selectedSource()" (ngModelChange)="selectedSource.set($event)">
+          @for (src of sourceOptions; track src) {
+            <option [value]="src">{{ src }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label>Chuyên viên phụ trách</label>
+        <select [ngModel]="selectedAgent()" (ngModelChange)="selectedAgent.set($event)">
+          @for (ag of agentOptions; track ag) {
+            <option [value]="ag">{{ ag }}</option>
+          }
+        </select>
+      </div>
+      
+      <button class="advanced-filter-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+        Bộ lọc nâng cao
+      </button>
+    </div>
+  </div>
+
+  <!-- Leads Table Section -->
+  <div class="table-card">
+    @if (isLoading()) {
+      <div class="table-loading-spinner">
+        <div class="spinner"></div>
+        <p>Đang tải danh sách khách hàng tiềm năng...</p>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th width="40">
+                <input type="checkbox" aria-label="Select all leads" />
+              </th>
+              <th>Khách hàng</th>
+              <th>Thông tin liên hệ</th>
+              <th>Dự án quan tâm</th>
+              <th>Ngân sách</th>
+              <th>Lead Score</th>
+              <th>Mức độ</th>
+              <th>Hành vi nổi bật</th>
+              <th>Chuyên viên phụ trách</th>
+              <th>Trạng thái</th>
+              <th width="120" style="text-align: center;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (paginatedLeads().length === 0) {
+              <tr>
+                <td colspan="11" class="empty-row">Không tìm thấy khách hàng nào khớp với điều kiện lọc.</td>
+              </tr>
+            } @else {
+              @for (lead of paginatedLeads(); track lead.id) {
+                <tr class="lead-row">
+                  <td>
+                    <input type="checkbox" aria-label="Select lead" />
+                  </td>
+                  <td>
+                    <div class="client-cell">
+                      <img [src]="'https://ui-avatars.com/api/?name=' + lead.name + '&background=f1f5f9&color=972125&rounded=true'" alt="Client Avatar" class="client-avatar" />
+                      <div class="client-name-group">
+                        <span class="client-name">{{ lead.name }}</span>
+                        <span class="client-email">{{ lead.email || 'Chưa cung cấp email' }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="contact-cell">
+                      <span class="client-phone">{{ lead.phone }}</span>
+                      <span class="client-address">{{ lead.address }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="project-cell">
+                      <span class="project-name">{{ lead.project }}</span>
+                      <span class="subdivision-name" *ngIf="lead.subdivision">{{ lead.subdivision }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="budget-value">{{ lead.budget || 'Chưa cập nhật' }}</span>
+                  </td>
+                  <td>
+                    <div class="score-cell">
+                      <span class="score-value">{{ lead.score }}</span>
+                      <div class="score-bar-bg">
+                        <div class="score-bar-fill" 
+                             [class.red]="lead.score < 50" 
+                             [class.orange]="lead.score >= 50 && lead.score < 80" 
+                             [class.green]="lead.score >= 80"
+                             [style.width.%]="lead.score"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <select class="level-badge-select" 
+                            [class.badge-red]="lead.interestLevel === 'Lead nóng'"
+                            [class.badge-orange]="lead.interestLevel === 'Tiềm năng'"
+                            [class.badge-green]="lead.interestLevel === 'Tham khảo'"
+                            [ngModel]="lead.interestLevel" 
+                            (ngModelChange)="updateLeadField(lead, 'interestLevel', $event)">
+                      <option value="Lead nóng">Lead nóng</option>
+                      <option value="Tiềm năng">Tiềm năng</option>
+                      <option value="Tham khảo">Tham khảo</option>
+                    </select>
+                  </td>
+                  <td>
+                    <div class="behavior-cell">
+                      <div class="behavior-icons">
+                        <span class="icon-stat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> {{ lead.views }}</span>
+                        <span class="icon-stat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> {{ lead.docs }}</span>
+                      </div>
+                      <span class="behavior-desc">{{ lead.behavior }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <select class="agent-select"
+                            [ngModel]="lead.agent" 
+                            (ngModelChange)="updateLeadField(lead, 'agent', $event)">
+                      <option value="Nguyễn Hoàng">Nguyễn Hoàng</option>
+                      <option value="Phạm Mai">Phạm Mai</option>
+                      <option value="Trần Văn Nam">Trần Văn Nam</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="status-badge-select" 
+                            [class.status-blue]="lead.status === 'Mới'"
+                            [class.status-yellow]="lead.status === 'Đang tư vấn'"
+                            [class.status-green]="lead.status === 'Đã cọc'"
+                            [class.status-red]="lead.status === 'Không liên lạc được'"
+                            [ngModel]="lead.status" 
+                            (ngModelChange)="updateLeadField(lead, 'status', $event)">
+                      <option value="Mới">Mới</option>
+                      <option value="Đang tư vấn">Đang tư vấn</option>
+                      <option value="Đã cọc">Đã cọc</option>
+                      <option value="Không liên lạc được">Không liên lạc được</option>
+                    </select>
+                  </td>
+                  <td>
+                    <div class="actions-cell">
+                      <button class="action-circle-btn call" (click)="callCustomer(lead)" title="Gọi chuyên viên">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                      </button>
+                      <button class="action-circle-btn chat" (click)="chatCustomer(lead)" title="Chat Zalo OA">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </button>
+                      <button class="action-circle-btn delete" (click)="deleteLead(lead)" title="Xóa liên hệ">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                          <line x1="10" y1="11" x2="10" y2="17"/>
+                          <line x1="14" y1="11" x2="14" y2="17"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div class="table-footer">
+        <span class="pagination-summary">
+          Hiển thị {{ paginatedLeads().length > 0 ? (currentPage() - 1) * pageSize + 1 : 0 }} - 
+          {{ (currentPage() - 1) * pageSize + paginatedLeads().length }} trong tổng số 
+          <strong>{{ filteredLeads().length }}</strong> khách hàng
+        </span>
+
+        <div class="pagination-controls">
+          <button class="page-btn nav-btn" [disabled]="currentPage() === 1" (click)="setPage(currentPage() - 1)" aria-label="Previous Page">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          
+          @for (page of [1, 2, 3]; track page) {
+            <button class="page-btn num-btn" 
+                    [class.active]="currentPage() === page" 
+                    *ngIf="page <= totalPages()"
+                    (click)="setPage(page)">
+              {{ page }}
+            </button>
+          }
+          
+          <span class="dots" *ngIf="totalPages() > 4">...</span>
+          
+          <button class="page-btn num-btn" 
+                  *ngIf="totalPages() > 3" 
+                  [class.active]="currentPage() === totalPages()" 
+                  (click)="setPage(totalPages())">
+            {{ totalPages() }}
+          </button>
+          
+          <button class="page-btn nav-btn" [disabled]="currentPage() === totalPages()" (click)="setPage(currentPage() + 1)" aria-label="Next Page">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+
+          <select class="page-size-select" [ngModel]="pageSize" (ngModelChange)="pageSize = $event; currentPage.set(1)">
+            <option [ngValue]="5">5 / trang</option>
+            <option [ngValue]="10">10 / trang</option>
+            <option [ngValue]="20">20 / trang</option>
+          </select>
+        </div>
+      </div>
+    }
+  </div>
+</div>
