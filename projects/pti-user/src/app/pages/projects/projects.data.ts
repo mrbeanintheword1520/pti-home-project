@@ -116,6 +116,32 @@ export const PROJECTS: ProjectItem[] = [
     profitRate: '12.0%/năm',
     image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop',
   },
+  {
+    id: 'vinhomes-grand-park',
+    name: 'Vinhomes Grand Park',
+    description: 'Đại đô thị thông minh đẳng cấp quốc tế tại trung tâm TP. Thủ Đức, TP. Hồ Chí Minh.',
+    location: 'TP. Hồ Chí Minh',
+    category: 'can-ho',
+    classification: 'Căn hộ - Nhà phố - Biệt thự',
+    price: 'Từ 2.1 tỷ',
+    status: 'selling',
+    growthPotential: '+22.4%',
+    profitRate: '13.5%/năm',
+    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop',
+  },
+  {
+    id: 'khanh-binh',
+    name: 'Dự Án Khánh Bình',
+    description: 'Khu dân cư hiện đại tọa lạc tại Tân Uyên, Bình Dương với hạ tầng đồng bộ.',
+    location: 'Bình Dương',
+    category: 'dat-nen',
+    classification: 'Đất nền - Nhà phố',
+    price: 'Liên hệ',
+    status: 'selling',
+    growthPotential: '+15.2%',
+    profitRate: '10.8%/năm',
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop',
+  },
 ];
 
 export const STATUS_LABELS: Record<ProjectStatus, string> = {

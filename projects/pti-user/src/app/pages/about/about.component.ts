@@ -34,7 +34,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   readonly stats: StatItem[] = [
     { target: 10, suffix: '+', label: 'Năm kinh nghiệm' },
-    { target: 6, suffix: '+', label: 'Dự án đang triển khai' },
+    { target: 13, suffix: '+', label: 'Dự án đang triển khai' },
     { target: 8450, suffix: '+', label: 'Khách hàng tin tưởng' },
     { target: 4.9, suffix: '/5', label: 'Đánh giá hài lòng', decimals: 1 },
   ];

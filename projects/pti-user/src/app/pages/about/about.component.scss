@@ -81,7 +81,7 @@ $container: 1440px;
 
 // Sections
 .about-section {
-  padding: 56px 0;
+  padding: 40px 0;
 
   &--light {
     background: $gray-50;
@@ -89,12 +89,12 @@ $container: 1440px;
 
   &__head {
     text-align: center;
-    margin-bottom: 36px;
+    margin-bottom: 24px;
 
     h2 {
       font-size: 24px;
       font-weight: 700;
-      color: $gray-800;
+      color: $red;
       margin: 0 0 8px;
     }
 
@@ -382,14 +382,19 @@ $container: 1440px;
 }
 
 .about-value {
-  background: #fff;
-  border: 1px solid $gray-100;
+  background: rgba(151, 33, 37, 0.03);
+  border: 1px solid rgba(151, 33, 37, 0.12);
   border-radius: 12px;
   padding: 24px 20px;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 
   &:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 6px 20px rgba(151, 33, 37, 0.08);
+    transform: translateY(-4px);
   }
 
   &__icon {
@@ -516,6 +521,7 @@ $container: 1440px;
       linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.84)),
       radial-gradient(circle at top right, rgba(151, 33, 37, 0.12), transparent 38%);
     box-shadow: 0 22px 55px rgba(31, 41, 55, 0.09);
+    animation: timelineFadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 
     &::after {
       content: attr(data-year);
@@ -579,6 +585,17 @@ $container: 1440px;
     font-size: clamp(44px, 7vw, 86px);
     line-height: 0.95;
     letter-spacing: -0.06em;
+  }
+}
+
+@keyframes timelineFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

@@ -107,8 +107,8 @@ export const TOP_GROWTH_AREAS: GrowthArea[] = [
 ];
 
 export const MARKET_METRICS: MetricCard[] = [
-  { label: 'Chỉ số quan tâm đầu tư', value: '124,215', change: '+18.7%' },
-  { label: 'Lượt tìm kiếm', value: '32,658', change: '+24.5%' },
-  { label: 'Nguồn cung mới', value: '2,450', change: '+12.3%' },
-  { label: 'Tỷ suất LN TB', value: '12.4%', change: '+1.6%' },
+  { label: 'Lượng quan tâm', value: '32,658', change: '24.5%' },
+  { label: 'Lượt tìm kiếm', value: '124,215', change: '18.7%' },
+  { label: 'Nguồn cung mới', value: '2,450', change: '12.3%' },
+  { label: 'Tỷ suất lợi nhuận TB', value: '8.6%', change: '1.3%' },
 ];

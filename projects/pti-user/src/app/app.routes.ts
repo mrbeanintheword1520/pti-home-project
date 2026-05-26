@@ -11,7 +11,7 @@ export const routes: Routes = [
     children: [
       { path: '', component: Home, pathMatch: 'full' },
       { path: 'phan-tich-thi-truong', loadComponent: () => import('./pages/market-analysis/market-analysis.component').then(m => m.MarketAnalysisComponent) },
-      { path: 'ban-do-du-an', loadComponent: () => import('./pages/market-analysis/market-analysis.component').then(m => m.MarketAnalysisComponent) },
+      { path: 'ban-do-du-an', loadComponent: () => import('./pages/project-map/project-map.component').then(m => m.ProjectMapComponent) },
       { path: 'du-an', component: ProjectsComponent },
       { path: 'cong-cu', loadComponent: () => import('./pages/investment-tool/investment-tool.component').then(m => m.InvestmentToolComponent) },
       { path: 'tinh-khoan-vay', loadComponent: () => import('./pages/loan-calculator/loan-calculator.component').then(m => m.LoanCalculator) },

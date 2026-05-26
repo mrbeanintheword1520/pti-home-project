@@ -1,18 +1,19 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CustomerService } from '../../../shared/customer.service';
 import { ConsultationModalService } from '../../../pages/consultation/consultation-modal.service';
-import { LeadCaptureService } from '../../../pages/lead-capture/lead-capture.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   protected readonly consultation = inject(ConsultationModalService);
-  protected readonly leadCapture = inject(LeadCaptureService);
+  protected readonly customerService = inject(CustomerService);
 
   openConsultation(event: Event): void {
     event.preventDefault();

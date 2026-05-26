@@ -7,6 +7,7 @@ export interface ConsultationFormData {
   name: string;
   phone: string;
   email: string;
+  note: string;
 }
 
 const emptyForm = (): ConsultationFormData => ({
@@ -16,6 +17,7 @@ const emptyForm = (): ConsultationFormData => ({
   name: '',
   phone: '',
   email: '',
+  note: '',
 });
 
 @Injectable({ providedIn: 'root' })

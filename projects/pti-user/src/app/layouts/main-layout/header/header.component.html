@@ -1,18 +1,20 @@
 <header class="pti-header">
   <div class="pti-container">
-    <!-- Logo -->
     <a routerLink="/" class="logo">
       <img src="PTIGROUP.png" alt="Công ty TNHH &amp; DV PTI HOME" />
     </a>
 
-    <!-- Navigation -->
     <nav class="navigation">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Trang chủ</a>
-      
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Trang
+        chủ</a>
+
       <div class="nav-item-dropdown">
         <a routerLink="/du-an" routerLinkActive="active" class="nav-link">
-          Dự án 
-          <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          Dự án
+          <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </a>
         <div class="dropdown-menu">
           <a routerLink="/du-an/can-ho">Căn hộ</a>
@@ -23,11 +25,14 @@
       </div>
 
       <a routerLink="/phan-tich-thi-truong" routerLinkActive="active" class="nav-link">Phân tích thị trường</a>
-      
+
       <div class="nav-item-dropdown">
         <a href="javascript:void(0)" class="nav-link" style="cursor: pointer;">
-          AI đầu tư 
-          <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          AI đầu tư
+          <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </a>
         <div class="dropdown-menu">
           <a routerLink="/cong-cu">Phân tích đầu tư</a>
@@ -39,30 +44,16 @@
       <a routerLink="/ve-chung-toi" routerLinkActive="active" class="nav-link">Về chúng tôi</a>
     </nav>
 
-    <!-- Actions -->
     <div class="actions">
+      @if (customerService.hasCustomer()) {
+      <span class="customer-phone">{{ customerService.getDisplayPhone() }}</span>
+      }
       <button type="button" class="search-button" aria-label="Tìm kiếm">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
           <circle cx="8" cy="8" r="5" />
           <path d="M12 12l4 4" />
         </svg>
       </button>
-
-      @if (leadCapture.customerPhone()) {
-        <button type="button" class="notification-button" aria-label="Thông báo">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-          </svg>
-          <span class="notification-badge">2</span>
-        </button>
-
-        <div class="user-menu">
-          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40&fit=crop" alt="Avatar" class="user-avatar" />
-          <span class="user-name">{{ leadCapture.customerPhone() }}</span>
-          <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-      }
       <a href="#" class="cta-button" (click)="openConsultation($event)">Tư vấn ngay</a>
     </div>
   </div>

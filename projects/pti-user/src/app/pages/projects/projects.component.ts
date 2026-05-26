@@ -1,6 +1,7 @@
 import { Component, computed, signal, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   CATEGORY_TABS,
   PROJECT_STATS,
@@ -21,7 +22,7 @@ interface FilterState {
 
 @Component({
   selector: 'app-projects',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
 })

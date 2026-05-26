@@ -1,0 +1,640 @@
+@if (modal.isOpen()) {
+  <div class="ms-modal-backdrop" (click)="onBackdropClick($event)" role="presentation">
+    <div
+      class="ms-modal"
+      [class.ms-modal--wide]="modal.currentStep() <= 3"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ms-modal-title"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Close Button -->
+      <button type="button" class="ms-modal__close" (click)="modal.close()" aria-label="Đóng">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 5l10 10M15 5L5 15"/>
+        </svg>
+      </button>
+
+      <!-- Stepper Progress Bar (Only visible if not on Success step 5) -->
+      @if (modal.currentStep() <= 4) {
+        <div class="ms-stepper">
+          <div class="ms-stepper__item" [class.ms-stepper__item--active]="modal.currentStep() === 1" [class.ms-stepper__item--done]="modal.currentStep() > 1">
+            <span class="ms-stepper__circle">
+              @if (modal.currentStep() > 1) {
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              } @else { 1 }
+            </span>
+            <span class="ms-stepper__label">Thông tin khảo sát</span>
+          </div>
+          <span class="ms-stepper__line" [class.ms-stepper__line--done]="modal.currentStep() > 1"></span>
+
+          <div class="ms-stepper__item" [class.ms-stepper__item--active]="modal.currentStep() === 2" [class.ms-stepper__item--done]="modal.currentStep() > 2">
+            <span class="ms-stepper__circle">
+              @if (modal.currentStep() > 2) {
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              } @else { 2 }
+            </span>
+            <span class="ms-stepper__label">Chọn thời gian</span>
+          </div>
+          <span class="ms-stepper__line" [class.ms-stepper__line--done]="modal.currentStep() > 2"></span>
+
+          <div class="ms-stepper__item" [class.ms-stepper__item--active]="modal.currentStep() === 3" [class.ms-stepper__item--done]="modal.currentStep() > 3">
+            <span class="ms-stepper__circle">
+              @if (modal.currentStep() > 3) {
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              } @else { 3 }
+            </span>
+            <span class="ms-stepper__label">Chuyên viên đồng hành</span>
+          </div>
+          <span class="ms-stepper__line" [class.ms-stepper__line--done]="modal.currentStep() > 3"></span>
+
+          <div class="ms-stepper__item" [class.ms-stepper__item--active]="modal.currentStep() === 4">
+            <span class="ms-stepper__circle">4</span>
+            <span class="ms-stepper__label">Xác nhận thông tin</span>
+          </div>
+        </div>
+      }
+
+      <!-- Main Header -->
+      @if (modal.currentStep() <= 4) {
+        <div class="ms-modal__header">
+          <h2 id="ms-modal-title" class="ms-modal__title">Đặt lịch khảo sát thị trường cùng chuyên viên</h2>
+          <p class="ms-modal__subtitle">Đăng ký lịch khảo sát thực tế dự án và phân tích thị trường cùng chuyên viên PTI Home</p>
+        </div>
+      }
+
+      <!-- Modal Body -->
+      <div class="ms-modal__body">
+        
+        <!-- ================= STEP 1: THÔNG TIN KHẢO SÁT ================= -->
+        @if (modal.currentStep() === 1) {
+          <div class="ms-step-grid">
+            <!-- Left Column: Form -->
+            <div class="ms-step-col">
+              <h3 class="ms-section-title">1. Thông tin khảo sát</h3>
+              
+              <div class="ms-form-group">
+                <label class="ms-label">Khu vực quan tâm <span class="required">*</span></label>
+                <div class="ms-select-wrapper">
+                  <select [value]="modal.formData().area" (change)="onRegionChange($event)">
+                    <option value="" disabled>Chọn khu vực quan tâm</option>
+                    @for (region of regions; track region) {
+                      <option [value]="region">{{ region }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <div class="ms-form-group">
+                <label class="ms-label">Dự án quan tâm</label>
+                <div class="ms-select-wrapper">
+                  <select [value]="modal.formData().project" (change)="onProjectChange($event)">
+                    <option value="">Chọn dự án (nếu có)</option>
+                    @for (proj of filteredProjects(); track proj.id) {
+                      <option [value]="proj.name">{{ proj.name }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <div class="ms-form-group">
+                <label class="ms-label">Mục đích khảo sát <span class="required">*</span></label>
+                <div class="ms-purpose-grid">
+                  @for (opt of purposeOptions; track opt.id) {
+                    <button
+                      type="button"
+                      class="ms-purpose-btn"
+                      [class.ms-purpose-btn--active]="modal.formData().purpose === opt.id"
+                      (click)="selectPurpose(opt.id)"
+                    >
+                      <span class="ms-purpose-icon">
+                        @if (opt.icon === 'invest') {
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                          </svg>
+                        } @else if (opt.icon === 'home') {
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                          </svg>
+                        } @else if (opt.icon === 'key') {
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                          </svg>
+                        } @else if (opt.icon === 'search') {
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                          </svg>
+                        }
+                      </span>
+                      <span class="ms-purpose-label">{{ opt.title }}</span>
+                    </button>
+                  }
+                </div>
+              </div>
+
+              <div class="ms-form-group">
+                <label class="ms-label">Ngân sách dự kiến <span class="required">*</span></label>
+                <div class="ms-select-wrapper">
+                  <select [ngModel]="modal.formData().budget" (ngModelChange)="modal.setField('budget', $event)">
+                    <option value="" disabled>Chọn khoảng ngân sách</option>
+                    @for (b of budgetOptions; track b.id) {
+                      <option [value]="b.label">{{ b.label }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <div class="ms-form-group">
+                <label class="ms-label">Nhu cầu quan tâm đặc biệt <span class="optional">(tùy chọn)</span></label>
+                <input
+                  type="text"
+                  class="ms-input"
+                  placeholder="VD: Pháp lý, tiềm năng tăng giá, hạ tầng, tiện ích, ..."
+                  [ngModel]="modal.formData().specialNeed"
+                  (ngModelChange)="modal.setField('specialNeed', $event)"
+                />
+              </div>
+
+              <div class="ms-contact-section">
+                <h4 class="ms-sub-section-title">Thông tin liên hệ</h4>
+                <div class="ms-form-row">
+                  <div class="ms-form-group">
+                    <label class="ms-label">Họ và tên <span class="required">*</span></label>
+                    <input
+                      type="text"
+                      class="ms-input"
+                      placeholder="Nhập họ và tên"
+                      [ngModel]="modal.formData().name"
+                      (ngModelChange)="modal.setField('name', $event)"
+                      required
+                    />
+                  </div>
+                  <div class="ms-form-group">
+                    <label class="ms-label">Số điện thoại <span class="required">*</span></label>
+                    <input
+                      type="tel"
+                      class="ms-input"
+                      placeholder="Nhập số điện thoại"
+                      [ngModel]="modal.formData().phone"
+                      (ngModelChange)="modal.setField('phone', $event)"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="ms-form-group">
+                  <label class="ms-label">Email <span class="optional">(tùy chọn)</span></label>
+                  <input
+                    type="email"
+                    class="ms-input"
+                    placeholder="Nhập email của bạn"
+                    [ngModel]="modal.formData().email"
+                    (ngModelChange)="modal.setField('email', $event)"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Expert Suggestion -->
+            <div class="ms-step-col ms-step-col--sidebar">
+              <h3 class="ms-section-title">2. Chuyên viên gợi ý đồng hành</h3>
+              <p class="ms-section-subtitle">Chúng tôi sẽ đề xuất chuyên viên phù hợp nhất với nhu cầu của bạn</p>
+
+              <div class="ms-expert-list">
+                @for (expert of experts; track expert.id) {
+                  <div class="ms-expert-card" [class.ms-expert-card--highlighted]="expert.badge">
+                    <div class="ms-expert-card-top" style="display: flex; gap: 14px; width: 100%;">
+                      <img [src]="expert.avatar" [alt]="expert.name" class="ms-expert-avatar" />
+                      <div class="ms-expert-details">
+                        <div class="ms-expert-header">
+                          <span class="ms-expert-name">{{ expert.name }}</span>
+                          @if (expert.badge) {
+                            <span class="ms-expert-badge">{{ expert.badge }}</span>
+                          }
+                        </div>
+                        <div class="ms-expert-role">{{ expert.role }}</div>
+                        
+                        <div class="ms-expert-tags-container">
+                          <span class="ms-expert-tag">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                            </svg>
+                            {{ expert.experience }}
+                          </span>
+                          <span class="ms-expert-tag">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                              <circle cx="12" cy="9" r="2.5"/>
+                            </svg>
+                            {{ expert.specialty }}
+                          </span>
+                          <span class="ms-expert-tag">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                              <circle cx="9" cy="7" r="4"/>
+                              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            {{ expert.clients }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="ms-expert-profile-btn" (click)="showExpertProfile(expert, $event)">Xem hồ sơ</button>
+                  </div>
+                }
+              </div>
+
+              <!-- Note Alert Box -->
+              <div class="ms-note-box">
+                <svg class="ms-note-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+                <span class="ms-note-text">Chuyên viên sẽ liên hệ xác nhận và đồng hành cùng bạn trong suốt quá trình khảo sát.</span>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- ================= STEP 2: CHỌN THỜI GIAN ================= -->
+        @if (modal.currentStep() === 2) {
+          <div class="ms-step-grid">
+            <!-- Left Column: Date & Time Selector -->
+            <div class="ms-step-col">
+              <h3 class="ms-section-title">Chọn ngày khảo sát <span class="required">*</span></h3>
+              <div class="ms-date-grid">
+                @for (d of dates; track d.fullStr) {
+                  <button
+                    type="button"
+                    class="ms-date-btn"
+                    [class.ms-date-btn--active]="modal.formData().date === d.fullStr"
+                    (click)="selectDate(d.fullStr)"
+                  >
+                    <span class="ms-date-day">{{ d.dayName }}</span>
+                    <span class="ms-date-num">{{ d.dateStr }}</span>
+                  </button>
+                }
+              </div>
+
+              <h3 class="ms-section-title" style="margin-top: 28px;">Chọn khung giờ khảo sát <span class="required">*</span></h3>
+              <div class="ms-time-grid">
+                @for (t of timeSlots; track t.id) {
+                  <button
+                    type="button"
+                    class="ms-time-btn"
+                    [class.ms-time-btn--active]="modal.formData().timeSlot === t.name"
+                    (click)="selectTimeSlot(t.name)"
+                  >
+                    <svg class="ms-clock-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    {{ t.name }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Right Column: Step 1 Summary Preview -->
+            <div class="ms-step-col ms-step-col--sidebar ms-summary-sidebar">
+              <h3 class="ms-section-title">Thông tin khảo sát đã chọn</h3>
+              <div class="ms-summary-card">
+                <div class="ms-summary-row">
+                  <span class="ms-summary-label">Khu vực:</span>
+                  <span class="ms-summary-val">{{ modal.formData().area || 'Chưa chọn' }}</span>
+                </div>
+                <div class="ms-summary-row" *ngIf="modal.formData().project">
+                  <span class="ms-summary-label">Dự án:</span>
+                  <span class="ms-summary-val">{{ modal.formData().project }}</span>
+                </div>
+                <div class="ms-summary-row">
+                  <span class="ms-summary-label">Mục đích:</span>
+                  <span class="ms-summary-val">
+                    @switch (modal.formData().purpose) {
+                      @case ('invest') { Đầu tư }
+                      @case ('live') { Mua để ở }
+                      @case ('rent') { Cho thuê }
+                      @case ('research') { Tìm hiểu thị trường }
+                    }
+                  </span>
+                </div>
+                <div class="ms-summary-row">
+                  <span class="ms-summary-label">Ngân sách:</span>
+                  <span class="ms-summary-val">{{ modal.formData().budget || 'Chưa chọn' }}</span>
+                </div>
+                <div class="ms-summary-row">
+                  <span class="ms-summary-label">Họ tên:</span>
+                  <span class="ms-summary-val">{{ modal.formData().name }}</span>
+                </div>
+                <div class="ms-summary-row">
+                  <span class="ms-summary-label">Số điện thoại:</span>
+                  <span class="ms-summary-val">{{ modal.formData().phone }}</span>
+                </div>
+              </div>
+
+              <!-- Suggested Experts Mini-List -->
+              <h3 class="ms-section-title" style="margin-top: 20px;">Chuyên viên gợi ý</h3>
+              <div class="ms-expert-mini-list">
+                @for (expert of experts.slice(0, 2); track expert.id) {
+                  <div class="ms-expert-mini-card">
+                    <img [src]="expert.avatar" [alt]="expert.name" class="ms-expert-mini-avatar" />
+                    <div>
+                      <div class="ms-expert-mini-name">{{ expert.name }}</div>
+                      <div class="ms-expert-mini-role">{{ expert.role }}</div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- ================= STEP 3: CHUYÊN VIÊN ĐỒNG HÀNH ================= -->
+        @if (modal.currentStep() === 3) {
+          <div class="ms-step-grid">
+            <!-- Left Column: Expert Selection -->
+            <div class="ms-step-col">
+              <h3 class="ms-section-title">Chọn chuyên viên đồng hành <span class="required">*</span></h3>
+              <p class="ms-section-subtitle" style="margin-bottom: 20px;">Vui lòng chọn một chuyên viên bạn mong muốn sẽ đồng hành hỗ trợ</p>
+              
+              <div class="ms-expert-select-grid">
+                @for (expert of experts; track expert.id) {
+                  <div
+                    class="ms-expert-select-card"
+                    [class.ms-expert-select-card--active]="modal.formData().selectedExpertId === expert.id"
+                    (click)="selectExpert(expert.id)"
+                  >
+                    <div class="ms-esc-check">
+                      <span class="ms-esc-check-circle"></span>
+                    </div>
+                    <img [src]="expert.avatar" [alt]="expert.name" class="ms-esc-avatar" />
+                    <h4 class="ms-esc-name">{{ expert.name }}</h4>
+                    <div class="ms-esc-role">{{ expert.role }}</div>
+                    <div class="ms-esc-stat">{{ expert.experience }}</div>
+                    <p class="ms-esc-bio">{{ expert.bio }}</p>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Right Column: Selected Expert Profile Info -->
+            <div class="ms-step-col ms-step-col--sidebar">
+              <h3 class="ms-section-title">Thông tin chi tiết</h3>
+              @let activeExpert = getSelectedExpert();
+              <div class="ms-selected-expert-detail">
+                <div class="ms-sed-header">
+                  <img [src]="activeExpert.avatar" [alt]="activeExpert.name" class="ms-sed-avatar" />
+                  <div>
+                    <h4 class="ms-sed-name">{{ activeExpert.name }}</h4>
+                    <span class="ms-sed-role">{{ activeExpert.role }}</span>
+                  </div>
+                </div>
+                <div class="ms-sed-body">
+                  <div class="ms-sed-bullet"><strong>Kinh nghiệm:</strong> {{ activeExpert.experience }}</div>
+                  <div class="ms-sed-bullet"><strong>Khu vực:</strong> {{ activeExpert.specialty }}</div>
+                  <div class="ms-sed-bullet"><strong>Đã tư vấn:</strong> {{ activeExpert.clients }}</div>
+                  <div class="ms-sed-bullet"><strong>Đánh giá:</strong> <span class="ms-rating-star">⭐ 5.0 (VARS)</span></div>
+                  <div class="ms-sed-divider"></div>
+                  <p class="ms-sed-bio-text">{{ activeExpert.bio }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- ================= STEP 4: XÁC NHẬN THÔNG TIN ================= -->
+        @if (modal.currentStep() === 4) {
+          <div class="ms-confirm-layout">
+            <div class="ms-confirm-card">
+              <div class="ms-confirm-header">
+                <div class="ms-confirm-icon-wrapper">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#972125" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="ms-confirm-card-title">Tóm tắt lịch hẹn khảo sát</h3>
+                  <p class="ms-confirm-card-subtitle">Vui lòng kiểm tra lại thông tin trước khi xác nhận gửi yêu cầu.</p>
+                </div>
+              </div>
+
+              <div class="ms-confirm-grid">
+                <!-- Group 1: Project & Location -->
+                <div class="ms-confirm-group">
+                  <h4 class="ms-cg-title">1. Thông tin khảo sát</h4>
+                  <div class="ms-cg-row">
+                    <span class="ms-cg-label">Khu vực:</span>
+                    <span class="ms-cg-val">{{ modal.formData().area }}</span>
+                  </div>
+                  @if (modal.formData().project) {
+                    <div class="ms-cg-row">
+                      <span class="ms-cg-label">Dự án:</span>
+                      <span class="ms-cg-val">{{ modal.formData().project }}</span>
+                    </div>
+                  }
+                  <div class="ms-cg-row">
+                    <span class="ms-cg-label">Mục đích:</span>
+                    <span class="ms-cg-val">
+                      @switch (modal.formData().purpose) {
+                        @case ('invest') { Đầu tư }
+                        @case ('live') { Mua để ở }
+                        @case ('rent') { Cho thuê }
+                        @case ('research') { Tìm hiểu thị trường }
+                      }
+                    </span>
+                  </div>
+                  <div class="ms-cg-row">
+                    <span class="ms-cg-label">Ngân sách:</span>
+                    <span class="ms-cg-val">{{ modal.formData().budget }}</span>
+                  </div>
+                  @if (modal.formData().specialNeed) {
+                    <div class="ms-cg-row ms-cg-row--full">
+                      <span class="ms-cg-label">Yêu cầu đặc biệt:</span>
+                      <span class="ms-cg-val">{{ modal.formData().specialNeed }}</span>
+                    </div>
+                  }
+                </div>
+
+                <!-- Group 2: Time & Expert -->
+                <div class="ms-confirm-group">
+                  <h4 class="ms-cg-title">2. Lịch hẹn & Chuyên viên</h4>
+                  <div class="ms-cg-row">
+                    <span class="ms-cg-label">Ngày hẹn:</span>
+                    <span class="ms-cg-val text-red">{{ modal.formData().date }}</span>
+                  </div>
+                  <div class="ms-cg-row">
+                    <span class="ms-cg-label">Thời gian:</span>
+                    <span class="ms-cg-val text-red">{{ modal.formData().timeSlot }}</span>
+                  </div>
+                  
+                  <div class="ms-cg-expert-box">
+                    @let selectedExpert = getSelectedExpert();
+                    <img [src]="selectedExpert.avatar" [alt]="selectedExpert.name" class="ms-cge-avatar" />
+                    <div>
+                      <div class="ms-cge-label">Chuyên viên đồng hành:</div>
+                      <div class="ms-cge-name">{{ selectedExpert.name }}</div>
+                      <div class="ms-cge-phone">{{ selectedExpert.phone }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ms-confirm-divider"></div>
+
+              <!-- Group 3: Contact Info -->
+              <div class="ms-confirm-contact">
+                <h4 class="ms-cg-title">3. Thông tin liên hệ của bạn</h4>
+                <div class="ms-confirm-contact-row">
+                  <div class="ms-cc-item">
+                    <span class="ms-cc-label">Họ và tên:</span>
+                    <span class="ms-cc-val">{{ modal.formData().name }}</span>
+                  </div>
+                  <div class="ms-cc-item">
+                    <span class="ms-cc-label">Số điện thoại:</span>
+                    <span class="ms-cc-val">{{ modal.formData().phone }}</span>
+                  </div>
+                  @if (modal.formData().email) {
+                    <div class="ms-cc-item">
+                      <span class="ms-cc-label">Email:</span>
+                      <span class="ms-cc-val">{{ modal.formData().email }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- ================= STEP 5: ĐĂNG KÝ THÀNH CÔNG ================= -->
+        @if (modal.currentStep() === 5) {
+          <div class="ms-success-layout">
+            <div class="ms-success-animation">
+              <div class="ms-success-icon-circle">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+            </div>
+            
+            <h2 class="ms-success-title">Đăng ký thành công!</h2>
+            <p class="ms-success-subtitle">Lịch hẹn khảo sát thị trường của bạn đã được ghi nhận vào hệ thống.</p>
+            
+            <div class="ms-success-expert-card">
+              @let assignedExpert = getSelectedExpert();
+              <img [src]="assignedExpert.avatar" [alt]="assignedExpert.name" class="ms-se-avatar" />
+              <div class="ms-se-info">
+                <div class="ms-se-role">Chuyên viên phụ trách đồng hành:</div>
+                <div class="ms-se-name">{{ assignedExpert.name }}</div>
+                <div class="ms-se-title">{{ assignedExpert.role }} ({{ assignedExpert.experience }})</div>
+              </div>
+            </div>
+
+            <p class="ms-success-note">
+              Chuyên viên <strong>{{ assignedExpert.name }}</strong> sẽ gọi điện trực tiếp qua số điện thoại <strong>{{ modal.formData().phone }}</strong> trong vòng 15 phút tới để xác nhận lại điểm hẹn và lộ trình khảo sát.
+            </p>
+          </div>
+        }
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="ms-modal__footer">
+        <!-- Security disclaimer -->
+        @if (modal.currentStep() <= 4) {
+          <p class="ms-modal__privacy">
+            <svg class="ms-lock-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Thông tin của bạn được bảo mật tuyệt đối
+          </p>
+        }
+
+        <!-- Actions -->
+        <div class="ms-modal__actions" [class.ms-modal__actions--center]="modal.currentStep() === 5">
+          <!-- Back button -->
+          @if (modal.currentStep() > 1 && modal.currentStep() <= 4) {
+            <button type="button" class="ms-btn ms-btn--outline" (click)="back()">
+              Quay lại
+            </button>
+          }
+
+          <!-- Next / Confirm / Finish button -->
+          @if (modal.currentStep() <= 4) {
+            <button
+              type="button"
+              class="ms-btn ms-btn--primary"
+              [disabled]="!canContinue()"
+              (click)="continue()"
+            >
+              {{ modal.currentStep() === 4 ? 'Xác nhận & Đăng ký' : 'Tiếp tục' }}
+              @if (modal.currentStep() < 4) {
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 8h10M9 4l4 4-4 4"/>
+                </svg>
+              }
+            </button>
+          } @else {
+            <button type="button" class="ms-btn ms-btn--primary ms-btn--large" (click)="finish()">
+              Hoàn tất
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ================= EXPERT PROFILE POPUP MODAL ================= -->
+@if (selectedProfileExpert()) {
+  @let profile = selectedProfileExpert()!;
+  <div class="ms-profile-backdrop" (click)="closeExpertProfile()" role="presentation">
+    <div class="ms-profile-card" (click)="$event.stopPropagation()">
+      <button type="button" class="ms-profile-close" (click)="closeExpertProfile()" aria-label="Đóng">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 5l10 10M15 5L5 15"/>
+        </svg>
+      </button>
+
+      <div class="ms-pcard-header">
+        <img [src]="profile.avatar" [alt]="profile.name" class="ms-pcard-avatar" />
+        <div class="ms-pcard-header-info">
+          <span class="ms-pcard-role">{{ profile.role }}</span>
+          <h3 class="ms-pcard-name">{{ profile.name }}</h3>
+          <div class="ms-pcard-rating">⭐⭐⭐⭐⭐ 5.0 (Đánh giá từ VARS)</div>
+        </div>
+      </div>
+
+      <div class="ms-pcard-body">
+        <div class="ms-pcard-section">
+          <h4 class="ms-pcard-subtitle">Thông tin chuyên môn</h4>
+          <ul class="ms-pcard-list">
+            <li><strong>Kinh nghiệm làm việc:</strong> {{ profile.experience }}</li>
+            <li><strong>Khu vực phụ trách chuyên sâu:</strong> {{ profile.specialty }}</li>
+            <li><strong>Lượng khách hàng phục vụ:</strong> {{ profile.clients }}</li>
+            <li><strong>Chứng chỉ hành nghề:</strong> Đã được xác thực bởi PTI Home & Sở Xây Dựng</li>
+          </ul>
+        </div>
+
+        <div class="ms-pcard-section">
+          <h4 class="ms-pcard-subtitle">Giới thiệu bản thân</h4>
+          <p class="ms-pcard-bio">{{ profile.bio }}</p>
+        </div>
+
+        <div class="ms-pcard-footer">
+          <a [href]="'tel:' + profile.phone.replace(' ', '')" class="ms-pcard-btn ms-pcard-btn--call">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+            Liên hệ: {{ profile.phone }}
+          </a>
+          <button type="button" class="ms-pcard-btn ms-pcard-btn--close" (click)="closeExpertProfile()">Đóng hồ sơ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

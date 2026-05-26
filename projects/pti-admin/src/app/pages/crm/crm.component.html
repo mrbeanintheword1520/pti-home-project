@@ -1,0 +1,110 @@
+<div class="crm-container">
+  
+  <!-- Sidebar Panel: Contacts -->
+  <div class="crm-contacts-sidebar">
+    <div class="contacts-header">
+      <h2>Hội thoại Zalo OA</h2>
+      <div class="contacts-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" placeholder="Tìm kiếm liên hệ..." />
+      </div>
+    </div>
+
+    <div class="contacts-list">
+      @if (sessions().length === 0) {
+        <p class="no-contacts">Không có cuộc hội thoại nào.</p>
+      } @else {
+        @for (session of sessions(); track session.leadId) {
+          <div class="contact-item" 
+               [class.active]="selectedSession()?.leadId === session.leadId"
+               [class.unread]="session.unread"
+               (click)="selectSession(session)">
+            <img [src]="session.avatar" alt="Client Avatar" class="contact-avatar" />
+            <div class="contact-meta">
+              <div class="contact-top">
+                <span class="contact-name">{{ session.clientName }}</span>
+                <span class="contact-time">{{ session.lastTime }}</span>
+              </div>
+              <p class="contact-preview">{{ session.lastMessage }}</p>
+            </div>
+            <span class="unread-dot" *ngIf="session.unread"></span>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  <!-- Chat Dialogue Panel -->
+  <div class="crm-chat-panel">
+    @if (selectedSession(); as session) {
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="chat-header-client">
+          <img [src]="session.avatar" alt="Avatar" class="chat-avatar" />
+          <div class="chat-client-info">
+            <h3>{{ session.clientName }}</h3>
+            <span>{{ session.clientPhone }} • Khách hàng tiềm năng</span>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <a [href]="'tel:' + session.clientPhone" class="chat-action-btn call" title="Gọi khách hàng">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Chat Body (Messages stream) -->
+      <div class="chat-body">
+        @for (msg of session.messages; track msg.text) {
+          <div class="message-row" [class.agent-row]="msg.sender === 'agent'">
+            <div class="message-bubble" [class.agent-bubble]="msg.sender === 'agent'">
+              <p class="message-text">{{ msg.text }}</p>
+              <span class="message-time">{{ msg.time }}</span>
+            </div>
+          </div>
+        }
+        
+        <!-- Typing Indicator -->
+        <div class="message-row" *ngIf="isTyping()">
+          <div class="typing-bubble">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Footer (Input block) -->
+      <div class="chat-footer">
+        <form (submit)="sendMessage(); $event.preventDefault();" class="chat-form">
+          <input type="text" 
+                 [(ngModel)]="newMessageText" 
+                 name="newMessage"
+                 placeholder="Nhập nội dung tin nhắn chăm sóc khách hàng..." 
+                 class="chat-input" 
+                 required />
+          <button type="submit" class="chat-send-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Gửi
+          </button>
+        </form>
+      </div>
+    } @else {
+      <div class="empty-chat-state">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="empty-icon">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <p>Vui lòng chọn một cuộc hội thoại từ danh sách bên trái để bắt đầu tương tác chăm sóc khách hàng.</p>
+      </div>
+    }
+  </div>
+
+</div>

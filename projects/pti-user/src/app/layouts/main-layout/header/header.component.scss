@@ -4,7 +4,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   width: 100%;
   height: 65px;
   background: #FFFFFF;
@@ -21,10 +21,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1216px; /* Sẽ tự co dãn trên màn hình nhỏ, và tối đa 1216px trên màn hình lớn */
-  margin: 0 auto; /* Tự động căn giữa màn hình */
-  height: 65px; 
-  padding: 0 32px; 
+  max-width: 1216px;
+  margin: 0 auto;
+  height: 65px;
+  padding: 0 32px;
 }
 
 .logo {
@@ -32,7 +32,7 @@
   align-items: center;
   height: 48px;
   text-decoration: none;
-  
+
   img {
     height: 48px;
     width: auto;
@@ -43,7 +43,7 @@
 .navigation {
   display: flex;
   flex-direction: row;
-  align-items: center; /* Center items vertically */
+  align-items: center;
   height: 100%;
 
   > .nav-link, .nav-item-dropdown {
@@ -62,7 +62,8 @@
     color: #4B5563;
     text-decoration: none;
     position: relative;
-    padding-bottom: 4px; 
+    margin-left: 32px;
+    padding-bottom: 4px;
     transition: color 0.3s ease;
     display: flex;
     align-items: center;
@@ -76,7 +77,7 @@
     &:hover, &.active {
       color: #972125;
       font-weight: 600;
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -147,8 +148,7 @@
   flex-direction: row;
   align-items: center;
 
-  .search-button,
-  .notification-button {
+  .search-button {
     background: transparent;
     border: none;
     color: #1f2937;
@@ -166,47 +166,25 @@
     }
   }
 
-  .notification-button {
-    .notification-badge {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      background: #dc2626;
-      color: #fff;
-      font-size: 10px;
-      font-weight: 700;
-      width: 14px;
-      height: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
+  .customer-phone {
+    color: #4B5563;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #972125;
     }
   }
 
-  .user-menu {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    margin-left: 16px;
+  .user-phone {
+    color: #972125;
+    font-weight: 600;
 
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .user-name {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      color: #1f2937;
-    }
-
-    .arrow-icon {
-      color: #1f2937;
+    svg {
+      color: #972125;
     }
   }
 
@@ -218,7 +196,6 @@
     line-height: 20px;
     color: #FFFFFF;
     text-decoration: none;
-    
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -230,7 +207,7 @@
     transition: background 0.3s ease;
 
     &:hover {
-      background: #7a1b1e; 
+      background: #7a1b1e;
     }
   }
 }

@@ -159,11 +159,17 @@
             </button>
           }
         </div>
-        <article class="about-timeline__panel" [attr.data-year]="activeMilestone().year">
-          <span class="about-timeline__eyebrow">Cột mốc {{ activeMilestoneIndex() + 1 }}</span>
-          <strong class="about-timeline__year">{{ activeMilestone().year }}</strong>
-          <p>{{ activeMilestone().text }}</p>
-        </article>
+        <div class="about-timeline__content">
+          @for (item of milestones; track item.year; let i = $index) {
+            @if (activeMilestoneIndex() === i) {
+              <article class="about-timeline__panel" [attr.data-year]="item.year">
+                <span class="about-timeline__eyebrow">Cột mốc {{ i + 1 }}</span>
+                <strong class="about-timeline__year">{{ item.year }}</strong>
+                <p>{{ item.text }}</p>
+              </article>
+            }
+          }
+        </div>
       </div>
     </div>
   </section>

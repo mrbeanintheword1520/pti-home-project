@@ -1,0 +1,897 @@
+<div class="project-map-container">
+
+  <!-- ====== HEADER ====== -->
+  <div class="project-header">
+    <div class="header-top">
+      <div class="header-left">
+        <div class="breadcrumb">
+          <span>Trang chủ</span>
+          <span class="sep">&gt;</span>
+          <span>Dự án</span>
+          <span class="sep">&gt;</span>
+          <span class="current">Vinhomes Saigon Park</span>
+        </div>
+        <h1 class="project-title">Vinhomes Saigon Park</h1>
+        <div class="project-sub">
+          <span class="sub-location">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            Xuân Thới Sơn, Hóc Môn, TP. Hồ Chí Minh
+          </span>
+          <span class="sub-rating">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <strong>4.9/5</strong>
+            <span class="review-count">(850 đánh giá)</span>
+          </span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="btn-action">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+          Chia sẻ
+        </button>
+        <button class="btn-action">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          Yêu thích
+        </button>
+        <button class="btn-quote" (click)="openSurveyModal()">Nhận bảng giá</button>
+      </div>
+    </div>
+
+    <!-- Nav bar -->
+    <div class="nav-bar">
+      <div class="nav-bar__inner">
+        <a class="nav-item" href="javascript:void(0)">Tổng quan</a>
+        <a class="nav-item" href="javascript:void(0)">Vị trí</a>
+        <a class="nav-item" href="javascript:void(0)">Mặt bằng</a>
+        <a class="nav-item" href="javascript:void(0)">Tiện ích</a>
+        <a class="nav-item active">Bản đồ dự án</a>
+        <a class="nav-item nav-item--right" href="javascript:void(0)">Giỏ hàng (3)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== MAIN LAYOUT ====== -->
+  <div class="project-layout" [class.potential-layout]="activeSubTab() === 'potential'">
+    
+    <!-- Sub-tab Toggle Group -->
+    <div class="map-view-toggle-container">
+      <div class="map-view-toggle">
+        <button class="toggle-btn" [class.active]="activeSubTab() === 'map'" (click)="activeSubTab.set('map')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
+            <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4zm7-2v16m8-12v16"/>
+          </svg>
+          Bản đồ dự án
+        </button>
+        <button class="toggle-btn toggle-btn-red" [class.active]="activeSubTab() === 'potential'" (click)="activeSubTab.set('potential')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+          </svg>
+          Heatmap tiềm năng
+        </button>
+      </div>
+    </div>
+
+    @if (activeSubTab() === 'map') {
+      <!-- LEFT SIDEBAR -->
+      <div class="sidebar-left">
+        <!-- 1. Property Image -->
+        <div class="card project-img-card">
+          <img src="images/phankhu/vinhomes-aerial.jpg" alt="Vinhomes Saigon Park" class="proj-main-img" />
+          <div class="img-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            +28 ảnh
+          </div>
+        </div>
+
+        <!-- 2. Project Info Card -->
+        <div class="card project-info-card">
+          <div class="info-section dev-section">
+            <span class="info-label">Chủ đầu tư</span>
+            <span class="info-value">Vinhomes</span>
+          </div>
+          
+          <div class="info-divider"></div>
+
+          <div class="info-section stats-section">
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="9" y1="3" x2="9" y2="21"/>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Quy mô</span>
+                  <span class="stat-value">1.080 ha</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                    <polyline points="2 17 12 22 22 17"/>
+                    <polyline points="2 12 12 17 22 12"/>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Số phân khu</span>
+                  <span class="stat-value">5</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Sản phẩm</span>
+                  <span class="stat-value">~75.000 căn</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-divider"></div>
+
+          <div class="info-section price-section">
+            <span class="info-label">Khoảng giá</span>
+            <span class="price-value-red">1.8 - 45.0 tỷ/căn</span>
+          </div>
+
+          <div class="info-divider"></div>
+
+          <div class="info-section types-section">
+            <span class="info-label">Loại hình sản phẩm</span>
+            <div class="type-tags">
+              <span class="tag active">Căn hộ</span>
+              <span class="tag">Nhà phố</span>
+              <span class="tag">Shophouse</span>
+              <span class="tag">Biệt thự</span>
+            </div>
+          </div>
+
+          <div class="info-divider"></div>
+
+          <div class="info-section cta-section">
+            <div class="cta-buttons-row">
+              <button class="btn-cta-red" (click)="openSurveyModalWithConsult()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px;">
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                Nhận tư vấn
+              </button>
+              <button class="btn-cta-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Tải tài liệu
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Highlights -->
+        <div class="card highlights-card">
+          <div class="card-title">Thông tin nổi bật</div>
+          <ul class="highlights-list">
+            <li>
+              <svg class="hl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+              Mặt tiền QL22 & Vành Đai 3, kết nối xuyên biên giới (cao tốc Mộc Bài)
+            </li>
+            <li>
+              <svg class="hl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <line x1="3" y1="9" x2="21" y2="9"/>
+                <line x1="9" y1="21" x2="9" y2="9"/>
+              </svg>
+              Thành phố Công viên Tri thức hàng đầu châu Á với cụm Đại học 150 ha
+            </li>
+            <li>
+              <svg class="hl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/>
+                <path d="M12 21v-4"/>
+                <path d="M12 12v-2"/>
+              </svg>
+              Tổ hợp giải trí VinWonders 22.7 ha & Sân golf Vinpearl 200 ha (36 hố)
+            </li>
+            <li>
+              <svg class="hl-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              Quy hoạch tỷ lệ 1/500 hoàn thiện, hạ tầng thi công thần tốc
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RIGHT MAP CONTAINER -->
+      <div class="map-container">
+        <div class="map-inner" (click)="onMapClick($event)">
+          <!-- Main Map Image -->
+          <img src="images/phankhu/master-plan.jpg" alt="Vinhomes Saigon Park Map" class="map-image" />
+
+          <!-- SVG Polygon Active & Interactive Overlay -->
+          <svg class="map-svg-overlay" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            @for (zone of zones; track zone.id) {
+              <polygon
+                [attr.points]="zone.polygonPoints"
+                class="clickable-zone"
+                [class.active]="activeZone() === zone.id"
+                (click)="selectZone(zone.id); $event.stopPropagation()"
+              />
+            }
+          </svg>
+        </div>
+
+        <!-- Details & Filter Row Below the Map Image -->
+        @if (activeZone() !== null) {
+          @let active = zones[activeZone()! - 1];
+          <div class="map-bottom-row">
+            <!-- Subdivision Detail Card -->
+            <div class="card subdivision-detail-card" [style.border-bottom-color]="active.color">
+              <div class="sub-header">
+                <h3 class="sub-title">Phân khu {{ active.name }}</h3>
+                <span class="sub-unit-count">{{ active.units }}</span>
+              </div>
+              
+              <div class="detail-grid">
+                <div class="detail-col">
+                  <span class="detail-label">Loại hình</span>
+                  <span class="detail-value">{{ active.products.join(', ') }}</span>
+                </div>
+                <div class="detail-col">
+                  <span class="detail-label">Khoảng giá</span>
+                  <span class="detail-value text-red">{{ active.priceRange }}</span>
+                </div>
+                <div class="detail-col">
+                  <span class="detail-label">Diện tích</span>
+                  <span class="detail-value">{{ active.areaRange }}</span>
+                </div>
+                <div class="detail-col">
+                  <span class="detail-label">Tình trạng</span>
+                  <span class="detail-value text-green">{{ active.status }}</span>
+                </div>
+              </div>
+              <div class="preview-blocks">
+                <div class="preview-item" (click)="openDetailModal()">
+                  <img [src]="active.details.images[0] || 'images/phankhu/vinhomes-aerial.jpg'" alt="Mặt bằng" />
+                  <span>Mặt bằng phân khu</span>
+                </div>
+                <div class="preview-item" (click)="openDetailModal()">
+                  <img [src]="active.details.images[1] || 'images/phankhu/master-plan.jpg'" alt="Tiện ích" />
+                  <span>Tiện ích phân khu</span>
+                </div>
+              </div>
+
+              <div class="ssd-actions">
+                <button class="btn-cta-red" (click)="openDetailModal()">Xem chi tiết phân khu</button>
+              </div>
+            </div>
+
+            <div class="card filter-card">
+
+              <div class="filter-group">
+                <span class="filter-label">Loại hình</span>
+                <div class="select-wrapper">
+                  <select [(ngModel)]="selectedType">
+                    <option>Tất cả loại hình</option>
+                    <option>Căn hộ</option>
+                    <option>Nhà phố</option>
+                    <option>Shophouse</option>
+                    <option>Biệt thự</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <div class="filter-label-row">
+                  <span class="filter-label">Khoảng giá</span>
+                  <span class="filter-value">{{ priceRangeValue }} tỷ</span>
+                </div>
+                <div class="slider-container">
+                  <input type="range" min="2" max="45" [(ngModel)]="priceRangeValue" class="custom-slider" />
+                  <div class="slider-labels">
+                    <span>2 tỷ</span>
+                    <span>45 tỷ</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <div class="filter-label-row">
+                  <span class="filter-label">Diện tích</span>
+                  <span class="filter-value">{{ areaRangeValue }} m²</span>
+                </div>
+                <div class="slider-container">
+                  <input type="range" min="30" max="250" [(ngModel)]="areaRangeValue" class="custom-slider" />
+                  <div class="slider-labels">
+                    <span>30 m²</span>
+                    <span>250 m²</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <span class="filter-label">Hướng nhà</span>
+                <div class="select-wrapper">
+                  <select [(ngModel)]="selectedDirection">
+                    <option>Tất cả hướng</option>
+                    <option>Đông</option>
+                    <option>Tây</option>
+                    <option>Nam</option>
+                    <option>Bắc</option>
+                    <option>Đông Nam</option>
+                    <option>Đông Bắc</option>
+                    <option>Tây Nam</option>
+                    <option>Tây Bắc</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <span class="filter-label">Tình trạng</span>
+                <div class="select-wrapper">
+                  <select [(ngModel)]="selectedStatus">
+                    <option>Tất cả</option>
+                    <option>Đang mở bán</option>
+                    <option>Đã bán hết</option>
+                    <option>Sắp mở bán</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Bottom Tip -->
+        <div class="map-bottom-tip">
+          <svg class="tip-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <span>Mẹo: Nhấp vào từng tòa nhà để xem thông tin chi tiết, mặt bằng và giá bán.</span>
+        </div>
+      </div>
+    } @else {
+      <!-- HEATMAP POTENTIAL AREA LAYOUT -->
+      <!-- LEFT SIDEBAR -->
+      <div class="potential-sidebar-left">
+        <!-- 1. Chỉ số tiềm năng tổng hợp -->
+        <div class="card potential-card score-card">
+          <h3 class="potential-card-title">Chỉ số tiềm năng tổng hợp</h3>
+          
+          <div class="score-circle-wrapper">
+            <div class="score-circle">
+              <span class="score-val">{{ currentRegion().score }}</span>
+              <span class="score-max">/100</span>
+            </div>
+            <div class="score-status">
+              <span class="score-lbl" [class.very-high]="currentRegion().rating === 'Rất cao'" [class.high]="currentRegion().rating === 'Cao'">
+                {{ currentRegion().rating }}
+              </span>
+            </div>
+          </div>
+
+          <div class="sparkline-wrapper">
+            <svg class="sparkline" viewBox="0 0 100 30">
+              <path d="M0,25 Q15,20 30,12 T60,18 T90,5 T100,2" fill="none" stroke="#22c55e" stroke-width="2.5"></path>
+            </svg>
+          </div>
+
+          <div class="factors-list">
+            <div class="factor-item">
+              <span class="factor-label">Hạ tầng giao thông</span>
+              <div class="factor-bar-group">
+                <div class="factor-bar-bg"><div class="factor-bar-fill green" [style.width.%]="currentRegion().trafficScore"></div></div>
+                <span class="factor-val">{{ currentRegion().trafficScore }}/100</span>
+              </div>
+            </div>
+            <div class="factor-item">
+              <span class="factor-label">Quy hoạch</span>
+              <div class="factor-bar-group">
+                <div class="factor-bar-bg"><div class="factor-bar-fill green" [style.width.%]="currentRegion().planningScore"></div></div>
+                <span class="factor-val">{{ currentRegion().planningScore }}/100</span>
+              </div>
+            </div>
+            <div class="factor-item">
+              <span class="factor-label">Mật độ dân cư</span>
+              <div class="factor-bar-group">
+                <div class="factor-bar-bg"><div class="factor-bar-fill yellow" [style.width.%]="currentRegion().densityScore"></div></div>
+                <span class="factor-val">{{ currentRegion().densityScore }}/100</span>
+              </div>
+            </div>
+            <div class="factor-item">
+              <span class="factor-label">Tốc độ phát triển</span>
+              <div class="factor-bar-group">
+                <div class="factor-bar-bg"><div class="factor-bar-fill green" [style.width.%]="currentRegion().growthRate"></div></div>
+                <span class="factor-val">{{ currentRegion().growthRate }}/100</span>
+              </div>
+            </div>
+            <div class="factor-item">
+              <span class="factor-label">Thanh khoản</span>
+              <div class="factor-bar-group">
+                <div class="factor-bar-bg"><div class="factor-bar-fill green" [style.width.%]="currentRegion().liquidityScore"></div></div>
+                <span class="factor-val">{{ currentRegion().liquidityScore }}/100</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Xu hướng tăng trưởng -->
+        <div class="card potential-card growth-card">
+          <h3 class="potential-card-title">Xu hướng tăng trưởng</h3>
+          <p class="potential-card-subtitle">12 tháng gần nhất</p>
+          
+          <div class="growth-metric">
+            <div class="metric-top">
+              <span class="metric-val text-green">{{ currentRegion().priceTrend }}</span>
+              <span class="metric-lbl">Giá bán tăng</span>
+            </div>
+            <svg class="growth-sparkline" viewBox="0 0 100 20">
+              <path d="M0,18 L15,16 L30,12 L45,14 L60,8 L75,10 L90,4 L100,2" fill="none" stroke="#2563eb" stroke-width="1.8"></path>
+            </svg>
+          </div>
+
+          <div class="growth-metric">
+            <div class="metric-top">
+              <span class="metric-val text-green">{{ currentRegion().interestTrend }}</span>
+              <span class="metric-lbl">Mức độ quan tâm</span>
+            </div>
+            <svg class="growth-sparkline" viewBox="0 0 100 20">
+              <path d="M0,16 L20,15 L40,11 L60,12 L80,6 L100,2" fill="none" stroke="#2563eb" stroke-width="1.8"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3. Dự án nổi bật -->
+        <div class="card potential-card projects-card">
+          <h3 class="potential-card-title">Dự án nổi bật trong khu vực</h3>
+          <div class="featured-projects-list">
+            @for (p of currentRegion().projects; track p.name) {
+              <div class="feat-proj-item">
+                <img [src]="p.img" alt="{{ p.name }}" class="feat-proj-img" />
+                <div class="feat-proj-info">
+                  <span class="feat-proj-name">{{ p.name }}</span>
+                  <span class="feat-proj-price">{{ p.price }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- MIDDLE MAP PANEL -->
+      <div class="potential-map-panel">
+        <div class="map-controls-top">
+          <div class="pot-search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" [(ngModel)]="potentialSearchQuery" placeholder="Tìm kiếm khu vực..." />
+          </div>
+
+          <div class="pot-filter-pills">
+            @for (pill of ['Tổng hợp', 'Mức độ quan tâm', 'Tốc độ tăng giá', 'Hạ tầng giao thông', 'Quy hoạch']; track pill) {
+              <button class="pill-btn" [class.active]="selectedPill() === pill" (click)="selectedPill.set(pill)">
+                {{ pill }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="heatmap-map-container">
+          <!-- Real Interactive Leaflet Map Container -->
+          <div id="potentialLeafletMap" style="width: 100%; height: 100%; min-height: 400px; z-index: 1;"></div>
+
+          <!-- Floating Hotspot Detail Panel -->
+          @if (activeHotspot()) {
+            @let hs = activeHotspot();
+            <div class="floating-overlay hotspot-detail-overlay" style="z-index: 10;">
+              <div class="hs-detail-header">
+                <span class="hs-badge">Điểm Nóng Đầu Tư</span>
+                <span class="hs-score-badge">Độ tiềm năng: {{ hs.score }}/100</span>
+              </div>
+              <h4 class="hs-detail-title">{{ hs.name }}</h4>
+              <div class="hs-detail-meta">
+                <div class="meta-item">
+                  <span class="meta-lbl">Giá bán dự kiến:</span>
+                  <span class="meta-val text-red">{{ hs.price }}</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-lbl">Dự án tiêu biểu:</span>
+                  <span class="meta-val">{{ hs.projects }}</span>
+                </div>
+              </div>
+              <div class="hs-detail-divider"></div>
+              <p class="hs-detail-desc">{{ hs.description }}</p>
+            </div>
+          }
+
+          <!-- Legend list -->
+          <div class="floating-overlay legend-box">
+            <span class="overlay-title">Mức độ tiềm năng</span>
+            <div class="legend-list">
+              <div class="legend-item"><span class="color-dot very-high"></span> Rất cao <span class="range">(80 - 100)</span></div>
+              <div class="legend-item"><span class="color-dot high"></span> Cao <span class="range">(60 - 80)</span></div>
+              <div class="legend-item"><span class="color-dot medium"></span> Trung bình <span class="range">(40 - 60)</span></div>
+              <div class="legend-item"><span class="color-dot low"></span> Thấp <span class="range">(20 - 40)</span></div>
+              <div class="legend-item"><span class="color-dot very-low"></span> Rất thấp <span class="range">(0 - 20)</span></div>
+            </div>
+          </div>
+
+          <!-- Display layers -->
+          <div class="floating-overlay layers-box">
+            <span class="overlay-title">Lớp dữ liệu hiển thị</span>
+            <div class="checkbox-list">
+              <label class="check-item">
+                <input type="checkbox" [(ngModel)]="layers.interest" />
+                <span class="custom-check"></span> Mức độ quan tâm
+              </label>
+              <label class="check-item">
+                <input type="checkbox" [(ngModel)]="layers.priceSpeed" />
+                <span class="custom-check"></span> Tốc độ tăng giá
+              </label>
+              <label class="check-item">
+                <input type="checkbox" [(ngModel)]="layers.traffic" />
+                <span class="custom-check"></span> Hạ tầng giao thông
+              </label>
+              <label class="check-item">
+                <input type="checkbox" [(ngModel)]="layers.planning" />
+                <span class="custom-check"></span> Quy hoạch
+              </label>
+              <label class="check-item">
+                <input type="checkbox" [(ngModel)]="layers.density" />
+                <span class="custom-check"></span> Mật độ dân cư
+              </label>
+              <label class="check-item">
+                <input type="checkbox" [(ngModel)]="layers.liquidity" />
+                <span class="custom-check"></span> Thanh khoản
+              </label>
+            </div>
+          </div>
+
+          <!-- Map controls -->
+          <div class="map-nav-controls">
+            <button class="nav-control-btn" title="Phóng to" (click)="zoomIn()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+            <button class="nav-control-btn" title="Thu nhỏ" (click)="zoomOut()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+            <button class="nav-control-btn" title="Định vị">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+              </svg>
+            </button>
+            <button class="nav-control-btn map-satellite-btn" title="Bản đồ vệ tinh" (click)="toggleSatellite()">
+              <img src="images/phankhu/master-plan.jpg" alt="Satellite" />
+              <span>{{ isSatelliteMode() ? 'Đường phố' : 'Vệ tinh' }}</span>
+            </button>
+          </div>
+
+          <!-- Bottom gradient scale -->
+          <div class="bottom-scale-bar">
+            <span class="scale-lbl">Mức độ tiềm năng</span>
+            <div class="scale-gradient"></div>
+            <div class="scale-labels">
+              <span>Thấp</span>
+              <span>Rất cao</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <div class="potential-sidebar-right">
+        <!-- Area Selector Dropdown -->
+        <div class="card area-select-card">
+          <span class="select-label">Thông tin khu vực</span>
+          <div class="area-select-wrapper">
+            <select [ngModel]="selectedPotentialRegion()" (ngModelChange)="selectPotentialRegion($event)">
+              <option value="thuduc">TP. Thủ Đức (TP.HCM)</option>
+              <option value="binhduong">Tỉnh Bình Dương</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 1. Điểm tiềm năng tổng hợp -->
+        <div class="card potential-card summary-card">
+          <h3 class="potential-card-title">Điểm tiềm năng tổng hợp</h3>
+          <div class="big-score-row">
+            <span class="big-score">{{ currentRegion().score }}<span class="slash">/100</span></span>
+            <span class="score-trend-badge" [class.very-high]="currentRegion().rating === 'Rất cao'">
+              {{ currentRegion().rating }}
+            </span>
+          </div>
+          <div class="sparkline-container-right">
+            <svg class="sparkline-blue" viewBox="0 0 120 30">
+              <path d="M0,22 Q20,18 40,25 T80,10 T120,2" fill="none" stroke="#2563eb" stroke-width="2"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 2. Xu hướng phát triển -->
+        <div class="card potential-card info-text-card">
+          <h3 class="potential-card-title">Xu hướng phát triển</h3>
+          <div class="status-trend-row">
+            <span class="status-dot green"></span>
+            <span class="status-txt">Tích cực</span>
+          </div>
+          <p class="trend-description">{{ currentRegion().developmentTrend }}</p>
+          <a href="javascript:void(0)" class="details-link">Xem phân tích chi tiết &rarr;</a>
+        </div>
+
+        <!-- 3. Yếu tố nổi bật -->
+        <div class="card potential-card factors-check-card">
+          <h3 class="potential-card-title">Yếu tố nổi bật</h3>
+          <ul class="check-list">
+            @for (hl of currentRegion().highlights; track hl) {
+              <li>
+                <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {{ hl }}
+              </li>
+            }
+          </ul>
+        </div>
+
+        <!-- 4. Dự báo tiềm năng -->
+        <div class="card potential-card forecast-card">
+          <h3 class="potential-card-title">Dự báo tiềm năng</h3>
+          <p class="potential-card-subtitle">(Trong 12 tháng tới)</p>
+          
+          <div class="forecast-list">
+            <div class="forecast-item">
+              <div class="forecast-left">
+                <div class="forecast-icon red">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+                  </svg>
+                </div>
+                <div class="forecast-lbl-group">
+                  <span class="forecast-label">Giá bán</span>
+                  <span class="forecast-change">{{ currentRegion().forecastPrice }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="forecast-item">
+              <div class="forecast-left">
+                <div class="forecast-icon blue">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+                  </svg>
+                </div>
+                <div class="forecast-lbl-group">
+                  <span class="forecast-label">Mức độ quan tâm</span>
+                  <span class="forecast-change">{{ currentRegion().forecastInterest }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="forecast-item">
+              <div class="forecast-left">
+                <div class="forecast-icon green">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+                  </svg>
+                </div>
+                <div class="forecast-lbl-group">
+                  <span class="forecast-label">Thanh khoản</span>
+                  <span class="forecast-change">{{ currentRegion().forecastLiquidity }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    
+    @if (activeSubTab() !== 'potential') {
+      <!-- Horizontal Zone List (Replaces Vertical Sidebar List) -->
+      <div class="horizontal-zone-list-wrapper">
+        <h3 class="hz-list-title">Danh sách phân khu</h3>
+        <div class="hz-list-scroll">
+          @for (zone of zones; track zone.id) {
+            <div class="hz-card" [class.active]="activeZone() === zone.id" (click)="selectZone(zone.id)">
+              <div class="hz-img">
+                <span class="hz-badge" [ngClass]="{'status-coming': zone.status === 'Sắp mở bán', 'status-sold': zone.status === 'Đã bàn giao'}">{{ zone.status }}</span>
+                <img [src]="zone.details.images[0] || 'images/phankhu/vinhomes-aerial.jpg'" alt="{{ zone.name }}" />
+              </div>
+              <div class="hz-info">
+                <h4>{{ zone.name }}</h4>
+                <div class="hz-price">Giá từ <strong>{{ zone.priceRange }}</strong></div>
+                <div class="hz-products">Sản phẩm: {{ zone.products.join(', ') }}</div>
+              </div>
+            </div>
+          }
+          
+          <div class="hz-cta-card">
+            <div class="hz-cta-content">
+              <h4>Chưa tìm thấy phân khu phù hợp?</h4>
+              <p>Để lại nhu cầu, chuyên viên của chúng tôi sẽ tư vấn cho bạn</p>
+              <button class="btn-cta-red" (click)="openSurveyModal()">Để lại nhu cầu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- ====== SUBDIVISION DETAIL MODAL OVERLAY ====== -->
+  @if (isDetailModalOpen() && activeZone() !== null) {
+    @let active = zones[activeZone()! - 1];
+    <div class="detail-modal-backdrop" (click)="closeDetailModal()">
+      <div class="detail-modal-card" (click)="$event.stopPropagation()">
+        <!-- Close Button -->
+        <button class="modal-close-btn" (click)="closeDetailModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        
+        <div class="modal-body-layout">
+          <!-- Left Column: Gallery & Slider -->
+          <div class="modal-media-col">
+            <div class="main-gallery-view">
+              <img [src]="active.details.images[activeModalImageIndex()]" [alt]="active.name" class="main-gallery-img" />
+              
+              <!-- Navigation Arrows -->
+              @if (active.details.images.length > 1) {
+                <button class="gallery-nav-btn prev" (click)="prevModalImage(active.details.images.length)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="15 18 9 12 15 6"/>
+                  </svg>
+                </button>
+                <button class="gallery-nav-btn next" (click)="nextModalImage(active.details.images.length)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </button>
+              }
+            </div>
+            
+            <!-- Gallery Thumbnails -->
+            <div class="gallery-thumbnails">
+              @for (img of active.details.images; track $index) {
+                <div 
+                  class="thumb-item" 
+                  [class.active]="$index === activeModalImageIndex()"
+                  (click)="setModalImage($index)"
+                >
+                  <img [src]="img" alt="Thumbnail" />
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Right Column: Rich Info Content -->
+          <div class="modal-info-col">
+            <div class="modal-header-badge">
+              <span class="modal-badge" [style.background]="active.color + '15'" [style.color]="active.color">
+                Phân khu {{ active.name }}
+              </span>
+              <span class="modal-status-badge text-green">{{ active.status }}</span>
+            </div>
+            
+            <h2 class="modal-title">{{ active.details.title }}</h2>
+            <p class="modal-subtitle">{{ active.details.subtitle }}</p>
+            
+            <div class="modal-divider"></div>
+            
+            <div class="info-scroll-area">
+              <h4 class="section-heading">Tổng quan phân khu</h4>
+              <p class="modal-desc">{{ active.details.description }}</p>
+
+              <h4 class="section-heading">Điểm nhấn nổi bật</h4>
+              <ul class="modal-highlights">
+                @for (hl of active.details.highlights; track hl) {
+                  <li>{{ hl }}</li>
+                }
+              </ul>
+
+              <h4 class="section-heading">Thông số quy hoạch</h4>
+              <table class="modal-specs-table">
+                <tbody>
+                  @for (spec of active.details.specs; track spec.label) {
+                    <tr>
+                      <td class="spec-label">{{ spec.label }}</td>
+                      <td class="spec-value">{{ spec.value }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="modal-divider"></div>
+            
+            <div class="modal-footer-cta">
+              <button class="modal-cta-btn primary" (click)="openSurveyModal(); closeDetailModal()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                Nhận bảng giá & tư vấn ưu đãi
+              </button>
+              <button class="modal-cta-btn secondary" (click)="closeDetailModal()">
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- FLOATING CONSULTANT WIDGET -->
+  <div class="floating-consultant-widget" [class.expanded]="isConsultantExpanded()">
+    <button class="fc-toggle-btn" (click)="isConsultantExpanded.set(!isConsultantExpanded())">
+      <div class="fc-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+        </svg>
+      </div>
+      @if (!isConsultantExpanded()) {
+        <span class="fc-short-text">Hỗ trợ 24/7</span>
+      }
+    </button>
+  
+    @if (isConsultantExpanded()) {
+      <div class="fc-card">
+        <div class="fc-header">
+          <img src="https://ui-avatars.com/api/?name=Nguy%E1%BB%85n+Ho%C3%A0ng&amp;background=972125&amp;color=fff&amp;rounded=true&amp;size=80" alt="Consultant" />
+          <div class="fc-info">
+            <span class="fc-role">Chuyên viên tư vấn</span>
+            <div class="fc-name">Nguyễn Hoàng</div>
+            <a href="tel:0937222322" class="fc-phone">0937 222 322</a>
+          </div>
+          <button class="fc-close" (click)="isConsultantExpanded.set(false)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="fc-actions">
+          <a href="tel:0937222322" class="fc-btn fc-btn-call">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+            Gọi ngay
+          </a>
+          <button class="fc-btn fc-btn-msg">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+            </svg>
+            Nhắn tin
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+
+</div>
