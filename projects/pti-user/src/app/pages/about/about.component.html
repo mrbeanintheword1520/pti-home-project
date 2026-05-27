@@ -21,28 +21,40 @@
 
   <!-- Intro -->
   <section class="about-section">
-    <div class="about-container about-intro">
-      <div class="about-intro__image">
-        <img src="/about_us/gioi-thieu-pti-home.jpg" alt="Giới thiệu PTI HOME" />
-      </div>
-      <div class="about-intro__content">
-        <h2>Giới thiệu</h2>
-        <p>
-          PTI HOME là một trong những đơn vị tiên phong trong lĩnh vực phát triển và phân phối
-          dự án bất động sản, hoạt động với định hướng “Lấy giá trị thật làm gốc – Lấy sự phát
-          triển bền vững làm kim chỉ nam”.
-        </p>
-        <p>
-          Chúng tôi sở hữu hệ thống vận hành chuyên nghiệp, đội ngũ nhân sự dày dạn kinh nghiệm,
-          tận tâm. Trên hành trình kiến tạo vị thế, PTI HOME không ngừng hoàn thiện năng lực
-          triển khai, mở rộng mạng lưới đối tác và xây dựng hệ sinh thái bất động sản bền vững.
-        </p>
-        <p>
-          Chúng tôi không chỉ phân phối mà còn trực tiếp phát triển dự án – từ nghiên cứu thị
-          trường, thiết kế sản phẩm đến chiến lược bán hàng. Mang đến những sản phẩm đúng nhu cầu,
-          pháp lý rõ ràng và tiềm năng sinh lời bền vững cho nhà đầu tư. Cam kết đồng hành cùng
-          đối tác và khách hàng trong hành trình kiến tạo giá trị thực.
-        </p>
+    <div class="about-container">
+      <div class="about-border-frame">
+        <div class="about-border-frame__glow" aria-hidden="true"></div>
+        <div class="about-border-frame__body about-intro">
+          <div class="about-intro__image">
+            <img src="/about_us/gioi-thieu-pti-home.jpg" alt="Giới thiệu PTI HOME" />
+          </div>
+          <div class="about-intro__content">
+            <h2>Giới thiệu</h2>
+            <p>
+              <strong>PTI HOME</strong> là một trong những đơn vị
+              <strong>tiên phong trong lĩnh vực phát triển và phân phối dự án bất động sản</strong>,
+              hoạt động với định hướng
+              <strong>“Lấy giá trị thật làm gốc – Lấy sự phát triển bền vững làm kim chỉ nam”</strong>.
+            </p>
+            <p>
+              Chúng tôi sở hữu <strong>hệ thống vận hành chuyên nghiệp</strong>,
+              <strong>đội ngũ nhân sự dày dạn kinh nghiệm, tận tâm</strong>. Trên hành trình
+              <strong>kiến tạo vị thế</strong>, <strong>PTI HOME</strong> không ngừng
+              <strong>hoàn thiện năng lực triển khai</strong>,
+              <strong>mở rộng mạng lưới đối tác</strong> và
+              <strong>xây dựng hệ sinh thái bất động sản bền vững</strong>.
+            </p>
+            <p>
+              Chúng tôi không chỉ phân phối mà còn
+              <strong>trực tiếp phát triển dự án</strong> – từ nghiên cứu thị trường, thiết kế sản
+              phẩm đến chiến lược bán hàng. Mang đến những
+              <strong>sản phẩm đúng nhu cầu, pháp lý rõ ràng và tiềm năng sinh lời bền vững</strong>
+              cho nhà đầu tư.
+              <strong>Cam kết đồng hành cùng đối tác và khách hàng</strong> trong hành trình
+              <strong>kiến tạo giá trị thực</strong>.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -63,39 +75,42 @@
   <section class="about-vm-section">
     <div class="about-container">
       <div class="about-vm">
-        <div class="about-vm__logo-wrap">
+        <div class="about-vm__chart-wrap">
+          <svg class="about-vm__chart" viewBox="0 0 240 240" role="img" aria-label="Biểu đồ tầm nhìn, sứ mệnh và giá trị cốt lõi">
+            @for (segment of vmSegments; track segment.title; let i = $index) {
+              <path
+                class="about-vm__slice"
+                [class.about-vm__slice--active]="activeVmSegment() === i"
+                [attr.d]="vmSlicePaths[i]"
+                (click)="selectVmSegment(i)"
+                [attr.aria-label]="segment.title"
+              />
+            }
+          </svg>
+
           <div class="about-vm__logo-ring">
             <img src="PTIGROUP.png" alt="PTI HOME" />
           </div>
         </div>
 
         <div class="about-vm__content">
-          <article class="about-vm__item">
-            <h3>Tầm nhìn</h3>
-            <p>
-              Trở thành thương hiệu phát triển và phân phối bất động sản dẫn đầu tại Việt Nam,
-              với khả năng tạo ra các sản phẩm có tính thanh khoản cao, pháp lý minh bạch và
-              gia tăng giá trị theo thời gian.
-            </p>
+          <article class="about-vm__panel" [attr.data-segment]="activeVmSegment()">
+            <h3>{{ activeVmContent().title }}</h3>
+            <p>{{ activeVmContent().content }}</p>
           </article>
 
-          <article class="about-vm__item">
-            <h3>Sứ mệnh</h3>
-            <p>
-              Kiến tạo những giá trị đầu tư bền vững thông qua việc phát triển và phân phối các
-              sản phẩm bất động sản có giá trị thực, pháp lý rõ ràng, vị trí chiến lược và tiềm
-              năng sinh lời cao.
-            </p>
-          </article>
-
-          <article class="about-vm__item">
-            <h3>Giá trị cốt lõi</h3>
-            <p>
-              Chúng tôi đặt sự hài lòng và lợi ích của khách hàng là ưu tiên hàng đầu. Mỗi sản
-              phẩm được phân phối đều được nghiên cứu kỹ lưỡng nhằm mang đến giá trị thật và
-              giải pháp đầu tư phù hợp.
-            </p>
-          </article>
+          <div class="about-vm__legend">
+            @for (segment of vmSegments; track segment.title; let i = $index) {
+              <button
+                type="button"
+                class="about-vm__legend-btn"
+                [class.about-vm__legend-btn--active]="activeVmSegment() === i"
+                (click)="selectVmSegment(i)"
+              >
+                {{ segment.title }}
+              </button>
+            }
+          </div>
         </div>
       </div>
     </div>
@@ -108,9 +123,15 @@
         <h2>Giá trị cốt lõi</h2>
         <p>Những nguyên tắc định hướng mọi hoạt động của {{ brand.shortName }}</p>
       </div>
-      <div class="about-values">
-        @for (v of values; track v.title) {
-          <article class="about-value">
+      <div class="about-values" [class.about-values--expanded]="activeValueIndex() !== null">
+        @for (v of values; track v.title; let i = $index) {
+          <button
+            type="button"
+            class="about-value"
+            [class.about-value--open]="activeValueIndex() === i"
+            (click)="toggleValue(i)"
+            [attr.aria-expanded]="activeValueIndex() === i"
+          >
             <span class="about-value__icon" aria-hidden="true">
               @switch (v.icon) {
                 @case ('shield') {
@@ -128,8 +149,20 @@
               }
             </span>
             <h3>{{ v.title }}</h3>
-            <p>{{ v.description }}</p>
-          </article>
+            <p class="about-value__summary">{{ v.description }}</p>
+            <span class="about-value__toggle" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 5l4 4 4-4"/>
+              </svg>
+            </span>
+
+            <div class="about-value__panel" [attr.aria-hidden]="activeValueIndex() !== i">
+              <div class="about-value__panel-inner">
+                <strong>{{ v.title }}</strong>
+                <p>{{ v.detail }}</p>
+              </div>
+            </div>
+          </button>
         }
       </div>
     </div>
@@ -197,11 +230,16 @@
         </div>
       </div>
       <div class="about-why__visual">
-        <img
-          src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=500&fit=crop"
-          alt="Đội ngũ tư vấn bất động sản"
-          loading="lazy"
-        />
+        <div class="about-why__visual-card about-border-frame">
+          <div class="about-border-frame__glow" aria-hidden="true"></div>
+          <div class="about-why__visual-media about-border-frame__body">
+            <img
+              src="/about_us/chuyen_vien.png"
+              alt="Chuyên viên tư vấn PTI HOME"
+              loading="lazy"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </section>

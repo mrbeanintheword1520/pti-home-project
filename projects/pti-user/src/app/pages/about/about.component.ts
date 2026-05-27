@@ -16,6 +16,11 @@ interface AnimatedStat extends StatItem {
   animatedLabel: string;
 }
 
+interface VmSegment {
+  title: string;
+  content: string;
+}
+
 @Component({
   selector: 'app-about',
   imports: [RouterLink],
@@ -47,28 +52,61 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     })),
   );
 
+  readonly vmSegments: VmSegment[] = [
+    {
+      title: 'Tầm nhìn',
+      content:
+        'Trở thành thương hiệu phát triển và phân phối bất động sản dẫn đầu tại Việt Nam, với khả năng tạo ra các sản phẩm có tính thanh khoản cao, pháp lý minh bạch và gia tăng giá trị theo thời gian.',
+    },
+    {
+      title: 'Sứ mệnh',
+      content:
+        'Kiến tạo những giá trị đầu tư bền vững thông qua việc phát triển và phân phối các sản phẩm bất động sản có giá trị thực, pháp lý rõ ràng, vị trí chiến lược và tiềm năng sinh lời cao.',
+    },
+    {
+      title: 'Giá trị cốt lõi',
+      content:
+        'Chúng tôi đặt sự hài lòng và lợi ích của khách hàng là ưu tiên hàng đầu. Mỗi sản phẩm được phân phối đều được nghiên cứu kỹ lưỡng nhằm mang đến giá trị thật và giải pháp đầu tư phù hợp.',
+    },
+  ];
+
+  readonly vmSlicePaths = this.buildVmSlicePaths();
+  readonly activeVmSegment = signal(0);
+  readonly activeVmContent = computed(
+    () => this.vmSegments[this.activeVmSegment()] ?? this.vmSegments[0],
+  );
+
   readonly values = [
     {
       title: 'Uy tín & Minh bạch',
       description: 'Cam kết thông tin rõ ràng, pháp lý đầy đủ trong mọi giao dịch bất động sản.',
+      detail:
+        'Mọi dự án được kiểm tra pháp lý, minh bạch tiến độ và chính sách bán hàng trước khi đến tay nhà đầu tư.',
       icon: 'shield',
     },
     {
       title: 'Tư vấn chuyên sâu',
       description: 'Đội ngũ chuyên gia am hiểu thị trường, đồng hành từ tư vấn đến bàn giao.',
+      detail:
+        'Chuyên gia PTI HOME phân tích nhu cầu, ngân sách và mục tiêu để đề xuất giải pháp phù hợp từng giai đoạn.',
       icon: 'people',
     },
     {
       title: 'Giải pháp toàn diện',
       description: 'Từ phân tích thị trường, chọn dự án đến công cụ tài chính – một nền tảng duy nhất.',
+      detail:
+        'Kết hợp dữ liệu thị trường, công cụ tài chính và hỗ trợ pháp lý trong một hệ sinh thái thống nhất.',
       icon: 'layers',
     },
     {
       title: 'Phát triển bền vững',
       description: 'Ưu tiên dự án có tiềm năng tăng trưởng dài hạn và hạ tầng phát triển.',
+      detail:
+        'Chúng tôi ưu tiên các dự án có hạ tầng rõ ràng, quy hoạch minh bạch và tiềm năng gia tăng giá trị dài hạn.',
       icon: 'growth',
     },
   ];
+  readonly activeValueIndex = signal<number | null>(null);
 
   readonly milestones = [
     { year: '2014', text: 'Thành lập và bắt đầu hoạt động trong lĩnh vực bất động sản tại TP.HCM.' },
@@ -115,6 +153,56 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   selectMilestone(index: number): void {
     this.activeMilestoneIndex.set(index);
+  }
+
+  toggleValue(index: number): void {
+    this.activeValueIndex.update((current) => (current === index ? null : index));
+  }
+
+  selectVmSegment(index: number): void {
+    this.activeVmSegment.set(index);
+  }
+
+  private buildVmSlicePaths(): string[] {
+    const cx = 120;
+    const cy = 120;
+    const inner = 62;
+    const outer = 110;
+
+    return [0, 1, 2].map((index) => {
+      const start = index * 120 - 90;
+      const end = start + 120;
+      return this.createDonutSlice(cx, cy, inner, outer, start, end);
+    });
+  }
+
+  private createDonutSlice(
+    cx: number,
+    cy: number,
+    innerRadius: number,
+    outerRadius: number,
+    startAngle: number,
+    endAngle: number,
+  ): string {
+    const toRadians = (degrees: number) => (degrees * Math.PI) / 180;
+    const polar = (radius: number, angle: number) => ({
+      x: cx + radius * Math.cos(toRadians(angle)),
+      y: cy + radius * Math.sin(toRadians(angle)),
+    });
+
+    const startOuter = polar(outerRadius, startAngle);
+    const endOuter = polar(outerRadius, endAngle);
+    const startInner = polar(innerRadius, endAngle);
+    const endInner = polar(innerRadius, startAngle);
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+
+    return [
+      `M ${startOuter.x} ${startOuter.y}`,
+      `A ${outerRadius} ${outerRadius} 0 ${largeArc} 1 ${endOuter.x} ${endOuter.y}`,
+      `L ${startInner.x} ${startInner.y}`,
+      `A ${innerRadius} ${innerRadius} 0 ${largeArc} 0 ${endInner.x} ${endInner.y}`,
+      'Z',
+    ].join(' ');
   }
 
   private observeOnce(element: HTMLElement | undefined, onEnter: () => void): void {
