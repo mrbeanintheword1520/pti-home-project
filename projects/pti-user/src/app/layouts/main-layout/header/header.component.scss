@@ -126,9 +126,10 @@
         transition: all 0.2s;
         white-space: nowrap;
 
-        &:hover {
+        &:hover, &.active {
           background: #fdf5f5;
           color: #972125;
+          font-weight: 600;
         }
       }
     }
@@ -209,5 +210,131 @@
     &:hover {
       background: #7a1b1e;
     }
+  }
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #1f2937;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+}
+
+.mobile-actions {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .navigation {
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-top: 1px solid #f3f4f6;
+    display: none;
+    z-index: 1001;
+    
+    &.mobile-open {
+      display: flex;
+    }
+    
+    .nav-link, .nav-item-dropdown {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link {
+      padding: 16px 32px;
+      border-bottom: 1px solid #f3f4f6;
+      display: block;
+      
+      &:hover::after, &.active::after {
+        display: none;
+      }
+      
+      &.active {
+        background: #fdf5f5;
+        border-left: 3px solid #972125;
+        padding-left: 29px;
+      }
+    }
+    
+    .nav-item-dropdown {
+      flex-direction: column;
+      align-items: flex-start;
+      
+      .dropdown-menu {
+        position: static;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        display: none;
+        background: #fff;
+        padding: 0;
+
+        a {
+          padding: 12px 32px 12px 48px;
+          border-bottom: 1px solid #f3f4f6;
+          
+          &:hover, &.active {
+            background: #fdf5f5;
+            color: #972125;
+            font-weight: 600;
+          }
+        }
+      }
+      
+      &:hover .dropdown-menu,
+      &:active .dropdown-menu,
+      &.active .dropdown-menu {
+        display: block;
+      }
+    }
+  }
+
+  .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 16px 32px;
+    gap: 12px;
+    
+    .customer-phone {
+      color: #972125;
+      font-weight: 600;
+    }
+    
+    .cta-button {
+      text-align: center;
+      justify-content: center;
+      padding: 10px 20px;
+      background: #972125;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+  
+  .actions {
+    display: none;
   }
 }

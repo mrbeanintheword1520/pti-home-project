@@ -809,3 +809,44 @@ $shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
     min-width: calc(50% - 5px);
   }
 }
+
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    
+    .search-input {
+      width: 100%;
+    }
+    
+    .filter-dropdowns {
+      flex-direction: column;
+      width: 100%;
+      
+      select {
+        width: 100%;
+      }
+    }
+  }
+  
+  .project-tabs {
+    flex-wrap: wrap;
+    
+    .tab-btn {
+      flex: 1 1 calc(50% - 10px);
+      text-align: center;
+      padding: 8px;
+    }
+  }
+  
+  .projects-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    
+    h1 {
+      font-size: 24px;
+    }
+  }
+}

@@ -4,12 +4,27 @@
       <img src="PTIGROUP.png" alt="Công ty TNHH &amp; DV PTI HOME" />
     </a>
 
-    <nav class="navigation">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Trang
+    <button type="button" class="mobile-menu-btn" aria-label="Toggle menu" (click)="toggleMobileMenu()">
+      @if (!isMobileMenuOpen()) {
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      } @else {
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      }
+    </button>
+
+    <nav class="navigation" [class.mobile-open]="isMobileMenuOpen()">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" (click)="isMobileMenuOpen.set(false)">Trang
         chủ</a>
 
       <div class="nav-item-dropdown">
-        <a routerLink="/du-an" routerLinkActive="active" class="nav-link">
+        <a routerLink="/du-an" routerLinkActive="active" class="nav-link" (click)="isMobileMenuOpen.set(false)">
           Dự án
           <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -17,14 +32,14 @@
           </svg>
         </a>
         <div class="dropdown-menu">
-          <a routerLink="/du-an/can-ho">Căn hộ</a>
-          <a routerLink="/du-an/dat-nen">Đất nền</a>
-          <a routerLink="/du-an/nha-pho">Nhà phố</a>
-          <a routerLink="/du-an/nghi-duong">Nghỉ dưỡng</a>
+          <a routerLink="/du-an/can-ho" routerLinkActive="active" (click)="isMobileMenuOpen.set(false)">Căn hộ</a>
+          <a routerLink="/du-an/dat-nen" routerLinkActive="active" (click)="isMobileMenuOpen.set(false)">Đất nền</a>
+          <a routerLink="/du-an/nha-pho" routerLinkActive="active" (click)="isMobileMenuOpen.set(false)">Nhà phố</a>
+          <a routerLink="/du-an/nghi-duong" routerLinkActive="active" (click)="isMobileMenuOpen.set(false)">Nghỉ dưỡng</a>
         </div>
       </div>
 
-      <a routerLink="/phan-tich-thi-truong" routerLinkActive="active" class="nav-link">Phân tích thị trường</a>
+      <a routerLink="/phan-tich-thi-truong" routerLinkActive="active" class="nav-link" (click)="isMobileMenuOpen.set(false)">Phân tích thị trường</a>
 
       <div class="nav-item-dropdown">
         <a href="javascript:void(0)" class="nav-link" style="cursor: pointer;">
@@ -35,13 +50,20 @@
           </svg>
         </a>
         <div class="dropdown-menu">
-          <a routerLink="/cong-cu">Phân tích đầu tư</a>
-          <a routerLink="/tinh-khoan-vay">Tính khoản vay</a>
+          <a routerLink="/cong-cu" routerLinkActive="active" (click)="isMobileMenuOpen.set(false)">Phân tích đầu tư</a>
+          <a routerLink="/tinh-khoan-vay" routerLinkActive="active" (click)="isMobileMenuOpen.set(false)">Tính khoản vay</a>
         </div>
       </div>
 
-      <a routerLink="/tin-tuc" routerLinkActive="active" class="nav-link">Tin tức</a>
-      <a routerLink="/ve-chung-toi" routerLinkActive="active" class="nav-link">Về chúng tôi</a>
+      <a routerLink="/tin-tuc" routerLinkActive="active" class="nav-link" (click)="isMobileMenuOpen.set(false)">Tin tức</a>
+      <a routerLink="/ve-chung-toi" routerLinkActive="active" class="nav-link" (click)="isMobileMenuOpen.set(false)">Về chúng tôi</a>
+
+      <div class="mobile-actions">
+        @if (customerService.hasCustomer()) {
+          <span class="customer-phone">{{ customerService.getDisplayPhone() }}</span>
+        }
+        <a href="#" class="cta-button" (click)="openConsultation($event); isMobileMenuOpen.set(false)">Tư vấn ngay</a>
+      </div>
     </nav>
 
     <div class="actions">
