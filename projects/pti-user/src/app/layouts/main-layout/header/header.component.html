@@ -70,13 +70,57 @@
       @if (customerService.hasCustomer()) {
       <span class="customer-phone">{{ customerService.getDisplayPhone() }}</span>
       }
-      <button type="button" class="search-button" aria-label="Tìm kiếm">
+      <button type="button" class="search-button" aria-label="Tìm kiếm" (click)="toggleSearch()">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
           <circle cx="8" cy="8" r="5" />
           <path d="M12 12l4 4" />
         </svg>
       </button>
       <a href="#" class="cta-button" (click)="openConsultation($event)">Tư vấn ngay</a>
+    </div>
+  </div>
+
+  <div class="search-overlay" [class.open]="isSearchOpen()">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="#9ca3af" stroke-width="1.8" style="margin-right: 12px; flex-shrink: 0;">
+          <circle cx="8" cy="8" r="5" />
+          <path d="M12 12l4 4" />
+        </svg>
+        <input type="text" placeholder="Nhập từ khóa tìm kiếm (VD: Quận 9, Vinhomes...)..." #searchInput 
+               [value]="searchKeyword()" 
+               (input)="onSearchInput($event)" 
+               (keyup.enter)="onSearch(searchInput.value)" />
+        <button type="button" class="close-btn" (click)="toggleSearch()" aria-label="Đóng tìm kiếm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      @if (searchResults().length > 0) {
+        <div class="search-results">
+          @for (result of searchResults(); track result.id) {
+            <a [routerLink]="result.url" class="search-result-item" (click)="toggleSearch()">
+              <div class="result-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <div class="result-info">
+                <div class="result-name">{{ result.name }}</div>
+                <div class="result-location">{{ result.location }}</div>
+              </div>
+            </a>
+          }
+        </div>
+      } @else if (searchKeyword().length > 0) {
+        <div class="search-results no-results">
+          Không tìm thấy kết quả nào phù hợp với "{{ searchKeyword() }}"
+        </div>
+      }
     </div>
   </div>
 </header>
