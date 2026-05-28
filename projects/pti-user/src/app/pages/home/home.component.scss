@@ -1320,4 +1320,65 @@ $container: 1216px;
   }
 }
 
+@media (max-width: 576px) {
+  .market-highlights--top,
+  .market-highlights--bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .highlight-item {
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .highlight-item--map {
+    flex-direction: column !important;
+    align-items: flex-start;
+    padding: 20px;
+    
+    .highlight-item__map-bg {
+      width: 100%;
+      top: 50%;
+      mask-image: linear-gradient(to bottom, transparent, black 40%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 40%);
+    }
+  }
+
+  .market-highlights--bottom .highlight-item {
+    margin-bottom: 12px;
+    border-bottom: none;
+  }
+
+  .news-featured__card {
+    min-height: 140px;
+  }
+
+  .news-item {
+    grid-template-columns: 80px 1fr;
+    
+    img {
+      width: 80px;
+      height: 60px;
+    }
+  }
+}
+
+// Welcome Popup
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.4s ease forwards;
+}
 
