@@ -20,6 +20,20 @@ export interface Lead {
   status: string; // 'Mới', 'Đang tư vấn', 'Đã cọc', 'Không liên lạc được'
   source: string;
   createdAt: string;
+  appointmentDate?: string;
+  appointmentTime?: string;
+  appointments?: {
+    id: string;
+    project: string;
+    appointmentDate: string;
+    appointmentTime: string;
+    agent: string;
+    status: string;
+    createdAt?: string;
+  }[];
+  chatHistory?: { sender: 'agent' | 'client'; text: string; time: string; file?: { name: string; size: string } }[];
+  activityLog?: { type: string; title: string; time: string; desc: string }[];
+  projectInteractions?: { [projectName: string]: { clicks: number; durationSeconds: number } };
 }
 
 @Component({
@@ -35,6 +49,10 @@ export class SmartLeadsComponent implements OnInit {
   // State signals
   leads = signal<Lead[]>([]);
   isLoading = signal(true);
+  selectedLead = signal<Lead | null>(null);
+  activeTab = signal('overview');
+  newChatMessage = signal('');
+  chatMessages = signal<{ sender: 'agent' | 'client'; text: string; time: string; file?: { name: string; size: string } }[]>([]);
   
   // Filter inputs
   searchQuery = signal('');
@@ -49,10 +67,32 @@ export class SmartLeadsComponent implements OnInit {
 
   // Options lists
   levelOptions = ['Tất cả', 'Lead nóng', 'Tiềm năng', 'Tham khảo'];
-  projectOptions = ['Tất cả', 'Vinhomes Grand Park', 'The Beverly', 'The Beverly Solari', 'Lumière Boulevard', 'The Manhattan', 'The Origami', 'Vinhomes Saigon Park'];
-  sourceOptions = ['Tất cả', 'Facebook Ads', 'Google Ads', 'Tìm kiếm tự nhiên', 'Zalo', 'Khác'];
-  agentOptions = ['Tất cả', 'Nguyễn Hoàng', 'Phạm Mai', 'Trần Văn Nam'];
+  projectOptions: string[] = ['Tất cả', 'Vinhomes Grand Park', 'The Beverly', 'The Beverly Solari', 'Lumière Boulevard', 'The Manhattan', 'The Origami', 'Vinhomes Saigon Park'];
+  sourceOptions: string[] = ['Tất cả', 'Facebook Ads', 'Google Ads', 'Tìm kiếm tự nhiên', 'Zalo', 'Khác'];
+  agentOptions: string[] = ['Tất cả', 'Nguyễn Hoàng', 'Trần Minh Thư', 'Trần Minh Như', 'Lê Quốc Bảo', 'Phạm Thị Mai', 'Phạm Mại', 'Hoàng Văn Nam'];
   statusOptions = ['Mới', 'Đang tư vấn', 'Đã cọc', 'Không liên lạc được'];
+
+  updateFilterOptions(leadsList: Lead[]): void {
+    const projects = new Set<string>();
+    const sources = new Set<string>();
+    const agents = new Set<string>();
+
+    // Seed default options so they always exist
+    ['Vinhomes Grand Park', 'The Beverly', 'The Beverly Solari', 'Lumière Boulevard', 'The Manhattan', 'The Origami', 'Vinhomes Saigon Park'].forEach(p => projects.add(p));
+    ['Facebook Ads', 'Google Ads', 'Tìm kiếm tự nhiên', 'Zalo', 'Khác'].forEach(s => sources.add(s));
+    ['Nguyễn Hoàng', 'Trần Minh Thư', 'Trần Minh Như', 'Lê Quốc Bảo', 'Phạm Thị Mai', 'Phạm Mại', 'Hoàng Văn Nam'].forEach(a => agents.add(a));
+
+    leadsList.forEach(l => {
+      if (l.project) projects.add(l.project);
+      if (l.subdivision) projects.add(l.subdivision);
+      if (l.source) sources.add(l.source);
+      if (l.agent) agents.add(l.agent);
+    });
+
+    this.projectOptions = ['Tất cả', ...Array.from(projects)];
+    this.sourceOptions = ['Tất cả', ...Array.from(sources)];
+    this.agentOptions = ['Tất cả', ...Array.from(agents)];
+  }
 
   ngOnInit(): void {
     this.fetchLeads();
@@ -70,6 +110,17 @@ export class SmartLeadsComponent implements OnInit {
       })
       .then((data: Lead[]) => {
         this.leads.set(data);
+        this.updateFilterOptions(data);
+        const selected = this.selectedLead();
+        if (selected) {
+          const updated = data.find(l => l.id === selected.id);
+          if (updated) {
+            this.selectedLead.set(updated);
+            if (updated.chatHistory) {
+              this.chatMessages.set(updated.chatHistory);
+            }
+          }
+        }
         if (showLoader) this.isLoading.set(false);
       })
       .catch(err => {
@@ -83,7 +134,9 @@ export class SmartLeadsComponent implements OnInit {
     const raw = localStorage.getItem('pti_simulated_leads');
     if (raw) {
       try {
-        this.leads.set(JSON.parse(raw));
+        const parsed = JSON.parse(raw);
+        this.leads.set(parsed);
+        this.updateFilterOptions(parsed);
         return;
       } catch (e) {
         // Fallback to defaults
@@ -125,7 +178,7 @@ export class SmartLeadsComponent implements OnInit {
         views: 8,
         docs: 2,
         behavior: 'Đã xem bảng giá',
-        agent: 'Phạm Mai',
+        agent: 'Trần Minh Thư',
         status: 'Mới',
         source: 'Google Ads',
         createdAt: new Date(Date.now() - 120 * 60000).toISOString()
@@ -144,7 +197,7 @@ export class SmartLeadsComponent implements OnInit {
         views: 5,
         docs: 1,
         behavior: 'Đã xem dự án',
-        agent: 'Trần Văn Nam',
+        agent: 'Lê Quốc Bảo',
         status: 'Mới',
         source: 'Tìm kiếm tự nhiên',
         createdAt: new Date(Date.now() - 360 * 60000).toISOString()
@@ -182,7 +235,7 @@ export class SmartLeadsComponent implements OnInit {
         views: 3,
         docs: 1,
         behavior: 'Đã xem bảng giá',
-        agent: 'Phạm Mai',
+        agent: 'Trần Minh Thư',
         status: 'Mới',
         source: 'Khác',
         createdAt: new Date(Date.now() - 600 * 60000).toISOString()
@@ -359,6 +412,165 @@ export class SmartLeadsComponent implements OnInit {
   setPage(page: number): void {
     if (page >= 1 && page <= this.totalPages()) {
       this.currentPage.set(page);
+    }
+  }
+
+  getArcDashArray(score: number): string {
+    return (score / 100 * 125.6) + ' 125.6';
+  }
+
+  getRequirement(behavior: string): string {
+    if (!behavior) return 'Mua để ở';
+    if (behavior.includes('Đầu tư')) return 'Mua để đầu tư';
+    if (behavior.includes('Cho thuê')) return 'Cho thuê';
+    if (behavior.includes('Mua để ở')) return 'Mua để ở';
+    return 'Mua để ở';
+  }
+
+  getNote(behavior: string): string {
+    if (!behavior) return 'Không có ghi chú';
+    const parts = behavior.split('Ghi chú:');
+    if (parts.length > 1) return parts[1].trim();
+    return behavior;
+  }
+
+  selectLead(lead: Lead): void {
+    this.selectedLead.set(lead);
+    this.activeTab.set('overview');
+    
+    if (lead.chatHistory && lead.chatHistory.length > 0) {
+      this.chatMessages.set(lead.chatHistory);
+    } else {
+      const defaultMsgs = [
+        {
+          sender: 'agent' as const,
+          text: `Chào ${lead.name || 'anh/chị'}, PTI Home xin gửi thông tin về chính sách vay của dự án ${lead.project || 'quan tâm'} ạ.`,
+          time: '13/05/2026 15:20'
+        },
+        {
+          sender: 'client' as const,
+          text: 'Cảm ơn bạn nhé, cho mình hỏi thêm về lãi suất sau ưu đãi ạ?',
+          time: '13/05/2026 15:21'
+        },
+        {
+          sender: 'agent' as const,
+          text: `Dạ chính sách vay cụ thể em đính kèm file bên dưới để mình tham khảo nhé:`,
+          time: '13/05/2026 15:22',
+          file: { name: `Chính sách vay ${lead.project || 'Dự án'}.pdf`, size: '1.2 MB' }
+        }
+      ];
+      this.chatMessages.set(defaultMsgs);
+      lead.chatHistory = defaultMsgs;
+    }
+  }
+
+  getInteractions(lead: Lead | null): { name: string; clicks: number; durationSeconds: number }[] {
+    if (!lead || !lead.projectInteractions) return [];
+    return Object.keys(lead.projectInteractions).map(proj => ({
+      name: proj,
+      clicks: lead.projectInteractions![proj].clicks || 0,
+      durationSeconds: lead.projectInteractions![proj].durationSeconds || 0
+    }));
+  }
+
+  getSortedInteractions(lead: Lead | null): { name: string; clicks: number; durationSeconds: number; score: number; percentage: number; rating: string }[] {
+    const list = this.getInteractions(lead);
+    if (list.length === 0) return [];
+    
+    const mapped = list.map(item => {
+      const score = (item.clicks * 15) + (item.durationSeconds * 2);
+      let rating = 'Thấp';
+      if (score >= 120) {
+        rating = 'Rất cao';
+      } else if (score >= 60) {
+        rating = 'Cao';
+      } else if (score >= 20) {
+        rating = 'Trung bình';
+      }
+      return {
+        ...item,
+        score,
+        rating
+      };
+    });
+    
+    const maxScore = Math.max(...mapped.map(i => i.score)) || 1;
+    
+    return mapped.map(item => ({
+      ...item,
+      percentage: Math.min(100, Math.round((item.score / maxScore) * 100))
+    })).sort((a, b) => b.score - a.score);
+  }
+
+  getMostInterestedProject(lead: Lead | null): { name: string; clicks: number; durationSeconds: number; score: number; rating: string } | null {
+    const sorted = this.getSortedInteractions(lead);
+    return sorted.length > 0 ? sorted[0] : null;
+  }
+
+  getTotalInteractionSummary(lead: Lead | null): { totalProjects: number; totalClicks: number; totalDuration: number } {
+    const list = this.getInteractions(lead);
+    return {
+      totalProjects: list.length,
+      totalClicks: list.reduce((sum, item) => sum + item.clicks, 0),
+      totalDuration: list.reduce((sum, item) => sum + item.durationSeconds, 0)
+    };
+  }
+
+  getInterestDonutData(lead: Lead | null): { name: string; percentage: number; color: string; score: number }[] {
+    const list = this.getSortedInteractions(lead);
+    const totalScore = list.reduce((sum, item) => sum + item.score, 0);
+    if (totalScore === 0) return [];
+    
+    const colors = ['#972125', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    return list.map((item, idx) => {
+      const percentage = Math.round((item.score / totalScore) * 100);
+      return {
+        name: item.name,
+        percentage,
+        color: colors[idx % colors.length],
+        score: item.score
+      };
+    });
+  }
+
+  getDonutGradientStyle(lead: Lead | null): string {
+    const data = this.getInterestDonutData(lead);
+    if (data.length === 0) {
+      return 'conic-gradient(#cbd5e1 0% 100%)';
+    }
+    let accum = 0;
+    const parts = data.map(item => {
+      const start = accum;
+      const end = accum + item.percentage;
+      accum = end;
+      return `${item.color} ${start}% ${end}%`;
+    });
+    if (accum < 100) {
+      parts.push(`#cbd5e1 ${accum}% 100%`);
+    }
+    return `conic-gradient(${parts.join(', ')})`;
+  }
+
+  backToList(): void {
+    this.selectedLead.set(null);
+  }
+
+  sendChatMessage(): void {
+    const text = this.newChatMessage().trim();
+    if (!text) return;
+    
+    const now = new Date();
+    const time = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    const newMsg = { sender: 'agent' as const, text, time };
+    
+    this.chatMessages.update(msgs => [...msgs, newMsg]);
+    this.newChatMessage.set('');
+
+    const lead = this.selectedLead();
+    if (lead) {
+      const updatedHistory = [...(lead.chatHistory || []), newMsg];
+      lead.chatHistory = updatedHistory;
+      this.updateLeadField(lead, 'chatHistory', updatedHistory);
     }
   }
 }

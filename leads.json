@@ -1,24 +1,491 @@
 [
   {
-    "id": "lead-1779780016423",
-    "name": "Bình",
-    "email": "",
-    "phone": "0123456789",
+    "id": "lead-1779977516999",
+    "name": "Châu Kiệt Luân",
+    "email": "chaukietluan@gmail.com",
+    "phone": "0866011744",
     "address": "Đang cập nhật",
-    "project": "Lan Anh AVENUE",
-    "subdivision": "Phân khu A",
+    "project": "The SeaHorse Central Bình Phước",
+    "subdivision": "Bình Phước",
     "budget": "2 – 5 tỷ",
-    "score": 87,
+    "score": 94,
+    "interestLevel": "Lead nóng",
+    "views": 2,
+    "docs": 0,
+    "behavior": "Đặt lịch khảo sát dự án The SeaHorse Central Bình Phước - Thứ Ba, 02/06/2026 (Tối: 19:00 - 21:00)",
+    "agent": "Phạm Thị Mai",
+    "status": "Mới",
+    "source": "Facebook Ads",
+    "appointmentDate": "Thứ Ba, 02/06/2026",
+    "appointmentTime": "Tối: 19:00 - 21:00",
+    "createdAt": "2026-05-28T14:11:56.999Z",
+    "activityLog": [
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:44 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án The SeaHorse Central Bình Phước - Thứ Ba, 02/06/2026 (Tối: 19:00 - 21:00)"
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Masteri Centre Point",
+        "time": "21:42 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 106 giây.",
+        "sessionDuration": 106
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Lumière Boulevard",
+        "time": "21:16 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 1 giây.",
+        "sessionDuration": 1
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Lumière Boulevard",
+        "time": "21:16 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 5 giây.",
+        "sessionDuration": 5
+      },
+      {
+        "type": "web",
+        "title": "Truy cập website",
+        "time": "21:11 28/5/2026",
+        "desc": "Đăng ký tư vấn"
+      }
+    ],
+    "projectInteractions": {
+      "Lumière Boulevard": {
+        "clicks": 2,
+        "durationSeconds": 6
+      },
+      "Masteri Centre Point": {
+        "clicks": 1,
+        "durationSeconds": 106
+      }
+    },
+    "appointments": [
+      {
+        "id": "app-1779979452593",
+        "project": "The SeaHorse Central Bình Phước",
+        "appointmentDate": "Thứ Ba, 02/06/2026",
+        "appointmentTime": "Tối: 19:00 - 21:00",
+        "agent": "Phạm Thị Mai",
+        "status": "Mới",
+        "createdAt": "2026-05-28T14:44:12.593Z"
+      }
+    ]
+  },
+  {
+    "id": "lead-1779866120916",
+    "name": "Linh",
+    "email": "linh@gmail.com",
+    "phone": "0999999999",
+    "address": "Đang cập nhật",
+    "project": "The SeaHorse Central Bình Phước",
+    "subdivision": "Bình Phước",
+    "budget": "5 – 10 tỷ",
+    "score": 61,
+    "interestLevel": "Tham khảo",
+    "views": 1,
+    "docs": 0,
+    "behavior": "Khảo sát: Nhu cầu Đầu tư. Ghi chú: Nhận tư vấn",
+    "agent": "Lê Quốc Bảo",
+    "status": "Đang tư vấn",
+    "source": "Zalo",
+    "appointmentDate": "Thứ Hai, 01/06/2026",
+    "appointmentTime": "Sáng: 08:30 - 10:30",
+    "createdAt": "2026-05-27T07:15:20.916Z",
+    "chatHistory": [
+      {
+        "sender": "agent",
+        "text": "xin chào",
+        "time": "27/5/2026 14:46"
+      }
+    ],
+    "appointments": [
+      {
+        "id": "app-migrated-en2rifbrk",
+        "project": "The SeaHorse Central Bình Phước",
+        "appointmentDate": "Thứ Hai, 01/06/2026",
+        "appointmentTime": "Sáng: 08:30 - 10:30",
+        "agent": "Lê Quốc Bảo",
+        "status": "Đang tư vấn",
+        "createdAt": "2026-05-27T07:15:20.916Z"
+      }
+    ]
+  },
+  {
+    "id": "lead-1779865445910",
+    "name": "Xuân",
+    "email": "xuan@gmail.com",
+    "phone": "0979797979",
+    "address": "Đang cập nhật",
+    "project": "Dự Án The Felix",
+    "subdivision": "Bình Dương",
+    "budget": "5 – 10 tỷ",
+    "score": 86,
     "interestLevel": "Lead nóng",
     "views": 1,
     "docs": 0,
-    "behavior": "Khảo sát: Nhu cầu Mua để ở. Ghi chú: Nhận tư vấn",
-    "agent": "Phạm Mai",
+    "behavior": "Khảo sát: Nhu cầu Mua để ở. Ghi chú: Mua nhà cho con gái lấy chồng",
+    "agent": "Trần Minh Thư",
     "status": "Mới",
     "source": "Zalo",
-    "appointmentDate": "Thứ Năm, 28/05/2026",
+    "appointmentDate": "Chủ Nhật, 31/05/2026",
     "appointmentTime": "Sáng: 08:30 - 10:30",
-    "createdAt": "2026-05-26T07:20:16.423Z"
+    "createdAt": "2026-05-27T07:04:05.910Z",
+    "appointments": [
+      {
+        "id": "app-migrated-1a70gs9fj",
+        "project": "Dự Án The Felix",
+        "appointmentDate": "Chủ Nhật, 31/05/2026",
+        "appointmentTime": "Sáng: 08:30 - 10:30",
+        "agent": "Trần Minh Thư",
+        "status": "Mới",
+        "createdAt": "2026-05-27T07:04:05.910Z"
+      }
+    ]
+  },
+  {
+    "id": "lead-1779864805901",
+    "name": "Linh Xuân",
+    "email": "khanhbinh@gmail.com",
+    "phone": "0866866866",
+    "address": "Đang cập nhật",
+    "project": "Dự Án The Infinity Dĩ An",
+    "subdivision": "Bình Dương",
+    "budget": "5 – 10 tỷ",
+    "score": 86,
+    "interestLevel": "Lead nóng",
+    "views": 1,
+    "docs": 0,
+    "behavior": "Khảo sát: Nhu cầu Cho thuê. Ghi chú: Tư vấn mua nhà cho Điêu Thuyền",
+    "agent": "Lê Quốc Bảo",
+    "status": "Mới",
+    "source": "Zalo",
+    "appointmentDate": "Thứ Bảy, 30/05/2026",
+    "appointmentTime": "Chiều: 14:00 - 16:00",
+    "createdAt": "2026-05-27T06:53:25.901Z",
+    "appointments": [
+      {
+        "id": "app-migrated-ioqsqyyfb",
+        "project": "Dự Án The Infinity Dĩ An",
+        "appointmentDate": "Thứ Bảy, 30/05/2026",
+        "appointmentTime": "Chiều: 14:00 - 16:00",
+        "agent": "Lê Quốc Bảo",
+        "status": "Mới",
+        "createdAt": "2026-05-27T06:53:25.901Z"
+      }
+    ]
+  },
+  {
+    "id": "lead-1779780016423",
+    "name": "Bình",
+    "email": "hihihi@gmail.com",
+    "phone": "0123456789",
+    "address": "Đang cập nhật",
+    "project": "Vinhomes Saigon Park",
+    "subdivision": "TP. Hồ Chí Minh",
+    "budget": "Trên 20 tỷ",
+    "score": 94,
+    "interestLevel": "Lead nóng",
+    "views": 9,
+    "docs": 0,
+    "behavior": "Đặt lịch khảo sát dự án Vinhomes Saigon Park - Thứ Ba, 02/06/2026 (Chiều tối: 16:30 - 18:30)",
+    "agent": "Nguyễn Hoàng",
+    "status": "Mới",
+    "source": "Zalo",
+    "appointmentDate": "Thứ Ba, 02/06/2026",
+    "appointmentTime": "Chiều tối: 16:30 - 18:30",
+    "createdAt": "2026-05-26T07:20:16.423Z",
+    "projectInteractions": {
+      "The Global City": {
+        "clicks": 3,
+        "durationSeconds": 101
+      },
+      "Eaton Park": {
+        "clicks": 2,
+        "durationSeconds": 194
+      },
+      "The Seahorse Central": {
+        "clicks": 1,
+        "durationSeconds": 10
+      },
+      "Dự Án The Infinity Dĩ An": {
+        "clicks": 1,
+        "durationSeconds": 10
+      },
+      "Aqua City": {
+        "clicks": 1,
+        "durationSeconds": 20
+      },
+      "Masteri Centre Point": {
+        "clicks": 2,
+        "durationSeconds": 34
+      },
+      "The Beverly Solari": {
+        "clicks": 1,
+        "durationSeconds": 20
+      },
+      "Lumière Boulevard": {
+        "clicks": 2,
+        "durationSeconds": 21
+      },
+      "Vinhomes Grand Park": {
+        "clicks": 2,
+        "durationSeconds": 84
+      },
+      "Dự Án Gia Khải Luxury": {
+        "clicks": 1,
+        "durationSeconds": 20
+      },
+      "Dự Án The Felix": {
+        "clicks": 2,
+        "durationSeconds": 10
+      }
+    },
+    "activityLog": [
+      {
+        "type": "web",
+        "title": "Xem chi tiết: The Global City",
+        "time": "21:58 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 1 giây.",
+        "sessionDuration": 1
+      },
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:57 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án Vinhomes Saigon Park - Thứ Ba, 02/06/2026 (Chiều tối: 16:30 - 18:30)"
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: The Global City",
+        "time": "21:56 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 90 giây.",
+        "sessionDuration": 90
+      },
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:29 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án Gold Coast Vũng Tàu - Thứ Tư, 03/06/2026 (Tối: 19:00 - 21:00)"
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Lumière Boulevard",
+        "time": "21:29 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 17 giây.",
+        "sessionDuration": 17
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Vinhomes Grand Park",
+        "time": "21:26 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 13 giây.",
+        "sessionDuration": 13
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Dự Án The Felix",
+        "time": "21:25 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 8 giây.",
+        "sessionDuration": 8
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Dự Án The Felix",
+        "time": "21:25 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 2 giây.",
+        "sessionDuration": 2
+      },
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:21 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án The SeaHorse Central Bình Phước - Thứ Ba, 02/06/2026 (Trưa: 11:00 - 13:00)"
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Dự Án Gia Khải Luxury",
+        "time": "21:21 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 20 giây.",
+        "sessionDuration": 20
+      },
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:20 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án Dự Án The Felix - Thứ Ba, 02/06/2026 (Chiều: 14:00 - 16:00)"
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Vinhomes Grand Park",
+        "time": "21:19 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 71 giây.",
+        "sessionDuration": 71
+      },
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:19 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án The Global City - Thứ Năm, 28/05/2026 (Sáng: 08:30 - 10:30)"
+      },
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:19 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án Vinhomes Grand Park - Thứ Năm, 28/05/2026 (Sáng: 08:30 - 10:30)"
+      },
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:15 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án Lan Anh AVENUE - Thứ Năm, 28/05/2026 (Sáng: 08:30 - 10:30)"
+      },
+      {
+        "type": "appointment",
+        "title": "Đặt lịch khảo sát",
+        "time": "21:15 28/5/2026",
+        "desc": "Đặt lịch khảo sát dự án Lan Anh AVENUE - Thứ Năm, 28/05/2026 (Sáng: 08:30 - 10:30)"
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Masteri Centre Point",
+        "time": "21:11 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 19 giây.",
+        "sessionDuration": 19
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Eaton Park",
+        "time": "20:49 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 184 giây.",
+        "sessionDuration": 184
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Lumière Boulevard",
+        "time": "20:48 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 4 giây.",
+        "sessionDuration": 4
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: The Beverly Solari",
+        "time": "20:34 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 20 giây.",
+        "sessionDuration": 20
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Masteri Centre Point",
+        "time": "20:33 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 15 giây.",
+        "sessionDuration": 15
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Aqua City",
+        "time": "20:31 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 20 giây.",
+        "sessionDuration": 20
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Dự Án The Infinity Dĩ An",
+        "time": "20:31 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 10 giây.",
+        "sessionDuration": 10
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: The Global City",
+        "time": "20:18 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 10 giây.",
+        "sessionDuration": 10
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: Eaton Park",
+        "time": "20:14 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 10 giây.",
+        "sessionDuration": 10
+      },
+      {
+        "type": "web",
+        "title": "Xem chi tiết: The Seahorse Central",
+        "time": "20:12 28/5/2026",
+        "desc": "Nhấp chuột xem dự án. Tổng thời gian xem: 10 giây.",
+        "sessionDuration": 10
+      }
+    ],
+    "appointments": [
+      {
+        "id": "app-1779980279281",
+        "project": "Vinhomes Saigon Park",
+        "appointmentDate": "Thứ Ba, 02/06/2026",
+        "appointmentTime": "Chiều tối: 16:30 - 18:30",
+        "agent": "Nguyễn Hoàng",
+        "status": "Mới",
+        "createdAt": "2026-05-28T14:57:59.281Z"
+      },
+      {
+        "id": "app-migrated-epbxpuuo7",
+        "project": "Gold Coast Vũng Tàu",
+        "appointmentDate": "Thứ Tư, 03/06/2026",
+        "appointmentTime": "Tối: 19:00 - 21:00",
+        "agent": "Nguyễn Hoàng",
+        "status": "Đang tư vấn",
+        "createdAt": "2026-05-28T14:29:00.000Z"
+      },
+      {
+        "id": "app-migrated-8f1jxo5au",
+        "project": "The SeaHorse Central Bình Phước",
+        "appointmentDate": "Thứ Ba, 02/06/2026",
+        "appointmentTime": "Trưa: 11:00 - 13:00",
+        "agent": "Nguyễn Hoàng",
+        "status": "Đang tư vấn",
+        "createdAt": "2026-05-28T14:21:00.000Z"
+      },
+      {
+        "id": "app-migrated-wtuzi68uw",
+        "project": "Dự Án The Felix",
+        "appointmentDate": "Thứ Ba, 02/06/2026",
+        "appointmentTime": "Chiều: 14:00 - 16:00",
+        "agent": "Nguyễn Hoàng",
+        "status": "Đang tư vấn",
+        "createdAt": "2026-05-28T14:20:00.000Z"
+      },
+      {
+        "id": "app-migrated-aiag9ydrl",
+        "project": "The Global City",
+        "appointmentDate": "Thứ Năm, 28/05/2026",
+        "appointmentTime": "Sáng: 08:30 - 10:30",
+        "agent": "Nguyễn Hoàng",
+        "status": "Đã cọc",
+        "createdAt": "2026-05-28T14:19:00.000Z"
+      },
+      {
+        "id": "app-migrated-z9cdpev02",
+        "project": "Vinhomes Grand Park",
+        "appointmentDate": "Thứ Năm, 28/05/2026",
+        "appointmentTime": "Sáng: 08:30 - 10:30",
+        "agent": "Nguyễn Hoàng",
+        "status": "Đã tư vấn",
+        "createdAt": "2026-05-28T14:19:00.000Z"
+      },
+      {
+        "id": "app-migrated-lqz8c2rpf",
+        "project": "Lan Anh AVENUE",
+        "appointmentDate": "Thứ Năm, 28/05/2026",
+        "appointmentTime": "Sáng: 08:30 - 10:30",
+        "agent": "Nguyễn Hoàng",
+        "status": "Đã tư vấn",
+        "createdAt": "2026-05-28T14:15:00.000Z"
+      }
+    ]
   },
   {
     "id": "lead-1779779443326",
@@ -27,7 +494,7 @@
     "phone": "0886868686",
     "address": "Đang cập nhật",
     "project": "dat_nen",
-    "subdivision": "Phân khu A",
+    "subdivision": "TP. Hồ Chí Minh",
     "budget": "Chưa cập nhật",
     "score": 73,
     "interestLevel": "Tiềm năng",
@@ -37,101 +504,7 @@
     "agent": "Nguyễn Hoàng",
     "status": "Mới",
     "source": "Facebook Ads",
-    "createdAt": "2026-05-26T07:10:43.326Z"
-  },
-  {
-    "id": "lead-1",
-    "name": "Trần Minh Đức",
-    "email": "duc.tran@gmail.com",
-    "phone": "0901 234 567",
-    "address": "TP. Thủ Đức, TP.HCM",
-    "project": "Vinhomes Grand Park",
-    "subdivision": "The Beverly",
-    "budget": "3 - 5 tỷ",
-    "score": 92,
-    "interestLevel": "Lead nóng",
-    "views": 15,
-    "docs": 3,
-    "behavior": "Đã dùng công cụ",
-    "agent": "Nguyễn Hoàng",
-    "status": "Đang tư vấn",
-    "source": "Facebook Ads",
-    "createdAt": "2026-05-26T06:33:08.327Z"
-  },
-  {
-    "id": "lead-2",
-    "name": "Lê Thị Thu Hà",
-    "email": "thuha@gmail.com",
-    "phone": "0912 345 678",
-    "address": "Quận 7, TP.HCM",
-    "project": "The Beverly Solari",
-    "subdivision": "Vinhomes Grand Park",
-    "budget": "2 - 3 tỷ",
-    "score": 75,
-    "interestLevel": "Tiềm năng",
-    "views": 8,
-    "docs": 2,
-    "behavior": "Đã xem bảng giá",
-    "agent": "Phạm Mai",
-    "status": "Mới",
-    "source": "Google Ads",
-    "createdAt": "2026-05-26T05:03:08.328Z"
-  },
-  {
-    "id": "lead-3",
-    "name": "Nguyễn Quốc Duy",
-    "email": "duy.nguyen@gmail.com",
-    "phone": "0934 567 890",
-    "address": "Bình Thạnh, TP.HCM",
-    "project": "Lumière Boulevard",
-    "subdivision": "Vinhomes Grand Park",
-    "budget": "5 - 7 tỷ",
-    "score": 45,
-    "interestLevel": "Tham khảo",
-    "views": 5,
-    "docs": 1,
-    "behavior": "Đã xem dự án",
-    "agent": "Trần Văn Nam",
-    "status": "Mới",
-    "source": "Tìm kiếm tự nhiên",
-    "createdAt": "2026-05-26T01:03:08.328Z"
-  },
-  {
-    "id": "lead-4",
-    "name": "Phạm Thị Kim Oanh",
-    "email": "oanh.pham@gmail.com",
-    "phone": "0987 654 321",
-    "address": "Thủ Đức, TP.HCM",
-    "project": "The Manhattan",
-    "subdivision": "Vinhomes Grand Park",
-    "budget": "7 - 10 tỷ",
-    "score": 88,
-    "interestLevel": "Lead nóng",
-    "views": 12,
-    "docs": 4,
-    "behavior": "Đã dùng công cụ",
-    "agent": "Nguyễn Hoàng",
-    "status": "Đang tư vấn",
-    "source": "Zalo",
-    "createdAt": "2026-05-25T23:03:08.328Z"
-  },
-  {
-    "id": "lead-5",
-    "name": "Hoàng Văn Nam",
-    "email": "nam.hoang@gmail.com",
-    "phone": "0976 543 210",
-    "address": "Gò Vấp, TP.HCM",
-    "project": "The Origami",
-    "subdivision": "Vinhomes Grand Park",
-    "budget": "1.5 - 2.5 tỷ",
-    "score": 35,
-    "interestLevel": "Tham khảo",
-    "views": 3,
-    "docs": 1,
-    "behavior": "Đã xem bảng giá",
-    "agent": "Phạm Mai",
-    "status": "Mới",
-    "source": "Khác",
-    "createdAt": "2026-05-25T21:03:08.328Z"
+    "createdAt": "2026-05-26T07:10:43.326Z",
+    "appointments": []
   }
 ]

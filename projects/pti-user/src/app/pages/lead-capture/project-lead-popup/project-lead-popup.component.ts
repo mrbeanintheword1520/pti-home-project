@@ -1,15 +1,17 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, effect } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LeadCaptureService } from '../lead-capture.service';
+import { CustomerService } from '../../../shared/customer.service';
 
 @Component({
   selector: 'app-project-lead-popup',
-  imports: [FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './project-lead-popup.component.html',
   styleUrl: './project-lead-popup.component.scss',
 })
 export class ProjectLeadPopupComponent implements OnInit {
-  private readonly leadCapture = inject(LeadCaptureService);
+  protected readonly customerService = inject(CustomerService);
 
   readonly isOpen = signal(false);
   name = '';
@@ -26,8 +28,24 @@ export class ProjectLeadPopupComponent implements OnInit {
     'Cần tư vấn thêm',
   ];
 
+  constructor() {
+    effect(() => {
+      if (this.customerService.hasCustomer()) {
+        const c = this.customerService.customer();
+        if (c) {
+          this.name = c.name || '';
+          this.phone = c.phone || '';
+          this.email = c.email || '';
+          if (c.interest) {
+            this.interest = c.interest;
+          }
+        }
+      }
+    });
+  }
+
   ngOnInit(): void {
-    if (this.leadCapture.hasSubmitted()) return;
+    if (this.customerService.hasCustomer()) return;
 
     window.setTimeout(() => {
       this.isOpen.set(true);
@@ -41,13 +59,44 @@ export class ProjectLeadPopupComponent implements OnInit {
   submit(): void {
     this.submitted = true;
     const phone = this.phone.trim();
-    if (!phone) return;
+    const name = this.name.trim();
+    const interest = this.interest;
 
-    this.leadCapture.saveLead({
-      name: this.name.trim(),
-      email: this.email.trim(),
+    if (!name) {
+      alert('Vui lòng nhập họ và tên!');
+      return;
+    }
+
+    if (!phone) {
+      alert('Vui lòng nhập số điện thoại!');
+      return;
+    }
+
+    const phoneRegex = /^(0|\+84)[0-9]{8,10}$/;
+    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+      alert('Số điện thoại không hợp lệ!');
+      return;
+    }
+
+    if (!interest) {
+      alert('Vui lòng chọn nhu cầu quan tâm!');
+      return;
+    }
+
+    if (this.email.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.email.trim())) {
+        alert('Email không hợp lệ!');
+        return;
+      }
+    }
+
+    this.customerService.saveCustomer({
       phone,
-      interest: this.interest,
+      name,
+      email: this.email.trim() || undefined,
+      interest,
+      behavior: `Khảo sát nhanh qua Pop-up: Quan tâm ${interest}`
     });
     this.close();
   }

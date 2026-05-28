@@ -526,28 +526,4 @@
     </section>
   </div>
 </div>
-
-<!-- Welcome Popup -->
-@if (showWelcomePopup()) {
-  <div class="welcome-overlay">
-    <div class="welcome-popup">
-      <button class="welcome-popup__close" (click)="showWelcomePopup.set(false)" aria-label="Đóng">&times;</button>
-      
-      <div class="welcome-popup__image">
-        <div class="welcome-popup__image-overlay"></div>
-        <h2>Vinhomes Saigon Park</h2>
-        <p>Dự án tiên quyết & hấp dẫn nhất đợt này</p>
-      </div>
-      
-      <div class="welcome-popup__content">
-        <h3>Nhận thông tin tư vấn ngay</h3>
-        <p>Để lại số điện thoại để chuyên gia PTI HOME hỗ trợ bạn nhanh nhất và nhận báo giá ưu đãi.</p>
-        
-        <div class="welcome-popup__form">
-          <input type="tel" #phoneInput placeholder="Nhập số điện thoại của bạn..." (keyup.enter)="submitPhone(phoneInput.value)" />
-          <button type="button" class="btn btn--primary" (click)="submitPhone(phoneInput.value)">Tư vấn ngay</button>
-        </div>
-      </div>
-    </div>
-  </div>
-}
+

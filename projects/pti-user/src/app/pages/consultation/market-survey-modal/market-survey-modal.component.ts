@@ -104,6 +104,17 @@ export class MarketSurveyModalComponent implements OnInit {
       phone: '0938 111 222'
     },
     {
+      id: 'tran-minh-nhu',
+      name: 'Trần Minh Như',
+      avatar: 'https://ui-avatars.com/api/?name=Tr%E1%BA%A7n+Minh+Nh%C6%B0&background=972125&color=fff&rounded=true&size=120',
+      role: 'Chuyên viên phân tích đầu tư',
+      experience: '6 năm kinh nghiệm',
+      specialty: 'Chuyên căn hộ cao cấp và biệt thự',
+      clients: 'Tư vấn 210+ khách hàng',
+      bio: 'Trần Minh Như là chuyên gia phân tích dòng tiền và hỗ trợ khách hàng lựa chọn căn hộ có tiềm năng sinh lời cao nhất.',
+      phone: '0938 999 888'
+    },
+    {
       id: 'le-quoc-bao',
       name: 'Lê Quốc Bảo',
       avatar: 'https://ui-avatars.com/api/?name=L%C3%AA+Qu%E1%BB%91c+B%E1%BA%A3o&background=972125&color=fff&rounded=true&size=120',
@@ -113,6 +124,39 @@ export class MarketSurveyModalComponent implements OnInit {
       clients: 'Tư vấn 250+ khách hàng',
       bio: 'Lê Quốc Bảo sở hữu nhãn quan đầu tư nhạy bén, chuyên phân tích dòng tiền và tiềm năng tăng giá của đất nền, nhà phố tại Bình Dương và Vũng Tàu.',
       phone: '0939 333 444'
+    },
+    {
+      id: 'pham-thi-mai',
+      name: 'Phạm Thị Mai',
+      avatar: 'https://ui-avatars.com/api/?name=Ph%E1%BA%A1m+Th%E1%BB%8B+Mai&background=972125&color=fff&rounded=true&size=120',
+      role: 'Chuyên viên tư vấn dự án',
+      experience: '4 năm kinh nghiệm',
+      specialty: 'Chuyên khu vực Vũng Tàu, Đồng Nai',
+      clients: 'Tư vấn 120+ khách hàng',
+      bio: 'Phạm Thị Mai là chuyên viên năng động, nhiệt huyết, am hiểu sâu sắc các dự án nghỉ dưỡng và bất động sản ven biển.',
+      phone: '0935 444 555'
+    },
+    {
+      id: 'pham-mai',
+      name: 'Phạm Mại',
+      avatar: 'https://ui-avatars.com/api/?name=Ph%E1%BA%A1m+M%E1%BA%A1i&background=972125&color=fff&rounded=true&size=120',
+      role: 'Chuyên viên tư vấn đất nền và dự án',
+      experience: '5 năm kinh nghiệm',
+      specialty: 'Chuyên khu vực TP. Hồ Chí Minh và Bình Dương',
+      clients: 'Tư vấn 140+ khách hàng',
+      bio: 'Phạm Mại là chuyên viên tư vấn nhiệt tình, có kinh nghiệm đàm phán và hiểu biết rõ về quy hoạch các vùng kinh tế trọng điểm phía Nam.',
+      phone: '0935 666 777'
+    },
+    {
+      id: 'hoang-van-nam',
+      name: 'Hoàng Văn Nam',
+      avatar: 'https://ui-avatars.com/api/?name=Ho%C3%A0ng+V%C4%83n+Nam&background=972125&color=fff&rounded=true&size=120',
+      role: 'Chuyên viên tư vấn đất nền',
+      experience: '7 năm kinh nghiệm',
+      specialty: 'Chuyên khu vực Bình Dương, Bình Phước',
+      clients: 'Tư vấn 290+ khách hàng',
+      bio: 'Hoàng Văn Nam am hiểu sâu các khu công nghiệp, đất nền dự án phân lô và pháp lý hoàn thiện tại Bình Dương.',
+      phone: '0936 555 666'
     }
   ];
 
@@ -235,15 +279,71 @@ export class MarketSurveyModalComponent implements OnInit {
     }
   }
 
+  getMissingFields(step: number): string[] {
+    const data = this.modal.formData();
+    const missing: string[] = [];
+    if (step === 1) {
+      if (!data.name || !data.name.trim()) missing.push('Họ và tên');
+      if (!data.phone || !data.phone.trim()) missing.push('Số điện thoại');
+      if (!data.area) missing.push('Khu vực quan tâm');
+      if (!data.project) missing.push('Dự án quan tâm');
+      if (!data.purpose) missing.push('Mục đích đầu tư (Nhu cầu)');
+      if (!data.budget) missing.push('Khoảng giá (Số tiền)');
+    } else if (step === 2) {
+      if (!data.date) missing.push('Ngày hẹn');
+      if (!data.timeSlot) missing.push('Giờ hẹn (Khung giờ)');
+    } else if (step === 3) {
+      if (!data.selectedExpertId) missing.push('Chuyên viên tư vấn');
+    }
+    return missing;
+  }
+
   continue(): void {
-    if (!this.canContinue()) return;
-    if (this.modal.currentStep() === 4) {
+    const step = this.modal.currentStep();
+    const missing = this.getMissingFields(step);
+    if (missing.length > 0) {
+      alert('Vui lòng bổ sung đầy đủ các thông tin sau:\n- ' + missing.join('\n- '));
+      return;
+    }
+
+    if (step === 1) {
+      const data = this.modal.formData();
+      const phone = data.phone.trim();
+      const phoneRegex = /^(0|\+84)[0-9]{8,10}$/;
+      if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+        alert('Số điện thoại không hợp lệ!');
+        return;
+      }
+      if (data.email && data.email.trim()) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email.trim())) {
+          alert('Email không hợp lệ!');
+          return;
+        }
+      }
+    }
+
+    if (step === 2) {
+      const data = this.modal.formData();
+      const existingApps = this.customerService.customer()?.appointments || [];
+      const overlap = existingApps.find(a => a.appointmentDate === data.date && a.appointmentTime === data.timeSlot);
+      if (overlap) {
+        alert(`Trùng lịch hẹn! Bạn đã đặt lịch khảo sát dự án "${overlap.project}" vào thời gian này (${data.date} - ${data.timeSlot}). Vui lòng chọn thời gian khác.`);
+        return;
+      }
+    }
+
+    if (step === 4) {
       const data = this.modal.formData();
 
       const agentMap: { [key: string]: string } = {
         'nguyen-hoang': 'Nguyễn Hoàng',
-        'tran-minh-thu': 'Phạm Mai',
-        'le-quoc-bao': 'Trần Văn Nam'
+        'tran-minh-thu': 'Trần Minh Thư',
+        'tran-minh-nhu': 'Trần Minh Như',
+        'le-quoc-bao': 'Lê Quốc Bảo',
+        'pham-thi-mai': 'Phạm Thị Mai',
+        'pham-mai': 'Phạm Mại',
+        'hoang-van-nam': 'Hoàng Văn Nam'
       };
 
       const purposeMap: { [key: string]: string } = {
@@ -266,6 +366,7 @@ export class MarketSurveyModalComponent implements OnInit {
         name: data.name,
         email: data.email,
         interest: data.project,
+        area: data.area,
         budget: budgetMap[data.budget] || data.budget || 'Chưa chọn',
         behavior: `Khảo sát: Nhu cầu ${purposeMap[data.purpose] || 'Đầu tư'}. Ghi chú: ${data.specialNeed || 'Không có'}`,
         agent: agentMap[data.selectedExpertId] || 'Nguyễn Hoàng',

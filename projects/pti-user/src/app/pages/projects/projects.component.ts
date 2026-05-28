@@ -1,7 +1,8 @@
-import { Component, computed, signal, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, computed, signal, OnInit, inject, ChangeDetectorRef, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CustomerService } from '../../shared/customer.service';
 import {
   CATEGORY_TABS,
   PROJECT_STATS,
@@ -29,6 +30,7 @@ interface FilterState {
 export class ProjectsComponent implements OnInit {
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
+  protected customerService = inject(CustomerService);
 
   readonly tabs = CATEGORY_TABS;
   readonly statusLabels = STATUS_LABELS;
@@ -75,6 +77,35 @@ export class ProjectsComponent implements OnInit {
   bookingError = '';
   bookingSuccess = false;
 
+  constructor() {
+    effect(() => {
+      if (this.customerService.hasCustomer()) {
+        const c = this.customerService.customer();
+        if (c) {
+          this.bookingName = c.name || '';
+          this.bookingPhone = c.phone || '';
+        }
+      }
+    });
+  }
+
+  openBookingModal(projectName?: string) {
+    this.bookingError = '';
+    this.bookingSuccess = false;
+    this.bookingProject = projectName || '';
+    if (this.customerService.hasCustomer()) {
+      const c = this.customerService.customer();
+      if (c) {
+        this.bookingName = c.name || '';
+        this.bookingPhone = c.phone || '';
+      }
+    } else {
+      this.bookingName = '';
+      this.bookingPhone = '';
+    }
+    this.showBookingModal = true;
+  }
+
   closeBookingModal(event: MouseEvent) {
     if ((event.target as HTMLElement).classList.contains('booking-overlay')) {
       this.showBookingModal = false;
@@ -85,6 +116,12 @@ export class ProjectsComponent implements OnInit {
   submitBooking(event: Event) {
     event.preventDefault();
     this.bookingError = '';
+
+    if (!this.bookingName.trim()) {
+      this.bookingError = 'Vui lòng nhập họ và tên!';
+      return;
+    }
+
     if (!this.bookingPhone.trim()) {
       this.bookingError = 'Vui lòng nhập số điện thoại!';
       return;
@@ -94,6 +131,15 @@ export class ProjectsComponent implements OnInit {
       this.bookingError = 'Số điện thoại không hợp lệ!';
       return;
     }
+
+    // Save/Sync booking
+    this.customerService.saveCustomer({
+      phone: this.bookingPhone.trim(),
+      name: this.bookingName.trim(),
+      interest: this.bookingProject || undefined,
+      behavior: `Đăng ký tư vấn dự án: ${this.bookingProject || 'Chưa chọn cụ thể'}`
+    });
+
     this.bookingSuccess = true;
   }
 

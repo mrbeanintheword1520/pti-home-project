@@ -46,22 +46,49 @@ export class WelcomePopupComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    if (!this.formData.name.trim()) {
+      alert('Vui lòng nhập họ và tên');
+      return;
+    }
+
     if (!this.formData.phone.trim()) {
       alert('Vui lòng nhập số điện thoại');
       return;
     }
 
-    const phoneRegex = /(0[0-9]{9,10})/;
-    if (!phoneRegex.test(this.formData.phone.trim())) {
+    const phoneRegex = /^(0|\+84)[0-9]{8,10}$/;
+    if (!phoneRegex.test(this.formData.phone.replace(/\s/g, ''))) {
       alert('Số điện thoại không hợp lệ');
       return;
     }
 
+    if (!this.formData.interest) {
+      alert('Vui lòng chọn loại hình quan tâm');
+      return;
+    }
+
+    if (this.formData.email.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.formData.email.trim())) {
+        alert('Email không hợp lệ');
+        return;
+      }
+    }
+
+    const interestLabelMap: { [key: string]: string } = {
+      'can-ho': 'Căn hộ',
+      'dat_nen': 'Đất nền',
+      'nha_pho': 'Nhà phố',
+      'nghi_duong': 'Nghỉ dưỡng',
+      'khac': 'Khác'
+    };
+
     this.customerService.saveCustomer({
       phone: this.formData.phone.trim(),
-      name: this.formData.name.trim() || undefined,
+      name: this.formData.name.trim(),
       email: this.formData.email.trim() || undefined,
-      interest: this.formData.interest || undefined
+      interest: interestLabelMap[this.formData.interest] || this.formData.interest,
+      behavior: 'Đăng ký nhận thông báo từ welcome popup'
     });
 
     this.close();

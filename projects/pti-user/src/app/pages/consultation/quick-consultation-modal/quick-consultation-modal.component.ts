@@ -2,6 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConsultationModalService } from '../consultation-modal.service';
 import { BRAND } from '../../../shared/brand';
+import { CustomerService } from '../../../shared/customer.service';
 
 interface SelectOption {
   id: string;
@@ -25,6 +26,7 @@ interface StepConfig {
 })
 export class QuickConsultationModalComponent {
   protected readonly modal = inject(ConsultationModalService);
+  protected readonly customerService = inject(CustomerService);
   protected readonly brand = BRAND;
 
   readonly steps: StepConfig[] = [
@@ -112,6 +114,20 @@ export class QuickConsultationModalComponent {
   continue(): void {
     if (!this.canContinue()) return;
     if (this.modal.currentStep() === 4) {
+      const data = this.modal.formData();
+      const phone = data.phone.trim();
+      const phoneRegex = /^(0|\+84)[0-9]{8,10}$/;
+      if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+        alert('Số điện thoại không hợp lệ!');
+        return;
+      }
+      if (data.email && data.email.trim()) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email.trim())) {
+          alert('Email không hợp lệ!');
+          return;
+        }
+      }
       this.submit();
       return;
     }
@@ -123,8 +139,38 @@ export class QuickConsultationModalComponent {
   }
 
   submit(): void {
-    // TODO: gửi API khi backend sẵn sàng
-    console.log('Consultation submitted:', this.modal.formData());
+    const data = this.modal.formData();
+    
+    const purposeMap: { [key: string]: string } = {
+      'invest': 'Đầu tư',
+      'live': 'Mua để ở',
+      'rent': 'Cho thuê',
+      'research': 'Tìm hiểu thị trường'
+    };
+
+    const budgetMap: { [key: string]: string } = {
+      'under-2': 'Dưới 2 tỷ',
+      '2-5': '2 - 5 tỷ',
+      '5-10': '5 - 10 tỷ',
+      'over-10': 'Trên 10 tỷ'
+    };
+
+    const needMap: { [key: string]: string } = {
+      'apartment': 'Căn hộ chung cư',
+      'house': 'Nhà phố / Biệt thự',
+      'land': 'Đất nền',
+      'undecided': 'Chưa xác định'
+    };
+
+    this.customerService.saveCustomer({
+      phone: data.phone.trim(),
+      name: data.name.trim(),
+      email: data.email.trim() || undefined,
+      budget: budgetMap[data.budget] || data.budget || 'Chưa chọn',
+      interest: needMap[data.need] || data.need || 'Căn hộ chung cư',
+      behavior: `Tư vấn nhanh: Nhu cầu ${needMap[data.need] || 'Chưa xác định'}. Mục đích: ${purposeMap[data.purpose] || 'Đầu tư'}. Ngân sách: ${budgetMap[data.budget] || 'Chưa chọn'}`
+    });
+
     this.modal.close();
   }
 }

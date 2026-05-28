@@ -66,6 +66,25 @@
 
         <!-- Form -->
         <form class="wp-form" (ngSubmit)="onSubmit()">
+          <!-- Họ và tên -->
+          <div class="wp-input-wrap">
+            <div class="wp-input-icon">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <input
+              type="text"
+              [(ngModel)]="formData.name"
+              name="name"
+              placeholder="Họ và tên của bạn..."
+              class="wp-input"
+              required
+            />
+          </div>
+
+          <!-- Số điện thoại -->
           <div class="wp-input-wrap">
             <div class="wp-input-icon">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -76,13 +95,45 @@
               type="tel"
               [(ngModel)]="formData.phone"
               name="phone"
-              placeholder="Nhập số điện thoại của bạn..."
+              placeholder="Số điện thoại..."
               class="wp-input"
               required
             />
           </div>
 
-          <button type="submit" class="wp-submit">
+          <!-- Loại hình quan tâm -->
+          <div class="wp-input-wrap">
+            <div class="wp-input-icon">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18M3 7v14M21 7v14M12 3L3 7h18l-9-4z"/>
+              </svg>
+            </div>
+            <select [(ngModel)]="formData.interest" name="interest" class="wp-input wp-select" required style="padding-left: 42px; background: rgba(255, 255, 255, 0.15); color: #fff; border: 1.5px solid rgba(255, 255, 255, 0.3); border-radius: 10px; height: 46px; width: 100%;">
+              <option value="" disabled selected style="color: #999; background: #1a1a1a;">Chọn loại hình quan tâm...</option>
+              @for (opt of interestOptions; track opt.value) {
+                <option [value]="opt.value" style="background: #1a1a1a; color: #fff;">{{ opt.label }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Email (Optional) -->
+          <div class="wp-input-wrap">
+            <div class="wp-input-icon">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <input
+              type="email"
+              [(ngModel)]="formData.email"
+              name="email"
+              placeholder="Email (không bắt buộc)..."
+              class="wp-input"
+            />
+          </div>
+
+          <button type="submit" class="wp-submit" style="margin-top: 5px;">
             <span>Nhận thông báo ngay</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7"/>

@@ -118,6 +118,7 @@
                   [ngModel]="modal.formData().phone"
                   (ngModelChange)="modal.setField('phone', $event)"
                   name="phone"
+                  [disabled]="customerService.hasCustomer()"
                   required
                 />
               </div>

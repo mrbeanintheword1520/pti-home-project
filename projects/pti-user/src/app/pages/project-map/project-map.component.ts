@@ -1,6 +1,8 @@
-import { Component, inject, signal, computed, effect, HostListener, PLATFORM_ID } from '@angular/core';
+import { Component, inject, signal, computed, effect, HostListener, PLATFORM_ID, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CustomerService } from '../../shared/customer.service';
 import { MarketSurveyModalService } from '../consultation/market-survey-modal.service';
 import { ConsultationModalService } from '../consultation/consultation-modal.service';
 
@@ -35,9 +37,17 @@ interface Zone {
   templateUrl: './project-map.component.html',
   styleUrl: './project-map.component.scss'
 })
-export class ProjectMapComponent {
+export class ProjectMapComponent implements OnInit, OnDestroy {
   private readonly surveyModalService = inject(MarketSurveyModalService);
   private readonly consultModalService = inject(ConsultationModalService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly customerService = inject(CustomerService);
+
+  private intervalId: any;
+  private currentTrackedProject = '';
+  private entryTime = 0;
+  private lastLoggedDuration = 0;
+
   activeZone = signal<number | null>(2); // Mặc định chọn Global Park (id = 2)
   isConsultantExpanded = signal<boolean>(false);
   phone = '';
@@ -495,8 +505,72 @@ export class ProjectMapComponent {
     }
   ];
 
+  getZoneName(id: number | null): string {
+    if (!id) return 'Vinhomes Grand Park';
+    const zone = this.zones.find(z => z.id === id);
+    return zone ? zone.name : 'Vinhomes Grand Park';
+  }
+
+  trackProjectView(projectName: string) {
+    if (this.currentTrackedProject && this.entryTime > 0) {
+      const elapsed = Math.floor((Date.now() - this.entryTime) / 1000);
+      const increment = elapsed - this.lastLoggedDuration;
+      if (increment > 0) {
+        this.customerService.trackInteraction(this.currentTrackedProject, false, increment);
+      }
+    }
+
+    this.currentTrackedProject = projectName;
+    this.entryTime = Date.now();
+    this.lastLoggedDuration = 0;
+    this.customerService.trackInteraction(projectName, true, 0);
+  }
+
   selectZone(id: number) {
     this.activeZone.set(id);
+    if (!this.currentTrackedProject) {
+      const zoneName = this.getZoneName(id);
+      this.trackProjectView(zoneName);
+    }
+  }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const projName = params['project'];
+      if (projName) {
+        const zone = this.zones.find(z => z.name.toLowerCase().includes(projName.toLowerCase()) || projName.toLowerCase().includes(z.name.toLowerCase()));
+        if (zone) {
+          this.activeZone.set(zone.id);
+        }
+        this.trackProjectView(projName);
+      }
+    });
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.intervalId = setInterval(() => {
+        if (this.currentTrackedProject && this.entryTime > 0) {
+          const elapsed = Math.floor((Date.now() - this.entryTime) / 1000);
+          const increment = elapsed - this.lastLoggedDuration;
+          if (increment > 0) {
+            this.customerService.trackInteraction(this.currentTrackedProject, false, increment);
+            this.lastLoggedDuration = elapsed;
+          }
+        }
+      }, 5000);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+    if (this.currentTrackedProject && this.entryTime > 0) {
+      const elapsed = Math.floor((Date.now() - this.entryTime) / 1000);
+      const increment = elapsed - this.lastLoggedDuration;
+      if (increment > 0) {
+        this.customerService.trackInteraction(this.currentTrackedProject, false, increment);
+      }
+    }
   }
 
   onMapClick(event: MouseEvent) {

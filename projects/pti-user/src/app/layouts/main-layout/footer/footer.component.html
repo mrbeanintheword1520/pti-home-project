@@ -100,12 +100,12 @@
         <div class="footer__column">
           <h4 class="footer__heading">DỰ ÁN NỔI BẬT</h4>
           <ul class="footer__project-list">
-            <li><a routerLink="/ban-do-du-an">Vinhomes Saigon Park</a></li>
-            <li><a href="#">Gia Khải Luxury</a></li>
-            <li><a href="#">The Seahorse Central</a></li>
-            <li><a href="#">Lan Anh Avenue</a></li>
-            <li><a href="#">The Infinity Dĩ An</a></li>
-            <li><a href="#">The Felix Bình Dương</a></li>
+            <li><a [routerLink]="['/ban-do-du-an']" [queryParams]="{ project: 'Vinhomes Grand Park' }">Vinhomes Saigon Park</a></li>
+            <li><a [routerLink]="['/ban-do-du-an']" [queryParams]="{ project: 'Dự Án Gia Khải Luxury' }">Gia Khải Luxury</a></li>
+            <li><a [routerLink]="['/ban-do-du-an']" [queryParams]="{ project: 'The SeaHorse Central Bình Phước' }">The Seahorse Central</a></li>
+            <li><a [routerLink]="['/ban-do-du-an']" [queryParams]="{ project: 'Lan Anh AVENUE' }">Lan Anh Avenue</a></li>
+            <li><a [routerLink]="['/ban-do-du-an']" [queryParams]="{ project: 'Dự Án The Infinity Dĩ An' }">The Infinity Dĩ An</a></li>
+            <li><a [routerLink]="['/ban-do-du-an']" [queryParams]="{ project: 'Dự Án The Felix' }">The Felix Bình Dương</a></li>
           </ul>
         </div>
 

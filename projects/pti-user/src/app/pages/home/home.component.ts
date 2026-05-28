@@ -41,7 +41,7 @@ interface NewsItem {
   featured?: boolean;
 }
 
-import { LeadCaptureService } from '../lead-capture/lead-capture.service';
+
 
 @Component({
   selector: 'app-home',
@@ -53,9 +53,6 @@ export class Home implements AfterViewInit {
   @ViewChild('trackWrap') trackWrap!: ElementRef<HTMLElement>;
 
   protected readonly consultation = inject(ConsultationModalService);
-  protected readonly leadCapture = inject(LeadCaptureService);
-
-  showWelcomePopup = signal(!this.leadCapture.hasSubmitted());
 
   readonly marketIndex = MARKET_INDEX;
   readonly pricePeriods = PRICE_PERIODS;
@@ -424,10 +421,5 @@ export class Home implements AfterViewInit {
     return Math.max(0, this.projects.length - this.visibleProjectCount);
   }
 
-  submitPhone(phone: string): void {
-    if (phone.trim()) {
-      this.leadCapture.setCustomerPhone(phone.trim());
-      this.showWelcomePopup.set(false);
-    }
-  }
+
 }

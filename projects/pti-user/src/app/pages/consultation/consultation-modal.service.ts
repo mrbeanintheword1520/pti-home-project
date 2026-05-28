@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
+import { CustomerService } from '../../shared/customer.service';
 
 export interface ConsultationFormData {
   purpose: string;
@@ -22,11 +23,24 @@ const emptyForm = (): ConsultationFormData => ({
 
 @Injectable({ providedIn: 'root' })
 export class ConsultationModalService {
+  private readonly customerService = inject(CustomerService);
+
   readonly isOpen = signal(false);
   readonly currentStep = signal(1);
   readonly formData = signal<ConsultationFormData>(emptyForm());
 
   open(): void {
+    const defaultData = emptyForm();
+    if (this.customerService.hasCustomer()) {
+      const c = this.customerService.customer();
+      if (c) {
+        defaultData.name = c.name || '';
+        defaultData.phone = c.phone || '';
+        defaultData.email = c.email || '';
+      }
+    }
+    this.formData.set(defaultData);
+    this.currentStep.set(1);
     this.isOpen.set(true);
   }
 

@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
+import { CustomerService } from '../../shared/customer.service';
 
 export interface MarketSurveyFormData {
   area: string;
@@ -30,6 +31,8 @@ const emptyForm = (): MarketSurveyFormData => ({
 
 @Injectable({ providedIn: 'root' })
 export class MarketSurveyModalService {
+  private readonly customerService = inject(CustomerService);
+
   readonly isOpen = signal(false);
   readonly currentStep = signal(1); // Bước từ 1 đến 4, Bước 5 là Màn hình thành công
   readonly formData = signal<MarketSurveyFormData>(emptyForm());
@@ -40,6 +43,19 @@ export class MarketSurveyModalService {
       defaultData.project = projectName;
       defaultData.area = this.resolveRegion(projectName);
     }
+
+    if (this.customerService.hasCustomer()) {
+      const c = this.customerService.customer();
+      if (c) {
+        defaultData.name = c.name || '';
+        defaultData.phone = c.phone || '';
+        defaultData.email = c.email || '';
+        if (c.budget && c.budget !== 'Chưa cập nhật') {
+          defaultData.budget = c.budget;
+        }
+      }
+    }
+
     this.formData.set(defaultData);
     this.currentStep.set(1);
     this.isOpen.set(true);

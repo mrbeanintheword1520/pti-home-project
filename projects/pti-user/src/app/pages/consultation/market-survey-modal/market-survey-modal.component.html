@@ -183,6 +183,7 @@
                       placeholder="Nhập số điện thoại"
                       [ngModel]="modal.formData().phone"
                       (ngModelChange)="modal.setField('phone', $event)"
+                      [disabled]="customerService.hasCustomer()"
                       required
                     />
                   </div>
@@ -568,7 +569,6 @@
             <button
               type="button"
               class="ms-btn ms-btn--primary"
-              [disabled]="!canContinue()"
               (click)="continue()"
             >
               {{ modal.currentStep() === 4 ? 'Xác nhận & Đăng ký' : 'Tiếp tục' }}

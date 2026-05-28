@@ -16,6 +16,22 @@
     </div>
   </div>
 
+  <!-- Offline Alert -->
+  @if (isOffline()) {
+    <div class="offline-alert">
+      <div class="alert-content">
+        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <div class="alert-text">
+          <strong>Mock API Server Ngoại tuyến!</strong> Đang hiển thị dữ liệu giả lập từ trình duyệt. Hãy khởi chạy <code>npm run start:server</code> để đồng bộ thời gian thực.
+        </div>
+      </div>
+    </div>
+  }
+
   <!-- Stats Row -->
   <div class="stats-row">
     <div class="stat-card total">
@@ -86,6 +102,73 @@
     </div>
   </div>
 
+  <!-- Filters Bar -->
+  <div class="filters-card">
+    <div class="filters-grid">
+      <!-- Search customer -->
+      <div class="filter-group">
+        <label class="filter-label">Tìm kiếm khách hàng</label>
+        <div class="input-with-icon">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" 
+                 [ngModel]="searchQuery()" 
+                 (ngModelChange)="searchQuery.set($event)"
+                 placeholder="Tên, số điện thoại, email..." 
+                 class="filter-input" />
+        </div>
+      </div>
+
+      <!-- Project Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Dự án quan tâm</label>
+        <select [ngModel]="filterProject()" 
+                (ngModelChange)="filterProject.set($event)"
+                class="filter-select">
+          <option value="">Tất cả dự án</option>
+          <option value="Vinhomes Saigon Park">Vinhomes Saigon Park</option>
+          <option value="Vinhomes Grand Park">Vinhomes Grand Park</option>
+          <option value="Dự Án The Felix">Dự Án The Felix</option>
+          <option value="Dự Án The Infinity Dĩ An">Dự Án The Infinity Dĩ An</option>
+          <option value="The SeaHorse Central Bình Phước">The SeaHorse Central Bình Phước</option>
+          <option value="Gold Coast Vũng Tàu">Gold Coast Vũng Tàu</option>
+          <option value="Lan Anh AVENUE">Lan Anh AVENUE</option>
+          <option value="Dự Án Gia Khải Luxury">Dự Án Gia Khải Luxury</option>
+          <option value="Dự Án Khánh Bình">Dự Án Khánh Bình</option>
+        </select>
+      </div>
+
+      <!-- Time Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Thời gian hẹn</label>
+        <select [ngModel]="filterTime()" 
+                (ngModelChange)="filterTime.set($event)"
+                class="filter-select">
+          <option value="">Tất cả thời gian</option>
+          <option value="today">Hôm nay</option>
+          <option value="upcoming">Sắp tới / Đang xử lý</option>
+          <option value="past">Lịch sử / Đã qua</option>
+        </select>
+      </div>
+
+      <!-- Budget Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Ngân sách (Số tiền)</label>
+        <select [ngModel]="filterBudget()" 
+                (ngModelChange)="filterBudget.set($event)"
+                class="filter-select">
+          <option value="">Tất cả mức giá</option>
+          <option value="Dưới 2 tỷ">Dưới 2 tỷ</option>
+          <option value="2 - 5 tỷ">2 - 5 tỷ</option>
+          <option value="5 - 10 tỷ">5 - 10 tỷ</option>
+          <option value="10 - 20 tỷ">10 - 20 tỷ</option>
+          <option value="Trên 20 tỷ">Trên 20 tỷ</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
   <!-- Appointments Table Card -->
   <div class="table-card">
     <div class="table-wrapper">
@@ -98,22 +181,22 @@
         <table class="leads-table">
           <thead>
             <tr>
-              <th>Khách hàng</th>
-              <th>Dự án quan tâm</th>
-              <th>Thời gian hẹn</th>
-              <th>Nhu cầu & Ghi chú</th>
-              <th>Chuyên viên phụ trách</th>
-              <th>Trạng thái hẹn</th>
-              <th style="text-align: center;">Hành động</th>
+              <th style="width: 16%;">Khách hàng</th>
+              <th style="width: 20%;">Dự án quan tâm</th>
+              <th style="width: 15%;">Thời gian hẹn</th>
+              <th style="width: 25%;">Nhu cầu & Ghi chú</th>
+              <th style="width: 14%;">Chuyên viên phụ trách</th>
+              <th style="width: 11%;">Trạng thái hẹn</th>
+              <th style="width: 9%; text-align: center;">Hành động</th>
             </tr>
           </thead>
           <tbody>
-            @if (appointments().length === 0) {
+            @if (filteredAppointments().length === 0) {
               <tr>
-                <td colspan="7" class="empty-row">Không tìm thấy lịch hẹn nào trên hệ thống.</td>
+                <td colspan="7" class="empty-row">Không tìm thấy lịch hẹn nào khớp với điều kiện lọc.</td>
               </tr>
             } @else {
-              @for (app of appointments(); track app.id) {
+              @for (app of filteredAppointments(); track app.id) {
                 <tr class="lead-row">
                   <!-- Khách hàng -->
                   <td>
@@ -156,9 +239,13 @@
                     <select class="agent-select" 
                             [ngModel]="app.agent" 
                             (ngModelChange)="updateAppointmentAgent(app, $event)">
-                      <option value="Nguyễn Hoàng">Nguyễn Hoàng</option>
-                      <option value="Phạm Mai">Phạm Mai</option>
-                      <option value="Trần Văn Nam">Trần Văn Nam</option>
+                       <option value="Nguyễn Hoàng">Nguyễn Hoàng</option>
+                       <option value="Trần Minh Thư">Trần Minh Thư</option>
+                       <option value="Trần Minh Như">Trần Minh Như</option>
+                       <option value="Lê Quốc Bảo">Lê Quốc Bảo</option>
+                       <option value="Phạm Thị Mai">Phạm Thị Mai</option>
+                       <option value="Phạm Mại">Phạm Mại</option>
+                       <option value="Hoàng Văn Nam">Hoàng Văn Nam</option>
                     </select>
                   </td>
 
@@ -167,12 +254,14 @@
                     <select class="status-badge-select"
                             [ngModel]="app.status"
                             [class.status-blue]="app.status === 'Mới'"
+                            [class.status-purple]="app.status === 'Đã tư vấn'"
                             [class.status-yellow]="app.status === 'Đang tư vấn'"
                             [class.status-green]="app.status === 'Đã cọc'"
                             [class.status-red]="app.status === 'Không liên lạc được'"
                             (ngModelChange)="updateAppointmentStatus(app, $event)">
                       <option value="Mới">Mới</option>
                       <option value="Đang tư vấn">Đang tư vấn</option>
+                      <option value="Đã tư vấn">Đã tư vấn</option>
                       <option value="Đã cọc">Đã cọc</option>
                       <option value="Không liên lạc được">Bận/Hủy hẹn</option>
                     </select>
